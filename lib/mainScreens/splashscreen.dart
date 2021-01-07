@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:splashscreen/splashscreen.dart';
 
+import 'package:schoolah_mobile_app/mainScreens/login.dart';
+
 class SchoolahSplashScreen extends StatefulWidget 
 {
   @override 
