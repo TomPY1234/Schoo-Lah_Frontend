@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-//import 'package:schoolah_mobile_app/mainScreens/splashscreen.dart';
-import 'package:schoolah_mobile_app/mainScreens/splashscreen.dart';
+import './mainScreens/splashscreen.dart';
 
 void main() => runApp(
   MaterialApp(

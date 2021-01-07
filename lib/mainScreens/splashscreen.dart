@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:splashscreen/splashscreen.dart';
 
-import 'package:schoolah_mobile_app/mainScreens/login.dart';
+import 'login.dart';
 
 class SchoolahSplashScreen extends StatefulWidget 
 {
@@ -16,7 +16,7 @@ class _SchoolahSplashState extends State <SchoolahSplashScreen>
   {
     return SplashScreen(
       seconds: 7,
-      navigateAfterSeconds: {},
+      navigateAfterSeconds: LoginPageScreen(),
       image: Image.asset('assets/schoolah_logo.png'),
       gradientBackground: LinearGradient(
         colors: [
