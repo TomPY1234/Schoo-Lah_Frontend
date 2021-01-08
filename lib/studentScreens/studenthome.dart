@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import '../models/user.dart';
 
 class StudentHomePageScreen extends StatefulWidget {
@@ -68,7 +69,9 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
               ),
               FloatingActionButton.extended(
                 heroTag: null,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, studSubject);
+                },
                 label: Text('My Subjects',
                     style:
                         TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
@@ -77,7 +80,9 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
               SizedBox(height: 30.0),
               FloatingActionButton.extended(
                 heroTag: null,
-                onPressed: () => {},
+                onPressed: () {
+                  Navigator.pushNamed(context, studFee);
+                },
                 label: Text('Tuition Fee  ',
                     style:
                         TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
@@ -86,7 +91,9 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
               SizedBox(height: 30.0),
               FloatingActionButton.extended(
                 heroTag: null,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, studBook);
+                },
                 label: Text('E-Bookstore ',
                     style:
                         TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),

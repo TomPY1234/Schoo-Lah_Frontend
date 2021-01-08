@@ -1,6 +1,6 @@
 import 'user.dart';
 
-final globalUserList = <User>[
+final List<User> globalUserList = [
   User(
       username: 'ahmadaiman',
       password: 'ahmad123',
