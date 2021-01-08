@@ -1,40 +1,45 @@
 import 'package:flutter/material.dart';
 
-class StudentSubjectListScreen extends StatefulWidget
-{
-  @override 
+class StudentSubjectListScreen extends StatefulWidget {
+  @override
   _StudentSubjectListState createState() => _StudentSubjectListState();
 }
 
-class _StudentSubjectListState extends State <StudentSubjectListScreen>
-{
+class _StudentSubjectListState extends State<StudentSubjectListScreen> {
   int _selectedIndex = 1;
-
-  void _onItemTapped(int index)
-  {
-    if (index == 0)
-    { setState(() { _selectedIndex = index; }); }
-    else if (index == 1)
-    { setState(() { _selectedIndex = index; });}
-    else 
-    { setState(() { _selectedIndex = index; });}
+  void _onItemTapped(int index) {
+    if (index == 0) {
+      setState(() {
+        _selectedIndex = index;
+      });
+      Navigator.pushNamed(
+          context, '/studentprofile'); //supposedly qrcode interface
+    } else if (index == 1) {
+      setState(() {
+        _selectedIndex = index;
+      });
+      Navigator.pushNamed(context, '/studenthome');
+    } else {
+      setState(() {
+        _selectedIndex = index;
+      });
+      Navigator.pushNamed(context, '/studentprofile');
+    }
   }
 
-  @override 
-  Widget build(BuildContext context)
-  {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: Icon(Icons.settings, size: 40.0),
         title: Text('SUBJECT LIST'),
         centerTitle: true,
-        actions: <Widget> [
+        actions: <Widget>[
           Icon(Icons.calendar_today_rounded, size: 35.0),
           SizedBox(width: 12.0)
         ],
       ),
-
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -52,29 +57,30 @@ class _StudentSubjectListState extends State <StudentSubjectListScreen>
           separatorBuilder: (context, index) => Divider(color: Colors.black),
           itemBuilder: (context, index) => ListTile(
             tileColor: Colors.yellow[700],
-            title: Text('MATHEMATICS YEAR 3', style: TextStyle(fontWeight: FontWeight.bold)),
+            title: Text('MATHEMATICS YEAR 3',
+                style: TextStyle(fontWeight: FontWeight.bold)),
             subtitle: Text('TOTAL TASKS : 4 TASKS'),
             trailing: CircleAvatar(
               child: Text('50', style: TextStyle(color: Colors.black)),
               backgroundColor: Colors.yellow,
             ),
+            onTap: () {
+              Navigator.pushNamed(context, '/tasklist');
+            },
           ),
         ),
       ),
-
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
-        items: const <BottomNavigationBarItem> [
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.qr_code_scanner_rounded),
             label: 'QRScan',
           ),
-
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
-
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_rounded),
             label: 'Profile',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import '../models/user.dart';
+import 'package:provider/provider.dart';
 
 class StudentHomePageScreen extends StatefulWidget {
   User currUser;
@@ -19,23 +20,29 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
       setState(() {
         _selectedIndex = index;
       });
+      Navigator.pushNamed(
+          context, '/studentprofile'); //supposedly qrcode interface
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;
       });
+      Navigator.pushNamed(context, '/studenthome');
     } else {
       setState(() {
         _selectedIndex = index;
       });
+      Navigator.pushNamed(context, '/studentprofile');
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final darkModeNotifier = Provider.of<ValueNotifier<bool>>(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: Icon(Icons.settings, size: 40.0),
+        //leading: Icon(Icons.settings, size: 40.0),
         title: Text('HI, ${user.name}'),
         centerTitle: true,
         actions: <Widget>[
@@ -122,6 +129,13 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.black,
         onTap: _onItemTapped,
+      ),
+      drawer: Drawer(
+        child: DrawerHeader(
+            child: CheckboxListTile(
+                title: Text('Turn on dark theme color'),
+                value: darkModeNotifier.value,
+                onChanged: (newValue) => darkModeNotifier.value = newValue)),
       ),
     );
   }

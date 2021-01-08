@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:schoolah_mobile_app/teacherScreens/teacherhome.dart';
 import '../teacherScreens/teacherprofile.dart';
 import '../studentScreens/studenthome.dart';
 import '../models/user.dart';
@@ -89,7 +90,7 @@ class _LoginPageState extends State<LoginPageScreen> {
                       } else if (success.type == 'teacher') {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return TeacherProfileScreen(); //teacherhome
+                          return TeacherHomePageScreen(success); //teacherhome
                         }));
                       } else if (success == null) showAlertDialog(context);
                     },
