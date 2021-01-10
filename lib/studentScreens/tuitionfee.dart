@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TuitionFeeScreen extends StatefulWidget {
   @override
@@ -30,10 +31,12 @@ class _TuitionFeeState extends State<TuitionFeeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final darkModeNotifier = Provider.of<ValueNotifier<bool>>(context);
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: Icon(Icons.settings, size: 40.0),
+        //backgroundColor: Colors.white,
+        //leading: Icon(Icons.settings, size: 40.0),
         title: Text('TUITION FEE'),
         centerTitle: true,
         actions: <Widget>[
@@ -81,6 +84,13 @@ class _TuitionFeeState extends State<TuitionFeeScreen> {
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.grey[500],
         onTap: _onItemTapped,
+      ),
+      drawer: Drawer(
+        child: DrawerHeader(
+            child: CheckboxListTile(
+                title: Text('Change theme color'),
+                value: darkModeNotifier.value,
+                onChanged: (newValue) => darkModeNotifier.value = newValue)),
       ),
     );
   }

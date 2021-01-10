@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import './studentScreens/bookstore.dart';
 import 'mainScreens/login.dart';
 import 'mainScreens/router.dart';
+import 'mainScreens/splashscreen.dart';
 
 void main() => runApp(ChangeNotifierProvider<ValueNotifier<bool>>(
     create: (context) => ValueNotifier(false),
@@ -13,8 +14,8 @@ void main() => runApp(ChangeNotifierProvider<ValueNotifier<bool>>(
         title: 'Schoo-Lah',
         debugShowCheckedModeBanner: false,
         theme: notifier.value
-            ? ThemeData.dark()
+            ? ThemeData(primarySwatch: Colors.yellow)
             : ThemeData(primarySwatch: Colors.orange),
-        home: LoginPageScreen(),
+        home: SchoolahSplashScreen(),
       ),
     )));

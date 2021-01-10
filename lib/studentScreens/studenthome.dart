@@ -41,7 +41,7 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        //backgroundColor: Colors.white,
         //leading: Icon(Icons.settings, size: 40.0),
         title: Text('HI, ${user.name}'),
         centerTitle: true,
@@ -133,7 +133,7 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
       drawer: Drawer(
         child: DrawerHeader(
             child: CheckboxListTile(
-                title: Text('Turn on dark theme color'),
+                title: Text('Change theme color'),
                 value: darkModeNotifier.value,
                 onChanged: (newValue) => darkModeNotifier.value = newValue)),
       ),

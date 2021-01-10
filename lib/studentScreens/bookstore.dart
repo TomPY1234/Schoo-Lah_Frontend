@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BookstorePageScreen extends StatefulWidget {
   @override
@@ -30,10 +31,12 @@ class _BookstorePageState extends State<BookstorePageScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final darkModeNotifier = Provider.of<ValueNotifier<bool>>(context);
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: Icon(Icons.settings, size: 40.0),
+        //backgroundColor: Colors.white,
+        //leading: Icon(Icons.settings, size: 40.0),
         title: Text('BOOKSTORE'),
         centerTitle: true,
         actions: <Widget>[
@@ -91,6 +94,13 @@ class _BookstorePageState extends State<BookstorePageScreen> {
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.grey[500],
         onTap: _onItemTapped,
+      ),
+      drawer: Drawer(
+        child: DrawerHeader(
+            child: CheckboxListTile(
+                title: Text('Change theme color'),
+                value: darkModeNotifier.value,
+                onChanged: (newValue) => darkModeNotifier.value = newValue)),
       ),
     );
   }

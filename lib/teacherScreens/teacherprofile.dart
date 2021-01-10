@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TeacherProfileScreen extends StatefulWidget {
   @override
@@ -24,10 +25,12 @@ class _TeacherProfileState extends State<TeacherProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final darkModeNotifier = Provider.of<ValueNotifier<bool>>(context);
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: Icon(Icons.settings, size: 40.0),
+        //backgroundColor: Colors.white,
+        //leading: Icon(Icons.settings, size: 40.0),
         title: Text('MY PROFILE'),
         centerTitle: true,
         actions: <Widget>[
@@ -173,6 +176,13 @@ class _TeacherProfileState extends State<TeacherProfileScreen> {
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.black,
         onTap: _onItemTapped,
+      ),
+      drawer: Drawer(
+        child: DrawerHeader(
+            child: CheckboxListTile(
+                title: Text('Change theme color'),
+                value: darkModeNotifier.value,
+                onChanged: (newValue) => darkModeNotifier.value = newValue)),
       ),
     );
   }
