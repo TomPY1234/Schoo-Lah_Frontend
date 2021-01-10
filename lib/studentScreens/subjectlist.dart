@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:schoolah_mobile_app/models/todo.dart';
+import 'package:schoolah_mobile_app/studentScreens/tasklist.dart';
 
 class StudentSubjectListScreen extends StatefulWidget {
+  final List<Todo> todo;
+
+  StudentSubjectListScreen(this.todo);
   @override
   _StudentSubjectListState createState() => _StudentSubjectListState();
 }
@@ -24,6 +29,18 @@ class _StudentSubjectListState extends State<StudentSubjectListScreen> {
         _selectedIndex = index;
       });
       Navigator.pushNamed(context, '/studentprofile');
+    }
+  }
+
+  void _navigate(int index) async {
+    Todo returnData = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                StudentTaskListScreen(Todo.copy(widget.todo[index]))));
+
+    if (returnData != null) {
+      setState(() => widget.todo[index] = returnData);
     }
   }
 
@@ -53,19 +70,21 @@ class _StudentSubjectListState extends State<StudentSubjectListScreen> {
           ),
         ),
         child: ListView.separated(
-          itemCount: 3,
+          itemCount: widget.todo.length,
           separatorBuilder: (context, index) => Divider(color: Colors.black),
           itemBuilder: (context, index) => ListTile(
             tileColor: Colors.yellow[700],
-            title: Text('MATHEMATICS YEAR 3',
+            title: Text(widget.todo[index].title,
                 style: TextStyle(fontWeight: FontWeight.bold)),
-            subtitle: Text('TOTAL TASKS : 4 TASKS'),
+            subtitle:
+                Text('TOTAL TASKS : ${widget.todo[index].items.length} TASKS'),
             trailing: CircleAvatar(
-              child: Text('50', style: TextStyle(color: Colors.black)),
+              child: Text(widget.todo[index].percent.round().toString(),
+                  style: TextStyle(color: Colors.black)),
               backgroundColor: Colors.yellow,
             ),
             onTap: () {
-              Navigator.pushNamed(context, '/tasklist');
+              _navigate(index);
             },
           ),
         ),

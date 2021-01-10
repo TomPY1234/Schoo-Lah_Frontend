@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:schoolah_mobile_app/models/todo.dart';
 
 class StudentTaskListScreen extends StatefulWidget {
+  final Todo _data;
+
+  StudentTaskListScreen(this._data);
   @override
   _StudentTaskListState createState() => _StudentTaskListState();
 }
@@ -28,6 +32,26 @@ class _StudentTaskListState extends State<StudentTaskListScreen> {
     }
   }
 
+  bool toggle = false;
+  var count = new List(30);
+
+  bool _cancel(BuildContext context, bool _toggle, var _count) {
+    if (_toggle == true) {
+      for (int i = 0; i < widget._data.items.length; i++) {
+        if (_count[i] == 1) {
+          if (widget._data.items[i].completed == true) {
+            setState(() => widget._data.items[i].completed = false);
+          } else {
+            setState(() => widget._data.items[i].completed = true);
+          }
+        }
+      }
+    }
+
+    Navigator.pop(context, null);
+    return _toggle = false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,9 +60,9 @@ class _StudentTaskListState extends State<StudentTaskListScreen> {
         leading: Icon(Icons.settings, size: 40.0),
         title: Column(
           children: <Widget>[
-            Text('MATHEMATICS',
+            Text('${widget._data.title}',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            Text('YEAR 3', style: TextStyle(fontSize: 15)),
+            //Text('YEAR 3', style: TextStyle(fontSize: 15)),
           ],
         ),
         centerTitle: true,
@@ -60,15 +84,29 @@ class _StudentTaskListState extends State<StudentTaskListScreen> {
           ),
         ),
         child: ListView.separated(
-          itemCount: 4,
+          itemCount: widget._data.items.length,
           separatorBuilder: (context, index) => Divider(color: Colors.black),
           itemBuilder: (context, index) => ListTile(
             tileColor: Colors.greenAccent[400],
-            title: Text('Exercise 1 : Number Up to 10 000',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    decoration: TextDecoration.lineThrough)),
-            onTap: () {},
+            title: Text(
+              widget._data.items[index].title,
+              style: widget._data.items[index].completed
+                  ? TextStyle(decoration: TextDecoration.lineThrough)
+                  : TextStyle(decoration: null),
+            ),
+            onTap: () => setState(() {
+              if (widget._data.items[index].completed == true) {
+                widget._data.items[index].completed = false;
+                toggle = true;
+                count[index] = 1;
+              } else {
+                widget._data.items[index].completed = true;
+                toggle = true;
+                count[index] = 1;
+              }
+            }),
+            onLongPress: () =>
+                setState(() => widget._data.items.removeAt(index)),
           ),
         ),
       ),
@@ -77,14 +115,14 @@ class _StudentTaskListState extends State<StudentTaskListScreen> {
         children: <Widget>[
           FloatingActionButton.extended(
             heroTag: null,
-            onPressed: () {},
+            onPressed: () => Navigator.pop(context, widget._data),
             label: Text('Update'),
             icon: Icon(Icons.check_circle),
           ),
           Text('   '),
           FloatingActionButton.extended(
             heroTag: null,
-            onPressed: () {},
+            onPressed: () => _cancel(context, toggle, count),
             label: Text('Cancel'),
             icon: Icon(Icons.cancel),
           ),

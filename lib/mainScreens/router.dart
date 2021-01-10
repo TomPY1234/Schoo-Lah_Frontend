@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:schoolah_mobile_app/models/data.dart';
+import 'package:schoolah_mobile_app/models/mock_todos.dart';
 import 'package:schoolah_mobile_app/studentScreens/bookstore.dart';
 
 import 'package:schoolah_mobile_app/studentScreens/studenthome.dart';
@@ -7,6 +8,8 @@ import 'package:schoolah_mobile_app/studentScreens/studentprofile.dart';
 import 'package:schoolah_mobile_app/studentScreens/subjectlist.dart';
 import 'package:schoolah_mobile_app/studentScreens/tasklist.dart';
 import 'package:schoolah_mobile_app/studentScreens/tuitionfee.dart';
+import 'package:schoolah_mobile_app/teacherScreens/teacherhome.dart';
+import 'package:schoolah_mobile_app/teacherScreens/teacherprofile.dart';
 
 import 'constants.dart';
 
@@ -38,12 +41,22 @@ Route<dynamic> createRoute(settings) {
 
     case studTask:
       return MaterialPageRoute(
-        builder: (context) => StudentTaskListScreen(),
+        builder: (context) => StudentTaskListScreen(mockData[0]),
       );
 
     case studSubject:
       return MaterialPageRoute(
-        builder: (context) => StudentSubjectListScreen(),
+        builder: (context) => StudentSubjectListScreen(mockData),
+      );
+
+    case teachProfile:
+      return MaterialPageRoute(
+        builder: (context) => TeacherProfileScreen(),
+      );
+
+    case teachHome:
+      return MaterialPageRoute(
+        builder: (context) => TeacherHomePageScreen(globalUserList[0]),
       );
   }
 

@@ -24,10 +24,12 @@ class _TeacherHomePageState extends State<TeacherHomePageScreen> {
       setState(() {
         _selectedIndex = index;
       });
+      Navigator.pushNamed(context, '/teacherhome');
     } else {
       setState(() {
         _selectedIndex = index;
       });
+      Navigator.pushNamed(context, '/teacherprofile');
     }
   }
 
