@@ -105,13 +105,13 @@ class _LoginPageState extends State<LoginPageScreen> {
                       style: TextStyle(
                           fontSize: 20.0, fontWeight: FontWeight.bold)),
                   SizedBox(height: 15.0),
-                  Text('First Time User? Sign Up Now!',
-                      style: TextStyle(
-                          fontSize: 20.0, fontWeight: FontWeight.bold)),
                   SizedBox(height: 90.0),
                   Text('Terms and Conditions',
                       style: TextStyle(
                           fontSize: 15.0, fontWeight: FontWeight.bold)),
+                  TextButton(
+                      child: Text('First Time User? Sign Up Now!'),
+                      onPressed: () {})
                 ],
               ),
             ),
