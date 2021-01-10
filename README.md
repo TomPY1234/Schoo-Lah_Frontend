@@ -1,6 +1,16 @@
 # schoolah_mobile_app
 
-A new Flutter project.
+Project Title: Schoo-Lah
+
+Description: A mobile application that is designed for tution center to get everything sorted more properly during this pandemic season. It helps the students to keep track of their work progress, tution fees and buy books. The teacher also can update the students work and view all students
+
+Video Links: 
+
+Group Members:
+Muhammad Fikri Bin Ismail (A18CS0139)
+P'ng Yi (A18CS0231)
+Nur Irdina Binti Ahmad Rifdi (A18CS0195)
+Nurul Aqilah Binti Fadzil (A18CS0216)
 
 ## Getting Started
 

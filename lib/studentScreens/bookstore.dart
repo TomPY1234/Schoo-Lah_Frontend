@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:schoolah_mobile_app/models/book.dart';
+import 'package:schoolah_mobile_app/models/user.dart';
 
 class BookstorePageScreen extends StatefulWidget {
+  final List<Book> books;
+  final User currUser;
+  BookstorePageScreen(this.books, this.currUser);
   @override
-  _BookstorePageState createState() => _BookstorePageState();
+  _BookstorePageState createState() => _BookstorePageState(this.books);
 }
 
 class _BookstorePageState extends State<BookstorePageScreen> {
   int _selectedIndex = 1;
-
+  List<Book> books;
+  _BookstorePageState(this.books);
   void _onItemTapped(int index) {
     if (index == 0) {
       setState(() {
@@ -32,11 +38,9 @@ class _BookstorePageState extends State<BookstorePageScreen> {
   @override
   Widget build(BuildContext context) {
     final darkModeNotifier = Provider.of<ValueNotifier<bool>>(context);
-
+    //final List<Book> currBook = studBooks();
     return Scaffold(
       appBar: AppBar(
-        //backgroundColor: Colors.white,
-        //leading: Icon(Icons.settings, size: 40.0),
         title: Text('BOOKSTORE'),
         centerTitle: true,
         actions: <Widget>[
@@ -57,20 +61,21 @@ class _BookstorePageState extends State<BookstorePageScreen> {
           ),
         ),
         child: ListView.separated(
-          itemCount: 4,
+          itemCount: widget.books.length,
           separatorBuilder: (context, index) => Divider(
             color: Colors.black,
             thickness: 5.0,
           ),
           itemBuilder: (context, index) => ListTile(
             tileColor: Colors.deepOrange[700],
-            leading: Image.asset('assets/book_one.jpeg'),
-            title: Text('Bahasa Melayu Tatabahasa Tahun 1',
+            leading: Image.asset(widget.books[index].image),
+            title: Text(widget.books[index].title,
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 17.0)),
-            subtitle: Text('RM 20.00', style: TextStyle(color: Colors.white)),
+            subtitle: Text('RM ${widget.books[index].price.toString()}',
+                style: TextStyle(color: Colors.white)),
             onTap: () {},
           ),
         ),
@@ -104,4 +109,15 @@ class _BookstorePageState extends State<BookstorePageScreen> {
       ),
     );
   }
+
+  /*List<Book> studBooks() {
+    List<Book> currBook;
+    for (var b in books) {
+      if (b.year == widget.currUser.year) {
+        print(b);
+        currBook.add(b);
+      }
+    }
+    return currBook;
+  }*/
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:schoolah_mobile_app/models/data.dart';
+import 'package:schoolah_mobile_app/models/mock_books.dart';
 import 'package:schoolah_mobile_app/models/mock_todos.dart';
 import 'package:schoolah_mobile_app/studentScreens/bookstore.dart';
 
@@ -26,7 +27,7 @@ Route<dynamic> createRoute(settings) {
 
     case studBook:
       return MaterialPageRoute(
-        builder: (context) => BookstorePageScreen(),
+        builder: (context) => BookstorePageScreen(mockBooks, globalUserList[0]),
       );
 
     case studFee:
