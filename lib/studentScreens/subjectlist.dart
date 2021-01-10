@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:schoolah_mobile_app/models/todo.dart';
-import 'package:schoolah_mobile_app/studentScreens/tasklist.dart';
+import '../models/todo.dart';
+import '../studentScreens/tasklist.dart';
 
 class StudentSubjectListScreen extends StatefulWidget {
   final List<Todo> todo;
@@ -47,12 +46,10 @@ class _StudentSubjectListState extends State<StudentSubjectListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final darkModeNotifier = Provider.of<ValueNotifier<bool>>(context);
-
     return Scaffold(
       appBar: AppBar(
-        //backgroundColor: Colors.white,
-        //leading: Icon(Icons.settings, size: 40.0),
+        backgroundColor: Colors.white,
+        leading: Icon(Icons.settings, size: 40.0),
         title: Text('SUBJECT LIST'),
         centerTitle: true,
         actions: <Widget>[
@@ -111,13 +108,6 @@ class _StudentSubjectListState extends State<StudentSubjectListScreen> {
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.grey[500],
         onTap: _onItemTapped,
-      ),
-      drawer: Drawer(
-        child: DrawerHeader(
-            child: CheckboxListTile(
-                title: Text('Change theme color'),
-                value: darkModeNotifier.value,
-                onChanged: (newValue) => darkModeNotifier.value = newValue)),
       ),
     );
   }

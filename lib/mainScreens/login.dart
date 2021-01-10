@@ -82,17 +82,19 @@ class _LoginPageState extends State<LoginPageScreen> {
                     onPressed: () async {
                       final User success =
                           await login(username, password, data.globalUserList);
-                      if (success.type == 'student') {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return StudentHomePageScreen(success);
-                        }));
+                      if (success == null) {
+                        showAlertDialog(context);
                       } else if (success.type == 'teacher') {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
                           return TeacherHomePageScreen(success); //teacherhome
                         }));
-                      } else if (success == null) showAlertDialog(context);
+                      } else if (success.type == 'student') {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return StudentHomePageScreen(success);
+                        }));
+                      }
                     },
                     label: Text('       LOGIN       ',
                         style: TextStyle(
