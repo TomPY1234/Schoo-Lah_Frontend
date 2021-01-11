@@ -132,10 +132,23 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
       ),
       drawer: Drawer(
         child: DrawerHeader(
-            child: CheckboxListTile(
-                title: Text('Change theme color'),
-                value: darkModeNotifier.value,
-                onChanged: (newValue) => darkModeNotifier.value = newValue)),
+          child: CheckboxListTile(
+            title: Text('Change theme color'),
+            value: darkModeNotifier.value,
+            onChanged: (newValue) => darkModeNotifier.value = newValue,
+          ),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.black12,
+                Colors.black,
+                Colors.black12,
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+        ),
       ),
     );
   }

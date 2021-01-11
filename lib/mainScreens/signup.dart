@@ -1,18 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
+import 'package:schoolah_mobile_app/mainScreens/login.dart';
 import 'package:schoolah_mobile_app/teacherScreens/teacherhome.dart';
 import '../teacherScreens/teacherprofile.dart';
 import '../studentScreens/studenthome.dart';
 import '../models/user.dart';
 import '../models/data.dart' as data;
 
-class LoginPageScreen extends StatefulWidget {
+class SignupPageScreen extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  SignupPageState createState() => SignupPageState();
 }
 
-class _LoginPageState extends State<LoginPageScreen> {
+class SignupPageState extends State<SignupPageScreen> {
   String username;
   String password;
   @override
@@ -165,22 +166,8 @@ class _LoginPageState extends State<LoginPageScreen> {
                   SizedBox(height: 20.0),
                   FloatingActionButton.extended(
                     heroTag: null,
-                    onPressed: () async {
-                      final User success =
-                          await login(username, password, data.globalUserList);
-                      if (success == null) {
-                        showAlertDialog(context);
-                      } else if (success.type == 'teacher') {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return TeacherHomePageScreen(success); //teacherhome
-                        }));
-                      } else if (success.type == 'student') {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return StudentHomePageScreen(success);
-                        }));
-                      }
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/login');
                     },
                     label: Text('       SIGN UP       ',
                         style: TextStyle(
@@ -197,42 +184,42 @@ class _LoginPageState extends State<LoginPageScreen> {
     );
   }
 
-  Future login(String us, String pw, List<User> users) async {
-    for (var u in users) {
-      if (us == u.username && pw == u.password) {
-        return Future.value(u);
-      }
-    }
-    return null;
-  }
+  // Future login(String us, String pw, List<User> users) async {
+  //   for (var u in users) {
+  //     if (us == u.username && pw == u.password) {
+  //       return Future.value(u);
+  //     }
+  //   }
+  //   return null;
+  // }
 
-  Future<void> showAlertDialog(BuildContext context) async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Login Failed'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('Please enter a valid username and password.'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Retry'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return LoginPageScreen();
-                }));
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // Future<void> showAlertDialog(BuildContext context) async {
+  //   return showDialog<void>(
+  //     context: context,
+  //     barrierDismissible: false, // user must tap button!
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: Text('Login Failed'),
+  //         content: SingleChildScrollView(
+  //           child: ListBody(
+  //             children: <Widget>[
+  //               Text('Please enter a valid username and password.'),
+  //             ],
+  //           ),
+  //         ),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             child: Text('Retry'),
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //               Navigator.push(context, MaterialPageRoute(builder: (context) {
+  //                 return SignupPageScreen();
+  //               }));
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 }

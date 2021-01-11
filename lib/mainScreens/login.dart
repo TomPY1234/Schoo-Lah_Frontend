@@ -110,8 +110,13 @@ class _LoginPageState extends State<LoginPageScreen> {
                       style: TextStyle(
                           fontSize: 15.0, fontWeight: FontWeight.bold)),
                   TextButton(
-                      child: Text('First Time User? Sign Up Now!'),
-                      onPressed: () {})
+                      child: Text(
+                        'First Time User? Sign Up Now!',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/signup');
+                      })
                 ],
               ),
             ),

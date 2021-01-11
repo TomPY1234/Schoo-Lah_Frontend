@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:schoolah_mobile_app/mainScreens/signup.dart';
+import 'package:schoolah_mobile_app/mainScreens/splashscreen.dart';
 import 'package:schoolah_mobile_app/models/data.dart';
 import 'package:schoolah_mobile_app/models/mock_books.dart';
 import 'package:schoolah_mobile_app/models/mock_todos.dart';
@@ -11,8 +13,10 @@ import 'package:schoolah_mobile_app/studentScreens/tasklist.dart';
 import 'package:schoolah_mobile_app/studentScreens/tuitionfee.dart';
 import 'package:schoolah_mobile_app/teacherScreens/teacherhome.dart';
 import 'package:schoolah_mobile_app/teacherScreens/teacherprofile.dart';
+import 'package:splashscreen/splashscreen.dart';
 
 import 'constants.dart';
+import 'login.dart';
 
 Route<dynamic> createRoute(settings) {
   // final routeName = settings.name;
@@ -58,6 +62,16 @@ Route<dynamic> createRoute(settings) {
     case teachHome:
       return MaterialPageRoute(
         builder: (context) => TeacherHomePageScreen(globalUserList[0]),
+      );
+
+    case signup:
+      return MaterialPageRoute(
+        builder: (context) => SignupPageScreen(),
+      );
+
+    case login:
+      return MaterialPageRoute(
+        builder: (context) => LoginPageScreen(),
       );
   }
 
