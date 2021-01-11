@@ -80,8 +80,8 @@ class _LoginPageState extends State<LoginPageScreen> {
                   FloatingActionButton.extended(
                     heroTag: null,
                     onPressed: () async {
-                      final User success =
-                          await login(username, password, data.globalUserList);
+                      final User success = await data.globalUserList[0]
+                          .login(username, password, data.globalUserList);
                       if (success == null) {
                         showAlertDialog(context);
                       } else if (success.type == 'teacher') {
@@ -124,15 +124,6 @@ class _LoginPageState extends State<LoginPageScreen> {
         ),
       ),
     );
-  }
-
-  Future login(String us, String pw, List<User> users) async {
-    for (var u in users) {
-      if (us == u.username && pw == u.password) {
-        return Future.value(u);
-      }
-    }
-    return null;
   }
 
   Future<void> showAlertDialog(BuildContext context) async {
