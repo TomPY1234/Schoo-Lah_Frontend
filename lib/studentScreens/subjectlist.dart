@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/todo.dart';
 import '../studentScreens/tasklist.dart';
 
@@ -46,10 +47,12 @@ class _StudentSubjectListState extends State<StudentSubjectListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: Icon(Icons.settings, size: 40.0),
+        //backgroundColor: Colors.white,
+        //leading: Icon(Icons.settings, size: 40.0),
         title: Text('SUBJECT LIST'),
         centerTitle: true,
         actions: <Widget>[
@@ -108,6 +111,26 @@ class _StudentSubjectListState extends State<StudentSubjectListScreen> {
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.grey[500],
         onTap: _onItemTapped,
+      ),
+      drawer: Drawer(
+        child: DrawerHeader(
+          child: CheckboxListTile(
+            title: Text('Change theme color'),
+            value: changeModeNotifier.value,
+            onChanged: (newValue) => changeModeNotifier.value = newValue,
+          ),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.orange[200],
+                Colors.orange[50],
+                Colors.orange[200],
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+        ),
       ),
     );
   }

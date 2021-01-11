@@ -14,7 +14,7 @@ void main() => runApp(ChangeNotifierProvider<ValueNotifier<bool>>(
         title: 'Schoo-Lah',
         debugShowCheckedModeBanner: false,
         theme: notifier.value
-            ? ThemeData(primarySwatch: Colors.yellow)
+            ? ThemeData(primarySwatch: Colors.pink)
             : ThemeData(primarySwatch: Colors.orange),
         home: SchoolahSplashScreen(),
       ),

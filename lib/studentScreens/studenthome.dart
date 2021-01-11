@@ -37,7 +37,7 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final darkModeNotifier = Provider.of<ValueNotifier<bool>>(context);
+    final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -134,15 +134,15 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
         child: DrawerHeader(
           child: CheckboxListTile(
             title: Text('Change theme color'),
-            value: darkModeNotifier.value,
-            onChanged: (newValue) => darkModeNotifier.value = newValue,
+            value: changeModeNotifier.value,
+            onChanged: (newValue) => changeModeNotifier.value = newValue,
           ),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Colors.black12,
-                Colors.black,
-                Colors.black12,
+                Colors.orange[200],
+                Colors.orange[50],
+                Colors.orange[200],
               ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,

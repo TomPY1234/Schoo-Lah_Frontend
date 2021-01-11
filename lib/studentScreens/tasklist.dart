@@ -55,7 +55,7 @@ class _StudentTaskListState extends State<StudentTaskListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final darkModeNotifier = Provider.of<ValueNotifier<bool>>(context);
+    final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -153,10 +153,23 @@ class _StudentTaskListState extends State<StudentTaskListScreen> {
       ),
       drawer: Drawer(
         child: DrawerHeader(
-            child: CheckboxListTile(
-                title: Text('Change theme color'),
-                value: darkModeNotifier.value,
-                onChanged: (newValue) => darkModeNotifier.value = newValue)),
+          child: CheckboxListTile(
+            title: Text('Change theme color'),
+            value: changeModeNotifier.value,
+            onChanged: (newValue) => changeModeNotifier.value = newValue,
+          ),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.orange[200],
+                Colors.orange[50],
+                Colors.orange[200],
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+        ),
       ),
     );
   }
