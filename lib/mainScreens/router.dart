@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:schoolah_mobile_app/mainScreens/signup.dart';
 import 'package:schoolah_mobile_app/mainScreens/splashscreen.dart';
+import 'package:schoolah_mobile_app/mainScreens/teachersignup.dart';
 import 'package:schoolah_mobile_app/models/data.dart';
 import 'package:schoolah_mobile_app/models/mock_books.dart';
 import 'package:schoolah_mobile_app/models/mock_todos.dart';
@@ -72,6 +73,11 @@ Route<dynamic> createRoute(settings) {
     case login:
       return MaterialPageRoute(
         builder: (context) => LoginPageScreen(),
+      );
+
+    case teacherSignup:
+      return MaterialPageRoute(
+        builder: (context) => TeacherSignupPageScreen(),
       );
   }
 

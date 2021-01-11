@@ -11,11 +11,4 @@ class Book {
             title: from.title,
             price: from.price,
             image: from.image);
-
-  Book.getBook(Book book)
-      : this(
-            year: book.year,
-            title: book.title,
-            price: book.price,
-            image: book.image);
 }

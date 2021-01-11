@@ -8,4 +8,5 @@ const String studProfile = '/studentprofile';
 const String teachHome = '/teacherhome';
 const String teachProfile = '/teacherprofile';
 const String signup = '/signup';
+const String teacherSignup = '/teacherSignup';
 const String login = '/login';

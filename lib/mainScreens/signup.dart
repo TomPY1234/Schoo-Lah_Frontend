@@ -1,11 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:schoolah_mobile_app/mainScreens/constants.dart';
-import 'package:schoolah_mobile_app/mainScreens/login.dart';
-import 'package:schoolah_mobile_app/teacherScreens/teacherhome.dart';
-import '../teacherScreens/teacherprofile.dart';
-import '../studentScreens/studenthome.dart';
-import '../models/user.dart';
+import 'package:schoolah_mobile_app/models/user.dart';
 import '../models/data.dart' as data;
 
 class SignupPageScreen extends StatefulWidget {
@@ -16,6 +11,12 @@ class SignupPageScreen extends StatefulWidget {
 class SignupPageState extends State<SignupPageScreen> {
   String username;
   String password;
+  String name;
+  String phone;
+  String email;
+  String school;
+  int year;
+  String _value = 'student';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,11 +46,30 @@ class SignupPageState extends State<SignupPageScreen> {
                   Text('SIGNUP AS:',
                       style: TextStyle(
                           fontSize: 30.0, fontWeight: FontWeight.bold)),
-
+                  DropdownButton(
+                      value: _value,
+                      underline: Container(
+                        height: 2,
+                        color: Colors.grey,
+                      ),
+                      iconSize: 30,
+                      items: [
+                        DropdownMenuItem(
+                            child: Text('Student'), value: 'student'),
+                        DropdownMenuItem(
+                            child: Text('Teacher'), value: 'teacher')
+                      ],
+                      onChanged: (value) {
+                        setState(() {
+                          _value = value;
+                        });
+                        if (_value == 'teacher')
+                          Navigator.pushNamed(context, '/teacherSignup');
+                      }),
                   SizedBox(height: 20.0),
                   TextField(
                     obscureText: false,
-                    onChanged: (value) => username = value,
+                    onChanged: (value) => name = value,
                     style:
                         TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                     decoration: InputDecoration(
@@ -62,11 +82,10 @@ class SignupPageState extends State<SignupPageScreen> {
                           borderRadius: BorderRadius.circular(32.0)),
                     ),
                   ),
-
                   SizedBox(height: 20.0),
                   TextField(
                     obscureText: false,
-                    onChanged: (value) => username = value,
+                    onChanged: (value) => year = int.parse(value),
                     style:
                         TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                     decoration: InputDecoration(
@@ -74,16 +93,15 @@ class SignupPageState extends State<SignupPageScreen> {
                       filled: true,
                       contentPadding:
                           EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                      hintText: 'Enter Age',
+                      hintText: 'Enter Year',
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(32.0)),
                     ),
                   ),
-
                   SizedBox(height: 20.0),
                   TextField(
                     obscureText: false,
-                    onChanged: (value) => username = value,
+                    onChanged: (value) => phone = value,
                     style:
                         TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                     decoration: InputDecoration(
@@ -96,11 +114,10 @@ class SignupPageState extends State<SignupPageScreen> {
                           borderRadius: BorderRadius.circular(32.0)),
                     ),
                   ),
-
                   SizedBox(height: 20.0),
                   TextField(
                     obscureText: false,
-                    onChanged: (value) => username = value,
+                    onChanged: (value) => email = value,
                     style:
                         TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                     decoration: InputDecoration(
@@ -113,11 +130,10 @@ class SignupPageState extends State<SignupPageScreen> {
                           borderRadius: BorderRadius.circular(32.0)),
                     ),
                   ),
-
                   SizedBox(height: 20.0),
                   TextField(
                     obscureText: false,
-                    onChanged: (value) => username = value,
+                    onChanged: (value) => school = value,
                     style:
                         TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                     decoration: InputDecoration(
@@ -130,7 +146,6 @@ class SignupPageState extends State<SignupPageScreen> {
                           borderRadius: BorderRadius.circular(32.0)),
                     ),
                   ),
-
                   SizedBox(height: 20.0),
                   TextField(
                     obscureText: false,
@@ -167,14 +182,22 @@ class SignupPageState extends State<SignupPageScreen> {
                   FloatingActionButton.extended(
                     heroTag: null,
                     onPressed: () {
+                      final newuser = User(
+                          username: username,
+                          password: password,
+                          name: name,
+                          year: year,
+                          school: school,
+                          email: email,
+                          type: _value,
+                          phone: phone);
+                      data.globalUserList.add(newuser);
                       Navigator.pushNamed(context, '/login');
                     },
                     label: Text('       SIGN UP       ',
                         style: TextStyle(
                             fontSize: 19.0, fontWeight: FontWeight.bold)),
                   ),
-                  //      style: TextStyle(
-                  //     fontSize: 20.0, fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
@@ -183,43 +206,4 @@ class SignupPageState extends State<SignupPageScreen> {
       ),
     );
   }
-
-  // Future login(String us, String pw, List<User> users) async {
-  //   for (var u in users) {
-  //     if (us == u.username && pw == u.password) {
-  //       return Future.value(u);
-  //     }
-  //   }
-  //   return null;
-  // }
-
-  // Future<void> showAlertDialog(BuildContext context) async {
-  //   return showDialog<void>(
-  //     context: context,
-  //     barrierDismissible: false, // user must tap button!
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: Text('Login Failed'),
-  //         content: SingleChildScrollView(
-  //           child: ListBody(
-  //             children: <Widget>[
-  //               Text('Please enter a valid username and password.'),
-  //             ],
-  //           ),
-  //         ),
-  //         actions: <Widget>[
-  //           TextButton(
-  //             child: Text('Retry'),
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //               Navigator.push(context, MaterialPageRoute(builder: (context) {
-  //                 return SignupPageScreen();
-  //               }));
-  //             },
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
 }
