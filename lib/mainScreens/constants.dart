@@ -10,3 +10,4 @@ const String teachProfile = '/teacherprofile';
 const String signup = '/signup';
 const String teacherSignup = '/teacherSignup';
 const String login = '/login';
+const String teacherSubject = '/teachersubjectlist';

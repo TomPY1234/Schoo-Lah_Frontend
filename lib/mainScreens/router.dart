@@ -1,3 +1,5 @@
+//import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:schoolah_mobile_app/mainScreens/signup.dart';
 import 'package:schoolah_mobile_app/mainScreens/splashscreen.dart';
@@ -12,6 +14,7 @@ import 'package:schoolah_mobile_app/studentScreens/studentprofile.dart';
 import 'package:schoolah_mobile_app/studentScreens/subjectlist.dart';
 import 'package:schoolah_mobile_app/studentScreens/tasklist.dart';
 import 'package:schoolah_mobile_app/studentScreens/tuitionfee.dart';
+import 'package:schoolah_mobile_app/teacherScreens/subjectlist.dart';
 import 'package:schoolah_mobile_app/teacherScreens/teacherhome.dart';
 import 'package:schoolah_mobile_app/teacherScreens/teacherprofile.dart';
 import 'package:splashscreen/splashscreen.dart';
@@ -53,6 +56,11 @@ Route<dynamic> createRoute(settings) {
     case studSubject:
       return MaterialPageRoute(
         builder: (context) => StudentSubjectListScreen(mockData),
+      );
+
+    case teacherSubject:
+      return MaterialPageRoute(
+        builder: (context) => TeacherSubjectListScreen(mockData),
       );
 
     case teachProfile:

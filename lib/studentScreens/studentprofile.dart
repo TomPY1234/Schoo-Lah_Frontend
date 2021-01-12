@@ -178,6 +178,18 @@ class _StudentProfileState extends State<StudentProfileScreen> {
                         style: TextStyle(
                             fontSize: 19.0, fontWeight: FontWeight.bold)),
                   ),
+
+                  SizedBox(height: 15.0),
+                  FloatingActionButton.extended(
+                    heroTag: null,
+                    backgroundColor: Colors.red,
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/login');
+                    },
+                    label: Text('   LOG OUT   ',
+                        style: TextStyle(
+                            fontSize: 19.0, fontWeight: FontWeight.bold)),
+                  ),
                 ],
               ),
             ),

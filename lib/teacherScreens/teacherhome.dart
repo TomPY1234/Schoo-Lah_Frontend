@@ -75,7 +75,7 @@ class _TeacherHomePageState extends State<TeacherHomePageScreen> {
               FloatingActionButton.extended(
                 heroTag: null,
                 onPressed: () {
-                  //Navigator.pushNamed(context, studSubject);
+                  Navigator.pushNamed(context, '/teachersubjectlist');
                 },
                 label: Text('My Subjects',
                     style:
