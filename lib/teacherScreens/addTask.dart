@@ -105,7 +105,6 @@ class _AddTaskState extends State<AddTaskScreen> {
                       borderRadius: BorderRadius.circular(32.0)),
                 ),
               ),
-
               SizedBox(height: 20.0),
               FloatingActionButton.extended(
                 heroTag: null,
@@ -120,46 +119,6 @@ class _AddTaskState extends State<AddTaskScreen> {
                     style:
                         TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
               ),
-              // SizedBox(
-              //   height: 220.0,
-              //   child: Image.asset(
-              //     'assets/schoolah_logo.png',
-              //     width: 200.0,
-              //     height: 200.0,
-              //   ),
-              // ),
-              // FloatingActionButton.extended(
-              //   heroTag: null,
-              //   onPressed: () {
-              //     Navigator.pushNamed(context, '/teachersubjectlist');
-              //   },
-              //   label: Text('My Subjects',
-              //       style:
-              //           TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
-              //   icon: Icon(Icons.book_rounded),
-              // ),
-              // SizedBox(height: 30.0),
-              // FloatingActionButton.extended(
-              //   heroTag: null,
-              //   onPressed: () {
-              //     Navigator.pushNamed(context, studFee);
-              //   },
-              //   label: Text('Student List',
-              //       style:
-              //           TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
-              //   icon: Icon(Icons.attach_money_rounded),
-              // ),
-              // SizedBox(height: 30.0),
-              // FloatingActionButton.extended(
-              //   heroTag: null,
-              //   onPressed: () {
-              //     //Navigator.pushNamed(context, studBook);
-              //   },
-              //   label: Text('Student List',
-              //       style:
-              //           TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
-              //   icon: Icon(Icons.store_rounded),
-              // ),
             ],
           ),
         ),
