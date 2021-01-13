@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:schoolah_mobile_app/models/task.dart';
 import 'package:schoolah_mobile_app/models/todo.dart';
+import '../models/mock_todos.dart' as task;
+import '../models/mock_todos.dart' as data;
 
 class TaskListScreen extends StatefulWidget {
   final Todo _data;
@@ -11,7 +14,9 @@ class TaskListScreen extends StatefulWidget {
 }
 
 class _TaskListScreenState extends State<TaskListScreen> {
+  // final TextEditingController _textFieldController = TextEditingController();
   int _selectedIndex = 1;
+  String title;
 
   void _onItemTapped(int index) {
     if (index == 0) {
@@ -53,7 +58,6 @@ class _TaskListScreenState extends State<TaskListScreen> {
     return _toggle = false;
   }
 
-
   @override
   Widget build(BuildContext context) {
     final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
@@ -94,21 +98,21 @@ class _TaskListScreenState extends State<TaskListScreen> {
             tileColor: Colors.greenAccent[400],
             title: Text(
               widget._data.items[index].title,
-              style: widget._data.items[index].completed
-                  ? TextStyle(decoration: TextDecoration.lineThrough)
-                  : TextStyle(decoration: null),
+              // style: widget._data.items[index].completed
+              //     ? TextStyle(decoration: TextDecoration.lineThrough)
+              //     : TextStyle(decoration: null),
             ),
-            onTap: () => setState(() {
-              if (widget._data.items[index].completed == true) {
-                widget._data.items[index].completed = false;
-                toggle = true;
-                count[index] = 1;
-              } else {
-                widget._data.items[index].completed = true;
-                toggle = true;
-                count[index] = 1;
-              }
-            }),
+            // onTap: () => setState(() {
+            //   if (widget._data.items[index].completed == true) {
+            //     widget._data.items[index].completed = false;
+            //     toggle = true;
+            //     count[index] = 1;
+            //   } else {
+            //     widget._data.items[index].completed = true;
+            //     toggle = true;
+            //     count[index] = 1;
+            //   }
+            // }),
             onLongPress: () =>
                 setState(() => widget._data.items.removeAt(index)),
           ),
@@ -120,7 +124,8 @@ class _TaskListScreenState extends State<TaskListScreen> {
           Text('   '),
           FloatingActionButton.extended(
             heroTag: null,
-            onPressed: () => _cancel(context, toggle, count),
+            onPressed: () => Navigator.pushNamed(context, '/addTask'),
+            tooltip: 'Add Item',
             label: Text('Add'),
             icon: Icon(Icons.add),
           ),
@@ -168,4 +173,35 @@ class _TaskListScreenState extends State<TaskListScreen> {
       ),
     );
   }
+
+  // Future<AlertDialog> _displayDialog(BuildContext context) async {
+  //   return showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           title: const Text('Add task for this subject'),
+  //           content: TextField(
+  //             // controller: _textFieldController,
+  //             decoration: const InputDecoration(hintText: 'Enter task here'),
+  //           ),
+  //           actions: <Widget>[
+  //             FlatButton(
+  //               child: const Text('ADD'),
+  //               onPressed: () {
+  //                 final newTask = Todo(
+  //                     title: '${widget._data.title}',
+  //                     items: [Task(title: title, completed: false)]);
+  //                 data.mockData.add(newTask);
+  //                 Navigator.pushNamed(context, '/tasklistTeacher');
+  //               },
+  //             ),
+  //             FlatButton(
+  //               child: const Text('CANCEL'),
+  //               //heroTag: null,
+  //               onPressed: () => _cancel(context, toggle, count),
+  //             )
+  //           ],
+  //         );
+  //       });
+  // }
 }

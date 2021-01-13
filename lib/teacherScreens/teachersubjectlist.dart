@@ -33,6 +33,19 @@ class _TeacherSubjectListState extends State<TeacherSubjectListScreen> {
       Navigator.pushNamed(context, '/teacherprofile');
     }
   }
+
+  void _navigate(int index) async {
+    Todo returnData = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                TaskListScreen(Todo.copy(widget.todo[index]))));
+
+    if (returnData != null) {
+      setState(() => widget.todo[index] = returnData);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
@@ -67,10 +80,10 @@ class _TeacherSubjectListState extends State<TeacherSubjectListScreen> {
               tileColor: Colors.yellow[700],
               title: Text(widget.todo[index].title,
                   style: TextStyle(fontWeight: FontWeight.bold)),
-              subtitle: Text( 
+              subtitle: Text(
                   'TOTAL TASKS : ${widget.todo[index].items.length} TASKS'),
               onTap: () {
-                Navigator.pushNamed(context, '/taskteacher');
+                _navigate(index);
               }),
         ),
       ),
