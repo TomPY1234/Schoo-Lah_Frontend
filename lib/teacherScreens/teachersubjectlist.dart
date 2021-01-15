@@ -110,7 +110,7 @@ class _TeacherSubjectListState extends State<TeacherSubjectListScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.qr_code_scanner_rounded),
-            label: 'QRScan',
+            label: 'QRHISTORY',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

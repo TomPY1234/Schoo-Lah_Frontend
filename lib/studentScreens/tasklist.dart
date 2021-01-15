@@ -90,7 +90,9 @@ class _StudentTaskListState extends State<StudentTaskListScreen> {
           itemCount: widget._data.items.length,
           separatorBuilder: (context, index) => Divider(color: Colors.black),
           itemBuilder: (context, index) => ListTile(
-            tileColor: Colors.greenAccent[400],
+            tileColor: widget._data.items[index].completed
+                       ? Colors.greenAccent[400]
+                       : Colors.redAccent[400],
             title: Text(
               widget._data.items[index].title,
               style: widget._data.items[index].completed

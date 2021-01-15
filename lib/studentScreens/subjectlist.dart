@@ -94,7 +94,7 @@ class _StudentSubjectListState extends State<StudentSubjectListScreen> {
           itemCount: _todos.length,
           separatorBuilder: (context, index) => Divider(color: Colors.black),
           itemBuilder: (context, index) => ListTile(
-            tileColor: Colors.yellow[700],
+            tileColor: getTileColor(_todos[index].percent.toInt()),
             title: Text(_todos[index].title,
                 style: TextStyle(fontWeight: FontWeight.bold)),
             subtitle:
@@ -102,7 +102,7 @@ class _StudentSubjectListState extends State<StudentSubjectListScreen> {
             trailing: CircleAvatar(
               child: Text(_todos[index].percent.round().toString(),
                   style: TextStyle(color: Colors.black)),
-              backgroundColor: Colors.yellow,
+              backgroundColor: getCircleAvatarColor(_todos[index].percent.toInt()),
             ),
             onTap: () {
               _navigate(index);
@@ -168,3 +168,28 @@ class _StudentSubjectListState extends State<StudentSubjectListScreen> {
     );
   }
 }
+
+Color getCircleAvatarColor(int percent)
+{
+  if(percent >= 80)
+  { return Colors.lightGreenAccent; }
+  else if(percent >= 60 && percent <= 79)
+  { return Colors.yellow[600]; }
+  else if(percent >= 30 && percent <= 59)
+  { return Colors.orangeAccent[400]; }
+  else
+  { return Colors.red; }
+}
+
+Color getTileColor(int percent)
+{
+  if(percent >= 80)
+  { return Colors.green[200]; }
+  else if(percent >= 60 && percent <= 79)
+  { return Colors.yellow[300]; }
+  else if(percent >= 30 && percent <= 59)
+  { return Colors.orangeAccent[100]; }
+  else
+  { return Colors.red[200]; }
+}
+

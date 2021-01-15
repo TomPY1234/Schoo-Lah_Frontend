@@ -14,6 +14,10 @@ class _TeacherProfileState extends State<TeacherProfileScreen> {
       setState(() {
         _selectedIndex = index;
       });
+    } else if (index == 1) {
+      setState(() {
+        _selectedIndex = index;
+      });
       Navigator.pushNamed(context, '/teacherhome');
     } else {
       setState(() {
@@ -175,6 +179,10 @@ class _TeacherProfileState extends State<TeacherProfileScreen> {
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
         items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.qr_code_scanner_rounded),
+            label: 'QRHISTORY',
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
