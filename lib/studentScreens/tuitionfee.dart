@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:schoolah_mobile_app/models/fees.dart';
 
 class TuitionFeeScreen extends StatefulWidget {
   @override
@@ -8,7 +9,7 @@ class TuitionFeeScreen extends StatefulWidget {
 
 class _TuitionFeeState extends State<TuitionFeeScreen> {
   int _selectedIndex = 1;
-
+  List<Fee> fees;
   void _onItemTapped(int index) {
     if (index == 0) {
       setState(() {
@@ -60,7 +61,7 @@ class _TuitionFeeState extends State<TuitionFeeScreen> {
           child: Column(
             children: <Widget>[
               topArea(),
-              displayFeeList(),
+        //      displayFeeList(),
             ],
           ),
         ),
@@ -140,49 +141,63 @@ Card topArea() => Card(
       ),
     );
 
-Container feeItems(String item, String charge, String dateString, String status,
+//FIKRI FEE TOUCHUP
+/*Container displayFeeList(List<Fee> fees
     {Color oddColor = Colors.white}) {
   return Container(
-    decoration: BoxDecoration(color: oddColor),
+  //  decoration: BoxDecoration(color: oddColor),
     padding: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 5.0, right: 5.0),
     child: Column(
       children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(item, style: TextStyle(fontSize: 16.0)),
-            Text(charge, style: TextStyle(fontSize: 16.0)),
+         //   Text(fees[].monthFee, style: TextStyle(fontSize: 16.0)),
+         //   Text(date, style: TextStyle(fontSize: 16.0)),
           ],
         ),
         SizedBox(height: 10.0),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(dateString,
-                style: TextStyle(color: Colors.grey, fontSize: 14.0)),
-            Text(status, style: TextStyle(color: Colors.grey, fontSize: 14.0)),
-          ],
-        ),
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+          //    Text(feeStatus,
+          //        style: TextStyle(color: Colors.grey, fontSize: 14.0)),
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.orange[200],
+                      Colors.orange[50],
+                      Colors.orange[200],
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                ),
+                child: ListView.separated(
+                  itemCount: fees.length,
+                  separatorBuilder: (context, index) => Divider(
+                    color: Colors.black,
+                    thickness: 5.0,
+                  ),
+                  itemBuilder: (context, index) => ListTile(
+                    tileColor: Colors.deepOrange[700],
+                    title: Text(fees[index].monthFee,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17.0)),
+                    subtitle: Text('RM ${fees[index].amount}',
+                        style: TextStyle(color: Colors.white)),
+                    onTap: () {},
+                  ),
+                ),
+              ),
+            ]),
       ],
     ),
   );
-}
-
-displayFeeList() {
-  return Container(
-    margin: EdgeInsets.all(15.0),
-    child: Column(children: <Widget>[
-      feeItems("January Fee", "RM 50.00", "03-01-20", "PAID",
-          oddColor: const Color(0xFFF7F7F9)),
-      feeItems("Books x 5", "RM 100.00", "03-01-20", "PAID"),
-      feeItems("February Fee", "RM 50.00", "14-02-20", "PAID",
-          oddColor: const Color(0xFFF7F7F9)),
-      feeItems("March Fee", "RM 50.00", "06-03-20", "PAID"),
-      feeItems("April Fee", "RM 50.00", "??-??-??", "OUTSATNDING",
-          oddColor: const Color(0xFFF7F7F9)),
-    ]),
-  );
-}
+}*/
 
 /*
 Container(
