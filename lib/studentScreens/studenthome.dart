@@ -22,6 +22,7 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
       setState(() {
         _selectedIndex = index;
       });
+      Navigator.pushNamed(context, '/qrscan');
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;

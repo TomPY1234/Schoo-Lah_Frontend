@@ -6,6 +6,7 @@ import 'package:schoolah_mobile_app/mainScreens/teachersignup.dart';
 import 'package:schoolah_mobile_app/models/mock_users.dart';
 import 'package:schoolah_mobile_app/models/mock_todos.dart';
 import 'package:schoolah_mobile_app/studentScreens/bookstore.dart';
+import 'package:schoolah_mobile_app/studentScreens/qrscan.dart';
 
 import 'package:schoolah_mobile_app/studentScreens/studenthome.dart';
 import 'package:schoolah_mobile_app/studentScreens/studentprofile.dart';
@@ -113,6 +114,11 @@ Route<dynamic> createRoute(settings) {
     case QRcode:
       return MaterialPageRoute(
         builder: (context) => ScanScreen(),
+      );
+
+    case QRStudentcode:
+      return MaterialPageRoute(
+        builder: (context) => QRScreen(),
       );
   }
 
