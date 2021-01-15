@@ -23,6 +23,7 @@ class _BookstorePageState extends State<BookstorePageScreen> {
       setState(() {
         _selectedIndex = index;
       });
+      Navigator.pushNamed(context, '/qrsubjectlist');
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;

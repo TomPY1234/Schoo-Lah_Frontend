@@ -18,6 +18,7 @@ class _StudentTaskListState extends State<StudentTaskListScreen> {
       setState(() {
         _selectedIndex = index;
       });
+      Navigator.pushNamed(context, '/qrsubjectlist');
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;

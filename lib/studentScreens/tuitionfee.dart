@@ -19,8 +19,7 @@ class _TuitionFeeState extends State<TuitionFeeScreen> {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(
-          context, '/studentprofile'); //supposedly qrcode interface
+      Navigator.pushNamed(context, '/qrsubjectlist');
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;

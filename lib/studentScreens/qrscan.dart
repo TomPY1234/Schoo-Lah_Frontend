@@ -81,7 +81,7 @@ class _QRState extends State<QRScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.qr_code_scanner_rounded),
-            label: 'QRGenerator',
+            label: 'QRScan',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
