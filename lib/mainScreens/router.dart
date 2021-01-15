@@ -15,6 +15,7 @@ import 'package:schoolah_mobile_app/studentScreens/subjectlist.dart';
 import 'package:schoolah_mobile_app/studentScreens/tasklist.dart';
 import 'package:schoolah_mobile_app/studentScreens/tuitionfee.dart';
 import 'package:schoolah_mobile_app/teacherScreens/addTask.dart';
+import 'package:schoolah_mobile_app/teacherScreens/teacherstudentlist.dart';
 import 'package:schoolah_mobile_app/teacherScreens/teachersubjectlist.dart';
 import 'package:schoolah_mobile_app/teacherScreens/tasklistTeacher.dart';
 import 'package:schoolah_mobile_app/teacherScreens/teacherhome.dart';
@@ -73,6 +74,11 @@ Route<dynamic> createRoute(settings) {
     case teachProfile:
       return MaterialPageRoute(
         builder: (context) => TeacherProfileScreen(),
+      );
+
+    case teachStudentList:
+      return MaterialPageRoute(
+        builder: (context) => TeacherStudentListScreen(mockData),
       );
 
     case teachHome:

@@ -11,5 +11,6 @@ const String signup = '/signup';
 const String teacherSignup = '/teacherSignup';
 const String login = '/login';
 const String teacherSubject = '/teachersubjectlist';
+const String teachStudentList = '/teacherstudentlist';
 const String teachTask = '/tasklistTeacher';
 const String teachAddTask = '/addTask';

@@ -61,4 +61,14 @@ class UserDataServiceMock implements UserDataService {
   Future<User> getCurrentUser() async {
     return currUser;
   }
+
+  Future<List<User>> getStudentList() async {
+    List<User> students;
+
+    for (var u in globalUserList) {
+      if (u.type == 'student') students.add(u);
+      print(u.type);
+    }
+    return students;
+  }
 }

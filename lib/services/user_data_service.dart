@@ -13,4 +13,6 @@ abstract class UserDataService {
       String type,
       String phone});
   Future<User> getCurrentUser();
+
+  Future<List<User>> getStudentList();
 }
