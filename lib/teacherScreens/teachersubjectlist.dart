@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import 'package:schoolah_mobile_app/services/todo_data_service.dart';
 import '../dependencies.dart';
 import '../models/todo.dart';
@@ -33,18 +34,6 @@ class _TeacherSubjectListState extends State<TeacherSubjectListScreen> {
         _selectedIndex = index;
       });
       Navigator.pushNamed(context, '/teacherprofile');
-    }
-  }
-
-  void _navigate(int index) async {
-    Todo returnData = await Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                TaskListScreen(Todo.copy(widget.todo[index]))));
-
-    if (returnData != null) {
-      setState(() => widget.todo[index] = returnData);
     }
   }
 
@@ -99,7 +88,10 @@ class _TeacherSubjectListState extends State<TeacherSubjectListScreen> {
               subtitle: Text(
                   'TOTAL TASKS : ${widget.todo[index].items.length} TASKS'),
               onTap: () {
-                _navigate(index);
+                final TodoDataService todoDataService = service();
+                todoDataService.updateCurrentTodo(todo: _todos[index]);
+                Navigator.pushNamed(context, teachTask);
+                //_navigate(index);
               }),
         ),
       ),

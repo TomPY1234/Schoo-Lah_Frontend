@@ -67,7 +67,7 @@ Route<dynamic> createRoute(settings) {
 
     case teachTask:
       return MaterialPageRoute(
-        builder: (context) => TaskListScreen(mockData[0]),
+        builder: (context) => TaskListScreen(),
       );
 
     case teachProfile:
@@ -102,7 +102,7 @@ Route<dynamic> createRoute(settings) {
 
     case teachAddTask:
       return MaterialPageRoute(
-        builder: (context) => AddTaskScreen(mockData[0]),
+        builder: (context) => AddTaskScreen(),
       );
 
     case teachQR:

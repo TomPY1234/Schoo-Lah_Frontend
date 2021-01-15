@@ -28,10 +28,23 @@ List<Todo> mockData = [
   ]),
 ];
 
-//int _nextId = 3;
-
 class TodoDataServiceMock implements TodoDataService {
+  int _nextId = 12;
+  Todo currTodo;
   Future<List<Todo>> getTodoList() async {
     return [...mockData];
+  }
+
+  Future createTodo({Todo todo, String task}) async {
+    Task newTask = Task(id: _nextId++, title: task, completed: false);
+    todo.items.add(newTask);
+  }
+
+  Future updateCurrentTodo({Todo todo}) async {
+    currTodo = todo;
+  }
+
+  Future<Todo> getTodo() async {
+    return currTodo;
   }
 }

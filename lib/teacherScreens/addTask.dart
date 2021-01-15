@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import 'package:schoolah_mobile_app/models/task.dart';
 import 'package:schoolah_mobile_app/models/todo.dart';
+import 'package:schoolah_mobile_app/services/todo_data_service.dart';
+import '../dependencies.dart';
 import '../models/user.dart';
 import 'package:provider/provider.dart';
 import '../models/mock_todos.dart' as data;
 
 class AddTaskScreen extends StatefulWidget {
-  final Todo _data;
+  //final Todo _data;
 
-  AddTaskScreen(this._data);
+  //AddTaskScreen(this._data);
   @override
   _AddTaskState createState() => _AddTaskState();
 }
@@ -17,6 +19,8 @@ class AddTaskScreen extends StatefulWidget {
 class _AddTaskState extends State<AddTaskScreen> {
   int _selectedIndex = 1;
   String title;
+  Todo _data;
+  final TodoDataService todoDataService = service();
 
   void _onItemTapped(int index) {
     if (index == 0) {
@@ -40,25 +44,23 @@ class _AddTaskState extends State<AddTaskScreen> {
   bool toggle = false;
   var count = new List(30);
 
-  bool _cancel(BuildContext context, bool _toggle, var _count) {
-    if (_toggle == true) {
-      for (int i = 0; i < widget._data.items.length; i++) {
-        if (_count[i] == 1) {
-          if (widget._data.items[i].completed == true) {
-            setState(() => widget._data.items[i].completed = false);
-          } else {
-            setState(() => widget._data.items[i].completed = true);
-          }
-        }
-      }
-    }
-
-    Navigator.pop(context, null);
-    return _toggle = false;
-  }
-
   @override
   Widget build(BuildContext context) {
+    final TodoDataService todoDataService = service();
+    //_data = todoDataService.getTodo();
+
+    return FutureBuilder<Todo>(
+        future: todoDataService.getTodo(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            _data = snapshot.data;
+            return _buildMainScreen();
+          }
+          return _buildFetchingDataScreen();
+        });
+  }
+
+  Scaffold _buildMainScreen() {
     final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
 
     return Scaffold(
@@ -88,7 +90,7 @@ class _AddTaskState extends State<AddTaskScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text('Add task for ${widget._data.title}',
+              Text('Add task for ${_data.title}',
                   style:
                       TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold)),
               SizedBox(height: 20.0),
@@ -110,10 +112,7 @@ class _AddTaskState extends State<AddTaskScreen> {
               FloatingActionButton.extended(
                 heroTag: null,
                 onPressed: () {
-                  final newTask = Todo(
-                      title: '${widget._data.title}',
-                      items: [Task(title: title, completed: false)]);
-                  data.mockData.add(newTask);
+                  todoDataService.createTodo(todo: _data, task: title);
                   Navigator.pushNamed(context, '/teachersubjectlist');
                 },
                 label: Text('       ADD       ',
@@ -162,6 +161,21 @@ class _AddTaskState extends State<AddTaskScreen> {
               end: Alignment.bottomCenter,
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Scaffold _buildFetchingDataScreen() {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            SizedBox(height: 50),
+            Text('Fetching current todo... Please wait'),
+          ],
         ),
       ),
     );

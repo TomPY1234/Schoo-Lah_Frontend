@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import 'package:schoolah_mobile_app/models/task.dart';
 import 'package:schoolah_mobile_app/models/todo.dart';
+import 'package:schoolah_mobile_app/services/todo_data_service.dart';
+import 'package:schoolah_mobile_app/teacherScreens/addTask.dart';
+import '../dependencies.dart';
 import '../models/mock_todos.dart' as task;
 import '../models/mock_todos.dart' as data;
 
 class TaskListScreen extends StatefulWidget {
-  final Todo _data;
+  //Todo _data;
 
-  TaskListScreen(this._data);
+  //TaskListScreen(this._data);
   @override
   _TaskListScreenState createState() => _TaskListScreenState();
 }
@@ -17,6 +21,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
   // final TextEditingController _textFieldController = TextEditingController();
   int _selectedIndex = 1;
   String title;
+  Todo _data;
 
   void _onItemTapped(int index) {
     if (index == 0) {
@@ -40,25 +45,32 @@ class _TaskListScreenState extends State<TaskListScreen> {
   bool toggle = false;
   var count = new List(30);
 
-  bool _cancel(BuildContext context, bool _toggle, var _count) {
-    if (_toggle == true) {
-      for (int i = 0; i < widget._data.items.length; i++) {
-        if (_count[i] == 1) {
-          if (widget._data.items[i].completed == true) {
-            setState(() => widget._data.items[i].completed = false);
-          } else {
-            setState(() => widget._data.items[i].completed = true);
-          }
-        }
-      }
-    }
+  /*void _navigate(Todo todo) async {
+    Todo returnData = await Navigator.push(
+        context, MaterialPageRoute(builder: (context) => AddTaskScreen(todo)));
 
-    Navigator.pop(context, null);
-    return _toggle = false;
-  }
+    if (returnData != null) {
+      setState(() => todo = returnData);
+    }
+  }*/
 
   @override
   Widget build(BuildContext context) {
+    final TodoDataService todoDataService = service();
+    //_data = todoDataService.getTodo();
+
+    return FutureBuilder<Todo>(
+        future: todoDataService.getTodo(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            _data = snapshot.data;
+            return _buildMainScreen();
+          }
+          return _buildFetchingDataScreen();
+        });
+  }
+
+  Scaffold _buildMainScreen() {
     final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
 
     return Scaffold(
@@ -67,7 +79,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
         //leading: Icon(Icons.settings, size: 40.0),
         title: Column(
           children: <Widget>[
-            Text('${widget._data.title}',
+            Text('${_data.title}',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             //Text('YEAR 3', style: TextStyle(fontSize: 15)),
           ],
@@ -91,12 +103,12 @@ class _TaskListScreenState extends State<TaskListScreen> {
           ),
         ),
         child: ListView.separated(
-          itemCount: widget._data.items.length,
+          itemCount: _data.items.length,
           separatorBuilder: (context, index) => Divider(color: Colors.black),
           itemBuilder: (context, index) => ListTile(
             tileColor: Colors.greenAccent[400],
             title: Text(
-              widget._data.items[index].title,
+              _data.items[index].title,
               // style: widget._data.items[index].completed
               //     ? TextStyle(decoration: TextDecoration.lineThrough)
               //     : TextStyle(decoration: null),
@@ -112,8 +124,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
             //     count[index] = 1;
             //   }
             // }),
-            onLongPress: () =>
-                setState(() => widget._data.items.removeAt(index)),
+            onLongPress: () => setState(() => _data.items.removeAt(index)),
           ),
         ),
       ),
@@ -123,7 +134,10 @@ class _TaskListScreenState extends State<TaskListScreen> {
           Text('   '),
           FloatingActionButton.extended(
             heroTag: null,
-            onPressed: () => Navigator.pushNamed(context, '/addTask'),
+            onPressed: () {
+              Navigator.pushNamed(context, teachAddTask);
+              //_navigate(_data);
+            },
             tooltip: 'Add Item',
             label: Text('Add'),
             icon: Icon(Icons.add),
@@ -173,34 +187,18 @@ class _TaskListScreenState extends State<TaskListScreen> {
     );
   }
 
-  // Future<AlertDialog> _displayDialog(BuildContext context) async {
-  //   return showDialog(
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return AlertDialog(
-  //           title: const Text('Add task for this subject'),
-  //           content: TextField(
-  //             // controller: _textFieldController,
-  //             decoration: const InputDecoration(hintText: 'Enter task here'),
-  //           ),
-  //           actions: <Widget>[
-  //             FlatButton(
-  //               child: const Text('ADD'),
-  //               onPressed: () {
-  //                 final newTask = Todo(
-  //                     title: '${widget._data.title}',
-  //                     items: [Task(title: title, completed: false)]);
-  //                 data.mockData.add(newTask);
-  //                 Navigator.pushNamed(context, '/tasklistTeacher');
-  //               },
-  //             ),
-  //             FlatButton(
-  //               child: const Text('CANCEL'),
-  //               //heroTag: null,
-  //               onPressed: () => _cancel(context, toggle, count),
-  //             )
-  //           ],
-  //         );
-  //       });
-  // }
+  Scaffold _buildFetchingDataScreen() {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            SizedBox(height: 50),
+            Text('Fetching current todo... Please wait'),
+          ],
+        ),
+      ),
+    );
+  }
 }
