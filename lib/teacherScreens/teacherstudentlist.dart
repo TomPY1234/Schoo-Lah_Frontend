@@ -8,9 +8,9 @@ import '../studentScreens/tasklist.dart';
 import 'tasklistTeacher.dart';
 
 class TeacherStudentListScreen extends StatefulWidget {
-  final List<Todo> todo;
+  //final List<Todo> todo;
 
-  TeacherStudentListScreen(this.todo);
+  //TeacherStudentListScreen(this.todo);
   @override
   _TeacherStudentListState createState() => _TeacherStudentListState();
 }
@@ -37,15 +37,18 @@ class _TeacherStudentListState extends State<TeacherStudentListScreen> {
       Navigator.pushNamed(context, '/teacherprofile');
     }
   }
+
   @override
   Widget build(BuildContext context) {
-
     final UserDataService userDataService = service();
+
+    //students = userDataService.getStudentList();
+    //return _buildMainScreen();
     return FutureBuilder<List<User>>(
         future: userDataService.getStudentList(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            students= snapshot.data;
+            students = snapshot.data;
             return _buildMainScreen();
           }
           return _buildFetchingDataScreen();
@@ -57,8 +60,6 @@ class _TeacherStudentListState extends State<TeacherStudentListScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        //backgroundColor: Colors.white,
-        //leading: Icon(Icons.settings, size: 40.0),
         title: Text('STUDENT LIST'),
         centerTitle: true,
         actions: <Widget>[
@@ -79,14 +80,13 @@ class _TeacherStudentListState extends State<TeacherStudentListScreen> {
           ),
         ),
         child: ListView.separated(
-          itemCount: widget.todo.length,
+          itemCount: students.length,
           separatorBuilder: (context, index) => Divider(color: Colors.black),
           itemBuilder: (context, index) => ListTile(
               tileColor: Colors.yellow[700],
-              title: Text(widget.todo[index].title,
+              title: Text(students[index].name,
                   style: TextStyle(fontWeight: FontWeight.bold)),
-              subtitle: Text( 
-                  'TOTAL TASKS : ${widget.todo[index].items.length} TASKS'),
+              subtitle: Text('YEAR : ${students[index].year}'),
               onTap: () {
                 Navigator.pushNamed(context, '/teacherstudentlist');
               }),
@@ -134,6 +134,7 @@ class _TeacherStudentListState extends State<TeacherStudentListScreen> {
       ),
     );
   }
+
   Scaffold _buildFetchingDataScreen() {
     return Scaffold(
       body: Center(

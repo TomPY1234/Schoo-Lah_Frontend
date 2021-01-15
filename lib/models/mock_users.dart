@@ -99,11 +99,13 @@ class UserDataServiceMock implements UserDataService {
   }
 
   Future<List<User>> getStudentList() async {
-    List<User> students;
+    List<User> students = new List<User>();
+    print(globalUserList.length);
 
-    for (var u in globalUserList) {
-      if (u.type == 'student') students.add(u);
-      print(u.type);
+    for (int i = 0; i < globalUserList.length; i++) {
+      if (globalUserList[i].type == 'student') {
+        students.add(globalUserList[i]);
+      }
     }
     return students;
   }
