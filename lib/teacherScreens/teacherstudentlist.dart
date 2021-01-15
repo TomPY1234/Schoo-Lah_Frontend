@@ -23,8 +23,7 @@ class _TeacherStudentListState extends State<TeacherStudentListScreen> {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(
-          context, '/teacherprofile'); //supposedly qrcode interface
+      Navigator.pushNamed(context, '/qrsubjectlist');
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;
@@ -97,7 +96,7 @@ class _TeacherStudentListState extends State<TeacherStudentListScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.qr_code_scanner_rounded),
-            label: 'QRScan',
+            label: 'QRGenerator',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

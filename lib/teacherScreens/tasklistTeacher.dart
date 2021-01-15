@@ -23,8 +23,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(
-          context, '/teacherprofile'); //supposedly qrcode interface
+      Navigator.pushNamed(context, '/qrsubjectlist');
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;
@@ -136,7 +135,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.qr_code_scanner_rounded),
-            label: 'QRHISTORY',
+            label: 'QRGenerator',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

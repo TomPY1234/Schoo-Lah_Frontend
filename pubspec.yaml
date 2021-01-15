@@ -57,6 +57,8 @@ flutter:
     - assets/book_six.jpeg
     - assets/book_seven.jpeg
     - assets/book_eight.jpeg
+    - assets/qr.jpeg
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

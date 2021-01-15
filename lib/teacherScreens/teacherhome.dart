@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import '../models/user.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +19,7 @@ class _TeacherHomePageState extends State<TeacherHomePageScreen> {
       setState(() {
         _selectedIndex = index;
       });
+      Navigator.pushNamed(context, '/qrsubjectlist');
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;
@@ -113,7 +113,7 @@ class _TeacherHomePageState extends State<TeacherHomePageScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.qr_code_scanner_rounded),
-            label: 'QRHISTORY',
+            label: 'QRGenerator',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

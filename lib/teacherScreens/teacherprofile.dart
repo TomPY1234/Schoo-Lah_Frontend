@@ -13,13 +13,14 @@ class TeacherProfileScreen extends StatefulWidget {
 
 class _TeacherProfileState extends State<TeacherProfileScreen> {
   User user;
-  int _selectedIndex = 1;
+  int _selectedIndex = 2;
 
   void _onItemTapped(int index) {
     if (index == 0) {
       setState(() {
         _selectedIndex = index;
       });
+      Navigator.pushNamed(context, '/qrsubjectlist');
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;
@@ -180,7 +181,7 @@ class _TeacherProfileState extends State<TeacherProfileScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.qr_code_scanner_rounded),
-            label: 'QRHISTORY',
+            label: 'QRGenerator',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

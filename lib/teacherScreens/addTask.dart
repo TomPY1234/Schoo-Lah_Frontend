@@ -23,6 +23,7 @@ class _AddTaskState extends State<AddTaskScreen> {
       setState(() {
         _selectedIndex = index;
       });
+      Navigator.pushNamed(context, '/qrsubjectlist');
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;
@@ -128,7 +129,7 @@ class _AddTaskState extends State<AddTaskScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.qr_code_scanner_rounded),
-            label: 'QRHISTORY',
+            label: 'QRGenerator',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

@@ -15,8 +15,6 @@ class _TuitionFeeState extends State<TuitionFeeScreen> {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(
-          context, '/studentprofile'); //supposedly qrcode interface
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;
@@ -61,7 +59,7 @@ class _TuitionFeeState extends State<TuitionFeeScreen> {
           child: Column(
             children: <Widget>[
               topArea(),
-        //      displayFeeList(),
+              //      displayFeeList(),
             ],
           ),
         ),

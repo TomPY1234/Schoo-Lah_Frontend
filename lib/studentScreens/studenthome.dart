@@ -22,8 +22,6 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(
-          context, '/studentprofile'); //supposedly qrcode interface
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;

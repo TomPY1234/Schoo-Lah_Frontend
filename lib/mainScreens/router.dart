@@ -2,10 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:schoolah_mobile_app/mainScreens/signup.dart';
-import 'package:schoolah_mobile_app/mainScreens/splashscreen.dart';
 import 'package:schoolah_mobile_app/mainScreens/teachersignup.dart';
 import 'package:schoolah_mobile_app/models/mock_users.dart';
-import 'package:schoolah_mobile_app/models/mock_books.dart';
 import 'package:schoolah_mobile_app/models/mock_todos.dart';
 import 'package:schoolah_mobile_app/studentScreens/bookstore.dart';
 
@@ -15,12 +13,13 @@ import 'package:schoolah_mobile_app/studentScreens/subjectlist.dart';
 import 'package:schoolah_mobile_app/studentScreens/tasklist.dart';
 import 'package:schoolah_mobile_app/studentScreens/tuitionfee.dart';
 import 'package:schoolah_mobile_app/teacherScreens/addTask.dart';
+import 'package:schoolah_mobile_app/teacherScreens/qrhistory.dart';
+import 'package:schoolah_mobile_app/teacherScreens/qrsubjectlist.dart';
 import 'package:schoolah_mobile_app/teacherScreens/teacherstudentlist.dart';
 import 'package:schoolah_mobile_app/teacherScreens/teachersubjectlist.dart';
 import 'package:schoolah_mobile_app/teacherScreens/tasklistTeacher.dart';
 import 'package:schoolah_mobile_app/teacherScreens/teacherhome.dart';
 import 'package:schoolah_mobile_app/teacherScreens/teacherprofile.dart';
-import 'package:splashscreen/splashscreen.dart';
 
 import 'constants.dart';
 import 'login.dart';
@@ -104,6 +103,16 @@ Route<dynamic> createRoute(settings) {
     case teachAddTask:
       return MaterialPageRoute(
         builder: (context) => AddTaskScreen(mockData[0]),
+      );
+
+    case teachQR:
+      return MaterialPageRoute(
+        builder: (context) => DetailsScreen(),
+      );
+
+    case QRcode:
+      return MaterialPageRoute(
+        builder: (context) => ScanScreen(),
       );
   }
 

@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:schoolah_mobile_app/services/todo_data_service.dart';
 import '../dependencies.dart';
 import '../models/todo.dart';
-import '../studentScreens/tasklist.dart';
 import 'tasklistTeacher.dart';
 
 class TeacherSubjectListScreen extends StatefulWidget {
@@ -23,8 +22,7 @@ class _TeacherSubjectListState extends State<TeacherSubjectListScreen> {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(
-          context, '/teacherprofile'); //supposedly qrcode interface
+      Navigator.pushNamed(context, '/qrsubjectlist');
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;
@@ -110,7 +108,7 @@ class _TeacherSubjectListState extends State<TeacherSubjectListScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.qr_code_scanner_rounded),
-            label: 'QRHISTORY',
+            label: 'QRGenerator',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
