@@ -9,14 +9,19 @@ List<User> globalUserList = [
       password: 'ahmad123',
       name: 'Ahmad Aiman',
       type: 'student',
-      year: 5),
+      year: 5,
+      school: 'SK Impian Emas',
+      phone: '0197542776',
+      email: 'ahmad.aiman@gmail.com'),
   User(
       id: 2,
       username: 'nurain',
       password: 'ain123',
       name: 'Nur Ain',
       type: 'teacher',
-      year: 0),
+      year: 0,
+      phone: '0175875565',
+      email: 'ainn765@gmail.com'),
 ];
 
 class UserDataServiceMock implements UserDataService {
@@ -60,6 +65,37 @@ class UserDataServiceMock implements UserDataService {
 
   Future<User> getCurrentUser() async {
     return currUser;
+  }
+
+  Future updateDetails(
+      {String name,
+      int year,
+      String school,
+      String phone,
+      String email}) async {
+    if (name == null) {
+      name = currUser.name;
+    }
+    if (year == null) {
+      year = currUser.year;
+    }
+
+    if (school == null) {
+      school = currUser.school;
+    }
+
+    if (phone == null) {
+      phone = currUser.phone;
+    }
+
+    if (email == null) {
+      email = currUser.email;
+    }
+    currUser.name = name;
+    currUser.year = year;
+    currUser.school = school;
+    currUser.phone = phone;
+    currUser.email = email;
   }
 
   Future<List<User>> getStudentList() async {

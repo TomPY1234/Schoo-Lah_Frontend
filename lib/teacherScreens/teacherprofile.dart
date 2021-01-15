@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:schoolah_mobile_app/mainScreens/constants.dart';
+import 'package:schoolah_mobile_app/models/user.dart';
+import 'package:schoolah_mobile_app/services/user_data_service.dart';
+
+import '../dependencies.dart';
 
 class TeacherProfileScreen extends StatefulWidget {
   @override
@@ -7,6 +12,7 @@ class TeacherProfileScreen extends StatefulWidget {
 }
 
 class _TeacherProfileState extends State<TeacherProfileScreen> {
+  User user;
   int _selectedIndex = 1;
 
   void _onItemTapped(int index) {
@@ -29,8 +35,24 @@ class _TeacherProfileState extends State<TeacherProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
+    final UserDataService userDataService = service();
 
+    return FutureBuilder<User>(
+        future: userDataService.getCurrentUser(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            user = snapshot.data;
+            return _buildMainScreen();
+          }
+          return _buildFetchingDataScreen();
+        });
+  }
+
+  Scaffold _buildMainScreen() {
+    final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
+    String name;
+    String phone;
+    String email;
     return Scaffold(
       appBar: AppBar(
         //backgroundColor: Colors.white,
@@ -71,10 +93,12 @@ class _TeacherProfileState extends State<TeacherProfileScreen> {
                       style: TextStyle(
                           fontSize: 22.0, fontWeight: FontWeight.bold)),
                   TextField(
+                    onChanged: (value) => name = value,
                     obscureText: false,
                     style:
                         TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                     decoration: InputDecoration(
+                      hintText: user.name,
                       fillColor: Colors.white,
                       filled: true,
                       contentPadding:
@@ -88,10 +112,12 @@ class _TeacherProfileState extends State<TeacherProfileScreen> {
                       style: TextStyle(
                           fontSize: 22.0, fontWeight: FontWeight.bold)),
                   TextField(
+                    onChanged: (value) => email = value,
                     obscureText: false,
                     style:
                         TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                     decoration: InputDecoration(
+                      hintText: user.email,
                       fillColor: Colors.white,
                       filled: true,
                       contentPadding:
@@ -105,44 +131,12 @@ class _TeacherProfileState extends State<TeacherProfileScreen> {
                       style: TextStyle(
                           fontSize: 22.0, fontWeight: FontWeight.bold)),
                   TextField(
+                    onChanged: (value) => phone = value,
                     obscureText: false,
                     style:
                         TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                     decoration: InputDecoration(
-                      fillColor: Colors.white,
-                      filled: true,
-                      contentPadding:
-                          EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32.0)),
-                    ),
-                  ),
-                  SizedBox(height: 15.0),
-                  Text('USERNAME',
-                      style: TextStyle(
-                          fontSize: 22.0, fontWeight: FontWeight.bold)),
-                  TextField(
-                    obscureText: false,
-                    style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-                    decoration: InputDecoration(
-                      fillColor: Colors.white,
-                      filled: true,
-                      contentPadding:
-                          EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32.0)),
-                    ),
-                  ),
-                  SizedBox(height: 15.0),
-                  Text('PASSWORD',
-                      style: TextStyle(
-                          fontSize: 22.0, fontWeight: FontWeight.bold)),
-                  TextField(
-                    obscureText: false,
-                    style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-                    decoration: InputDecoration(
+                      hintText: user.phone,
                       fillColor: Colors.white,
                       filled: true,
                       contentPadding:
@@ -154,7 +148,12 @@ class _TeacherProfileState extends State<TeacherProfileScreen> {
                   SizedBox(height: 15.0),
                   FloatingActionButton.extended(
                     heroTag: null,
-                    onPressed: () {},
+                    onPressed: () {
+                      UserDataService userDataService = service();
+                      userDataService.updateDetails(
+                          name: name, email: email, phone: phone);
+                      Navigator.pushNamed(context, teachHome);
+                    },
                     label: Text('   UPDATE   ',
                         style: TextStyle(
                             fontSize: 19.0, fontWeight: FontWeight.bold)),
@@ -214,6 +213,21 @@ class _TeacherProfileState extends State<TeacherProfileScreen> {
               end: Alignment.bottomCenter,
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Scaffold _buildFetchingDataScreen() {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            SizedBox(height: 50),
+            Text('Fetching current user... Please wait'),
+          ],
         ),
       ),
     );

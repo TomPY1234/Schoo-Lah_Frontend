@@ -13,6 +13,7 @@ abstract class UserDataService {
       String type,
       String phone});
   Future<User> getCurrentUser();
-
+  Future updateDetails(
+      {String name, int year, String school, String phone, String email});
   Future<List<User>> getStudentList();
 }

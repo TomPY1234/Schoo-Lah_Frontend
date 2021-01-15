@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:schoolah_mobile_app/mainScreens/constants.dart';
+import 'package:schoolah_mobile_app/models/user.dart';
+import 'package:schoolah_mobile_app/services/user_data_service.dart';
+
+import '../dependencies.dart';
 
 class StudentProfileScreen extends StatefulWidget {
   @override
@@ -7,6 +12,7 @@ class StudentProfileScreen extends StatefulWidget {
 }
 
 class _StudentProfileState extends State<StudentProfileScreen> {
+  User user;
   int _selectedIndex = 2;
 
   void _onItemTapped(int index) {
@@ -31,6 +37,25 @@ class _StudentProfileState extends State<StudentProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final UserDataService userDataService = service();
+
+    return FutureBuilder<User>(
+        future: userDataService.getCurrentUser(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            user = snapshot.data;
+            return _buildMainScreen();
+          }
+          return _buildFetchingDataScreen();
+        });
+  }
+
+  Scaffold _buildMainScreen() {
+    String name;
+    String phone;
+    String email;
+    String school;
+    int year;
     final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
 
     return Scaffold(
@@ -73,10 +98,12 @@ class _StudentProfileState extends State<StudentProfileScreen> {
                       style: TextStyle(
                           fontSize: 22.0, fontWeight: FontWeight.bold)),
                   TextField(
+                    onChanged: (value) => name = value,
                     obscureText: false,
                     style:
                         TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                     decoration: InputDecoration(
+                      hintText: user.name,
                       fillColor: Colors.white,
                       filled: true,
                       contentPadding:
@@ -86,14 +113,16 @@ class _StudentProfileState extends State<StudentProfileScreen> {
                     ),
                   ),
                   SizedBox(height: 15.0),
-                  Text('AGE',
+                  Text('YEAR',
                       style: TextStyle(
                           fontSize: 22.0, fontWeight: FontWeight.bold)),
                   TextField(
+                    onChanged: (value) => year = int.parse(value),
                     obscureText: false,
                     style:
                         TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                     decoration: InputDecoration(
+                      hintText: user.year.toString(),
                       fillColor: Colors.white,
                       filled: true,
                       contentPadding:
@@ -107,10 +136,12 @@ class _StudentProfileState extends State<StudentProfileScreen> {
                       style: TextStyle(
                           fontSize: 22.0, fontWeight: FontWeight.bold)),
                   TextField(
+                    onChanged: (value) => school = value,
                     obscureText: false,
                     style:
                         TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                     decoration: InputDecoration(
+                      hintText: user.school,
                       fillColor: Colors.white,
                       filled: true,
                       contentPadding:
@@ -124,10 +155,12 @@ class _StudentProfileState extends State<StudentProfileScreen> {
                       style: TextStyle(
                           fontSize: 22.0, fontWeight: FontWeight.bold)),
                   TextField(
+                    onChanged: (value) => phone = value,
                     obscureText: false,
                     style:
                         TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                     decoration: InputDecoration(
+                      hintText: user.phone,
                       fillColor: Colors.white,
                       filled: true,
                       contentPadding:
@@ -137,31 +170,16 @@ class _StudentProfileState extends State<StudentProfileScreen> {
                     ),
                   ),
                   SizedBox(height: 15.0),
-                  Text('USERNAME',
+                  Text('EMAIL',
                       style: TextStyle(
                           fontSize: 22.0, fontWeight: FontWeight.bold)),
                   TextField(
                     obscureText: false,
+                    onChanged: (value) => email = value,
                     style:
                         TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                     decoration: InputDecoration(
-                      fillColor: Colors.white,
-                      filled: true,
-                      contentPadding:
-                          EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32.0)),
-                    ),
-                  ),
-                  SizedBox(height: 15.0),
-                  Text('PASSWORD',
-                      style: TextStyle(
-                          fontSize: 22.0, fontWeight: FontWeight.bold)),
-                  TextField(
-                    obscureText: false,
-                    style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-                    decoration: InputDecoration(
+                      hintText: user.email,
                       fillColor: Colors.white,
                       filled: true,
                       contentPadding:
@@ -173,12 +191,20 @@ class _StudentProfileState extends State<StudentProfileScreen> {
                   SizedBox(height: 15.0),
                   FloatingActionButton.extended(
                     heroTag: null,
-                    onPressed: () {},
+                    onPressed: () {
+                      UserDataService userDataService = service();
+                      userDataService.updateDetails(
+                          name: name,
+                          year: year,
+                          school: school,
+                          email: email,
+                          phone: phone);
+                      Navigator.pushNamed(context, studHome);
+                    },
                     label: Text('   UPDATE   ',
                         style: TextStyle(
                             fontSize: 19.0, fontWeight: FontWeight.bold)),
                   ),
-
                   SizedBox(height: 15.0),
                   FloatingActionButton.extended(
                     heroTag: null,
@@ -233,6 +259,21 @@ class _StudentProfileState extends State<StudentProfileScreen> {
               end: Alignment.bottomCenter,
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Scaffold _buildFetchingDataScreen() {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            SizedBox(height: 50),
+            Text('Fetching current user... Please wait'),
+          ],
         ),
       ),
     );
