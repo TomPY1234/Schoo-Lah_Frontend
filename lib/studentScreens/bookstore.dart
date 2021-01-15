@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import 'package:schoolah_mobile_app/models/book.dart';
 import 'package:schoolah_mobile_app/models/user.dart';
 import 'package:schoolah_mobile_app/services/book_data_service.dart';
@@ -23,17 +24,17 @@ class _BookstorePageState extends State<BookstorePageScreen> {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/qrsubjectlist');
+      Navigator.pushNamed(context, QRStudentcode);
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/studenthome');
+      Navigator.pushNamed(context, studHome);
     } else {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/studentprofile');
+      Navigator.pushNamed(context, studProfile);
     }
   }
 

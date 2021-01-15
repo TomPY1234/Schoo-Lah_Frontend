@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import 'package:schoolah_mobile_app/models/user.dart';
 import 'package:schoolah_mobile_app/services/user_data_service.dart';
 import '../dependencies.dart';
-import '../models/todo.dart';
-import '../studentScreens/tasklist.dart';
-import 'tasklistTeacher.dart';
 
 class TeacherStudentListScreen extends StatefulWidget {
   //final List<Todo> todo;
@@ -23,17 +21,17 @@ class _TeacherStudentListState extends State<TeacherStudentListScreen> {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/qrsubjectlist');
+      Navigator.pushNamed(context, teachQR);
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/teacherhome');
+      Navigator.pushNamed(context, teachHome);
     } else {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/teacherprofile');
+      Navigator.pushNamed(context, teachProfile);
     }
   }
 
@@ -87,7 +85,7 @@ class _TeacherStudentListState extends State<TeacherStudentListScreen> {
                   style: TextStyle(fontWeight: FontWeight.bold)),
               subtitle: Text('YEAR : ${students[index].year}'),
               onTap: () {
-                Navigator.pushNamed(context, '/teacherstudentlist');
+                Navigator.pushNamed(context, teachStudentList);
               }),
         ),
       ),

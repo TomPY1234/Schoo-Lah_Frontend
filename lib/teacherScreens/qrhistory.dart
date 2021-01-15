@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 
 class ScanScreen extends StatefulWidget {
   @override
@@ -14,17 +15,17 @@ class _ScanState extends State<ScanScreen> {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/qrsubjectlist');
+      Navigator.pushNamed(context, teachQR);
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/teacherhome');
+      Navigator.pushNamed(context, teachHome);
     } else {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/teacherprofile');
+      Navigator.pushNamed(context, teachProfile);
     }
   }
 

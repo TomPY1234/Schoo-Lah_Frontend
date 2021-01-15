@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import 'package:schoolah_mobile_app/services/todo_data_service.dart';
 import '../dependencies.dart';
 import '../models/todo.dart';
@@ -23,17 +24,17 @@ class _StudentSubjectListState extends State<StudentSubjectListScreen> {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/qrsubjectlist');
+      Navigator.pushNamed(context, QRStudentcode);
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/studenthome');
+      Navigator.pushNamed(context, studHome);
     } else {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/studentprofile');
+      Navigator.pushNamed(context, studProfile);
     }
   }
 

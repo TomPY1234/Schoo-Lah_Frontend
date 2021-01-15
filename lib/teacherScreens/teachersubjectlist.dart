@@ -23,17 +23,17 @@ class _TeacherSubjectListState extends State<TeacherSubjectListScreen> {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/qrsubjectlist');
+      Navigator.pushNamed(context, teachQR);
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/teacherhome');
+      Navigator.pushNamed(context, teachHome);
     } else {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/teacherprofile');
+      Navigator.pushNamed(context, teachProfile);
     }
   }
 

@@ -20,17 +20,17 @@ class _StudentProfileState extends State<StudentProfileScreen> {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/qrsubjectlist');
+      Navigator.pushNamed(context, QRStudentcode);
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/studenthome');
+      Navigator.pushNamed(context, studHome);
     } else {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/studentprofile');
+      Navigator.pushNamed(context, studProfile);
     }
   }
 

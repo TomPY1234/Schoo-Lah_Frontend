@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import 'package:schoolah_mobile_app/models/todo.dart';
 
 class StudentTaskListScreen extends StatefulWidget {
@@ -18,17 +19,17 @@ class _StudentTaskListState extends State<StudentTaskListScreen> {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/qrsubjectlist');
+      Navigator.pushNamed(context, QRStudentcode);
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/studenthome');
+      Navigator.pushNamed(context, studHome);
     } else {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/studentprofile');
+      Navigator.pushNamed(context, studProfile);
     }
   }
 

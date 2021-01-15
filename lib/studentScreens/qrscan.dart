@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 
 class QRScreen extends StatefulWidget {
   @override
@@ -14,17 +15,17 @@ class _QRState extends State<QRScreen> {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/qrsubjectlist');
+      Navigator.pushNamed(context, QRStudentcode);
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/studenthome');
+      Navigator.pushNamed(context, studHome);
     } else {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/studentprofile');
+      Navigator.pushNamed(context, studProfile);
     }
   }
 

@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
-import 'package:schoolah_mobile_app/models/task.dart';
 import 'package:schoolah_mobile_app/models/todo.dart';
 import 'package:schoolah_mobile_app/services/todo_data_service.dart';
-import 'package:schoolah_mobile_app/teacherScreens/addTask.dart';
 import '../dependencies.dart';
-import '../models/mock_todos.dart' as task;
-import '../models/mock_todos.dart' as data;
 
 class TaskListScreen extends StatefulWidget {
   //Todo _data;
@@ -28,17 +24,17 @@ class _TaskListScreenState extends State<TaskListScreen> {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/qrsubjectlist');
+      Navigator.pushNamed(context, teachQR);
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/teacherhome');
+      Navigator.pushNamed(context, teachHome);
     } else {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/teacherprofile');
+      Navigator.pushNamed(context, teachProfile);
     }
   }
 

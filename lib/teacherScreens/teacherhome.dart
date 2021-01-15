@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import '../models/user.dart';
 import 'package:provider/provider.dart';
 
@@ -19,17 +20,17 @@ class _TeacherHomePageState extends State<TeacherHomePageScreen> {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/qrsubjectlist');
+      Navigator.pushNamed(context, teachQR);
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/teacherhome');
+      Navigator.pushNamed(context, teachHome);
     } else {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/teacherprofile');
+      Navigator.pushNamed(context, teachProfile);
     }
   }
 
@@ -75,7 +76,7 @@ class _TeacherHomePageState extends State<TeacherHomePageScreen> {
               FloatingActionButton.extended(
                 heroTag: null,
                 onPressed: () {
-                  Navigator.pushNamed(context, '/teachersubjectlist');
+                  Navigator.pushNamed(context, teacherSubject);
                 },
                 label: Text('My Subjects',
                     style:

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import 'package:schoolah_mobile_app/models/todo.dart';
 import 'package:schoolah_mobile_app/services/todo_data_service.dart';
 
@@ -12,24 +13,23 @@ class DetailsScreen extends StatefulWidget {
 
 class _DetailsScreenState extends State<DetailsScreen> {
   int _selectedIndex = 0;
-  List<Todo> _todos;
 
   void _onItemTapped(int index) {
     if (index == 0) {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/qrsubjectlist');
+      Navigator.pushNamed(context, teachQR);
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/teacherhome');
+      Navigator.pushNamed(context, teachHome);
     } else {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, '/teacherprofile');
+      Navigator.pushNamed(context, teachProfile);
     }
   }
 
@@ -44,7 +44,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
         future: todoDataService.getTodoList(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            _todos = snapshot.data;
             return _buildMainScreen();
           }
           return _buildFetchingDataScreen();
@@ -144,7 +143,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
             FloatingActionButton.extended(
               heroTag: null,
               onPressed: () {
-                Navigator.pushNamed(context, '/qrhistory');
+                Navigator.pushNamed(context, QRcode);
               },
               label: Text('   GENERATE   ',
                   style:
