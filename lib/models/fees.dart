@@ -1,7 +1,7 @@
 class Fee {
   String monthFee;
   String date;
-  double amount;
+  var amount;
   String feeStatus;
 
   Fee({this.monthFee, this.date, this.amount, this.feeStatus});
