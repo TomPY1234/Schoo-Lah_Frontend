@@ -1,3 +1,5 @@
+import 'package:schoolah_mobile_app/services/book_data_service.dart';
+
 import 'book.dart';
 
 List<Book> mockBooks = [
@@ -62,3 +64,9 @@ List<Book> mockBooks = [
       price: 40.00,
       image: 'assets/book_five.jpeg')
 ];
+
+class BookDataServiceMock implements BookDataService {
+  Future<List<Book>> getBookList() async {
+    return [...mockBooks];
+  }
+}

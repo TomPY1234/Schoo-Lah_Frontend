@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:schoolah_mobile_app/mainScreens/signup.dart';
 import 'package:schoolah_mobile_app/mainScreens/splashscreen.dart';
 import 'package:schoolah_mobile_app/mainScreens/teachersignup.dart';
-import 'package:schoolah_mobile_app/models/data.dart';
+import 'package:schoolah_mobile_app/models/mock_users.dart';
 import 'package:schoolah_mobile_app/models/mock_books.dart';
 import 'package:schoolah_mobile_app/models/mock_todos.dart';
 import 'package:schoolah_mobile_app/studentScreens/bookstore.dart';

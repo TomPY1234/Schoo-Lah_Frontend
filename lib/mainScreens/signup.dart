@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:schoolah_mobile_app/models/user.dart';
-import '../models/data.dart' as data;
+import '../models/mock_users.dart' as data;
 
 class SignupPageScreen extends StatefulWidget {
   @override

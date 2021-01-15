@@ -4,7 +4,7 @@ import 'package:schoolah_mobile_app/teacherScreens/teacherhome.dart';
 import '../teacherScreens/teacherprofile.dart';
 import '../studentScreens/studenthome.dart';
 import '../models/user.dart';
-import '../models/data.dart' as data;
+import '../models/mock_users.dart' as data;
 
 class LoginPageScreen extends StatefulWidget {
   @override
