@@ -7,6 +7,7 @@ class User {
   String phone;
   String email;
   String school;
+  int id;
 
   User(
       {this.username,
@@ -16,14 +17,15 @@ class User {
       this.year,
       this.phone,
       this.email,
-      this.school});
+      this.school,
+      this.id});
 
-  Future login(String us, String pw, List<User> users) async {
+  /*Future login(String us, String pw, List<User> users) async {
     for (var u in users) {
       if (us == u.username && pw == u.password) {
         return Future.value(u);
       }
     }
     return null;
-  }
+  }*/
 }

@@ -34,20 +34,4 @@ class TodoDataServiceMock implements TodoDataService {
   Future<List<Todo>> getTodoList() async {
     return [...mockData];
   }
-
-  // Future<Todo> updateTodoStatus({int id, bool status}) async {
-  //   final matchedTodo = mockData.firstWhere((todo) => todo.items[0].id == id);
-  //   matchedTodo.items[0].completed = status;
-  //   return matchedTodo;
-  // }
-
-  // Future<Task> createTodo({Task task}) async {
-  //   todo.id = _nextId++;
-  //   mockData.add(todo);
-  //   return task;
-  // }
-
-  // Future deleteTodo({int id}) async {
-  //   mockData.removeWhere((todo) => todo.items[null].id == id);
-  // }
 }

@@ -32,12 +32,12 @@ Route<dynamic> createRoute(settings) {
     case homeRoute:
     case studHome:
       return MaterialPageRoute(
-        builder: (context) => StudentHomePageScreen(globalUserList[0]),
+        builder: (context) => StudentHomePageScreen(),
       );
 
     case studBook:
       return MaterialPageRoute(
-        builder: (context) => BookstorePageScreen(mockBooks, globalUserList[0]),
+        builder: (context) => BookstorePageScreen(),
       );
 
     case studFee:

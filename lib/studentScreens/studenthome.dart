@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
+import 'package:schoolah_mobile_app/services/user_data_service.dart';
+import '../dependencies.dart';
 import '../models/user.dart';
 import 'package:provider/provider.dart';
 
 class StudentHomePageScreen extends StatefulWidget {
-  User currUser;
-  StudentHomePageScreen(this.currUser);
+  //User currUser;
+  //StudentHomePageScreen(this.currUser);
   @override
-  _StudentHomePageState createState() => _StudentHomePageState(currUser);
+  _StudentHomePageState createState() => _StudentHomePageState();
 }
 
 class _StudentHomePageState extends State<StudentHomePageScreen> {
-  final User user;
+  User user;
   int _selectedIndex = 1;
-  _StudentHomePageState(this.user);
+  //_StudentHomePageState(this.user);
 
   void _onItemTapped(int index) {
     if (index == 0) {
@@ -37,6 +39,20 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final UserDataService userDataService = service();
+
+    return FutureBuilder<User>(
+        future: userDataService.getCurrentUser(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            user = snapshot.data;
+            return _buildMainScreen();
+          }
+          return _buildFetchingDataScreen();
+        });
+  }
+
+  Scaffold _buildMainScreen() {
     final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
 
     return Scaffold(
@@ -148,6 +164,21 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
               end: Alignment.bottomCenter,
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Scaffold _buildFetchingDataScreen() {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            SizedBox(height: 50),
+            Text('Fetching current user... Please wait'),
+          ],
         ),
       ),
     );

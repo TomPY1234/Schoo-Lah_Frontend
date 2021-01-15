@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:schoolah_mobile_app/models/user.dart';
-import '../models/mock_users.dart' as data;
+import 'package:schoolah_mobile_app/services/user_data_service.dart';
+import '../dependencies.dart';
 
 class SignupPageScreen extends StatefulWidget {
   @override
@@ -17,6 +17,8 @@ class SignupPageState extends State<SignupPageScreen> {
   String school;
   int year;
   String _value = 'student';
+  final UserDataService userDataService = service();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -182,7 +184,7 @@ class SignupPageState extends State<SignupPageScreen> {
                   FloatingActionButton.extended(
                     heroTag: null,
                     onPressed: () {
-                      final newuser = User(
+                      userDataService.registerNew(
                           username: username,
                           password: password,
                           name: name,
@@ -191,7 +193,6 @@ class SignupPageState extends State<SignupPageScreen> {
                           email: email,
                           type: _value,
                           phone: phone);
-                      data.globalUserList.add(newuser);
                       Navigator.pushNamed(context, '/login');
                     },
                     label: Text('       SIGN UP       ',

@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:schoolah_mobile_app/services/user_data_service.dart';
 import 'package:schoolah_mobile_app/teacherScreens/teacherhome.dart';
-import '../teacherScreens/teacherprofile.dart';
+import '../dependencies.dart';
 import '../studentScreens/studenthome.dart';
 import '../models/user.dart';
-import '../models/mock_users.dart' as data;
 
 class LoginPageScreen extends StatefulWidget {
   @override
@@ -14,6 +14,8 @@ class LoginPageScreen extends StatefulWidget {
 class _LoginPageState extends State<LoginPageScreen> {
   String username;
   String password;
+  final UserDataService userDataService = service();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,8 +82,8 @@ class _LoginPageState extends State<LoginPageScreen> {
                   FloatingActionButton.extended(
                     heroTag: null,
                     onPressed: () async {
-                      final User success = await data.globalUserList[0]
-                          .login(username, password, data.globalUserList);
+                      final User success =
+                          await userDataService.login(username, password);
                       if (success == null) {
                         showAlertDialog(context);
                       } else if (success.type == 'teacher') {
@@ -92,7 +94,7 @@ class _LoginPageState extends State<LoginPageScreen> {
                       } else if (success.type == 'student') {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return StudentHomePageScreen(success);
+                          return StudentHomePageScreen();
                         }));
                       }
                     },

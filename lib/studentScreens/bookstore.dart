@@ -2,19 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:schoolah_mobile_app/models/book.dart';
 import 'package:schoolah_mobile_app/models/user.dart';
+import 'package:schoolah_mobile_app/services/book_data_service.dart';
+
+import '../dependencies.dart';
 
 class BookstorePageScreen extends StatefulWidget {
-  final List<Book> books;
-  final User currUser;
-  BookstorePageScreen(this.books, this.currUser);
+  //final List<Book> books;
+  //final User currUser;
+  BookstorePageScreen();
   @override
-  _BookstorePageState createState() => _BookstorePageState(this.books);
+  _BookstorePageState createState() => _BookstorePageState();
 }
 
 class _BookstorePageState extends State<BookstorePageScreen> {
   int _selectedIndex = 1;
   List<Book> books;
-  _BookstorePageState(this.books);
+  //_BookstorePageState(s);
   void _onItemTapped(int index) {
     if (index == 0) {
       setState(() {
@@ -37,8 +40,21 @@ class _BookstorePageState extends State<BookstorePageScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final BookDataService bookDataService = service();
+
+    return FutureBuilder<List<Book>>(
+        future: bookDataService.getBookList(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            books = snapshot.data;
+            return _buildMainScreen();
+          }
+          return _buildFetchingDataScreen();
+        });
+  }
+
+  Scaffold _buildMainScreen() {
     final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
-    //final List<Book> currBook = studBooks();
     return Scaffold(
       appBar: AppBar(
         title: Text('BOOKSTORE'),
@@ -61,20 +77,20 @@ class _BookstorePageState extends State<BookstorePageScreen> {
           ),
         ),
         child: ListView.separated(
-          itemCount: widget.books.length,
+          itemCount: books.length,
           separatorBuilder: (context, index) => Divider(
             color: Colors.black,
             thickness: 5.0,
           ),
           itemBuilder: (context, index) => ListTile(
             tileColor: Colors.deepOrange[700],
-            leading: Image.asset(widget.books[index].image),
-            title: Text(widget.books[index].title,
+            leading: Image.asset(books[index].image),
+            title: Text(books[index].title,
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 17.0)),
-            subtitle: Text('RM ${widget.books[index].price.toString()}',
+            subtitle: Text('RM ${books[index].price.toString()}',
                 style: TextStyle(color: Colors.white)),
             onTap: () {},
           ),
@@ -122,14 +138,18 @@ class _BookstorePageState extends State<BookstorePageScreen> {
     );
   }
 
-  /*List<Book> studBooks() {
-    List<Book> currBook;
-    for (var b in books) {
-      if (b.year == widget.currUser.year) {
-        print(b);
-        currBook.add(b);
-      }
-    }
-    return currBook;
-  }*/
+  Scaffold _buildFetchingDataScreen() {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            SizedBox(height: 50),
+            Text('Fetching books... Please wait'),
+          ],
+        ),
+      ),
+    );
+  }
 }
