@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:schoolah_mobile_app/services/todo_data_service.dart';
+import '../dependencies.dart';
 import '../models/todo.dart';
 import '../studentScreens/tasklist.dart';
 
@@ -13,6 +15,8 @@ class StudentSubjectListScreen extends StatefulWidget {
 
 class _StudentSubjectListState extends State<StudentSubjectListScreen> {
   int _selectedIndex = 1;
+  List<Todo> _todos;
+
   void _onItemTapped(int index) {
     if (index == 0) {
       setState(() {
@@ -47,6 +51,20 @@ class _StudentSubjectListState extends State<StudentSubjectListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final TodoDataService todoDataService = service();
+
+    return FutureBuilder<List<Todo>>(
+        future: todoDataService.getTodoList(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            _todos = snapshot.data;
+            return _buildMainScreen();
+          }
+          return _buildFetchingDataScreen();
+        });
+  }
+
+  Scaffold _buildMainScreen() {
     final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
 
     return Scaffold(
@@ -73,16 +91,16 @@ class _StudentSubjectListState extends State<StudentSubjectListScreen> {
           ),
         ),
         child: ListView.separated(
-          itemCount: widget.todo.length,
+          itemCount: _todos.length,
           separatorBuilder: (context, index) => Divider(color: Colors.black),
           itemBuilder: (context, index) => ListTile(
             tileColor: Colors.yellow[700],
-            title: Text(widget.todo[index].title,
+            title: Text(_todos[index].title,
                 style: TextStyle(fontWeight: FontWeight.bold)),
             subtitle:
                 Text('TOTAL TASKS : ${widget.todo[index].items.length} TASKS'),
             trailing: CircleAvatar(
-              child: Text(widget.todo[index].percent.round().toString(),
+              child: Text(_todos[index].percent.round().toString(),
                   style: TextStyle(color: Colors.black)),
               backgroundColor: Colors.yellow,
             ),
@@ -130,6 +148,21 @@ class _StudentSubjectListState extends State<StudentSubjectListScreen> {
               end: Alignment.bottomCenter,
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Scaffold _buildFetchingDataScreen() {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            SizedBox(height: 50),
+            Text('Fetching todo... Please wait'),
+          ],
         ),
       ),
     );
