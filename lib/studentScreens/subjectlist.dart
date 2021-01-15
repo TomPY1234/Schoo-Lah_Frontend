@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:schoolah_mobile_app/services/todo_data_service.dart';
 import '../dependencies.dart';
@@ -81,32 +82,109 @@ class _StudentSubjectListState extends State<StudentSubjectListScreen> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Colors.orange[200],
-              Colors.orange[50],
-              Colors.orange[200],
-            ],
+            colors: [Colors.orange[200], Colors.orange[50], Colors.orange[200]],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
         ),
-        child: ListView.separated(
-          itemCount: _todos.length,
-          separatorBuilder: (context, index) => Divider(color: Colors.black),
-          itemBuilder: (context, index) => ListTile(
-            tileColor: getTileColor(_todos[index].percent.toInt()),
-            title: Text(_todos[index].title,
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            subtitle:
-                Text('TOTAL TASKS : ${widget.todo[index].items.length} TASKS'),
-            trailing: CircleAvatar(
-              child: Text(_todos[index].percent.round().toString(),
-                  style: TextStyle(color: Colors.black)),
-              backgroundColor: getCircleAvatarColor(_todos[index].percent.toInt()),
-            ),
-            onTap: () {
-              _navigate(index);
-            },
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'My Subjects'.toUpperCase(),
+                style: TextStyle(
+                  fontSize: 22, 
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+              Padding(padding: EdgeInsets.only(top: 15)),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _todos.length,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      margin: EdgeInsets.only(bottom: 15),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [BoxShadow(
+                          color: Colors.grey[300],
+                          offset: Offset(0, 0),
+                          blurRadius: 5,
+                        ),],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Material(
+                          child: InkWell(
+                            highlightColor: Colors.white.withAlpha(50),
+                            onTap: () { _navigate(index); },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                ClipRRect(
+                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                                  child: Image.asset('', fit: BoxFit.cover, width: double.infinity),
+                                ),
+                                
+                                Padding(
+                                  padding: EdgeInsets.all(15),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        _todos[index].title.toUpperCase(),
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+
+                                      Padding(padding: EdgeInsets.only(top: 5)),
+
+                                      Text(
+                                        'TOTAL TASKS : ${widget.todo[index].items.length} TASKS',
+                                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                                      ),
+
+                                      Divider(color: Colors.grey[300], height: 25),
+
+                                      Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                            child: Container(
+                                              margin: EdgeInsets.only(right: 15),
+                                              child: LinearPercentIndicator(
+                                                animation: true,
+                                                lineHeight: 5.0,
+                                                animationDuration: 2500,
+                                                percent: 0.7,
+                                                backgroundColor: Colors.grey[200],
+                                                linearStrokeCap: LinearStrokeCap.roundAll,
+                                                progressColor: getCircleAvatarColor(_todos[index].percent.toInt()),
+                                              ),
+                                            ),
+                                          ),
+                                          
+                                          Column(children: <Widget>[ Text(_todos[index].percent.round().toString() + '%'), ],)
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -192,4 +270,3 @@ Color getTileColor(int percent)
   else
   { return Colors.red[200]; }
 }
-
