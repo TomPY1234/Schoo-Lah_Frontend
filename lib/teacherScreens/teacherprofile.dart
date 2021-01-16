@@ -55,41 +55,43 @@ class _TeacherProfileState extends State<TeacherProfileScreen> {
     String phone;
     String email;
     return Scaffold(
+      backgroundColor: Theme.of(context).accentColor,
       appBar: AppBar(
-        //backgroundColor: Colors.white,
-        //leading: Icon(Icons.settings, size: 40.0),
-        title: Text('MY PROFILE'),
+        title: Text('My Profile', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
         centerTitle: true,
         actions: <Widget>[
-          Icon(Icons.calendar_today_rounded, size: 35.0),
-          SizedBox(width: 12.0)
+          IconButton(
+            icon: Icon(Icons.arrow_back), 
+            onPressed: () => Navigator.pushNamed(context, teachHome),
+          ),
         ],
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.orange[200],
-              Colors.orange[50],
-              Colors.orange[200],
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
           child: Center(
             child: Padding(
               padding: const EdgeInsets.all(30.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(
-                      height: 150.0,
-                      child: Icon(
-                        Icons.supervised_user_circle_rounded,
-                        size: 150.0,
-                      )),
+                  Stack(
+                    children: <Widget>[
+                      CircleAvatar(
+                        radius: 70,
+                        backgroundImage: NetworkImage('https://randomuser.me/api/portraits/thumb/women/4.jpg'),
+                      ),
+                      Positioned(
+                        bottom: 1, 
+                        right: 1,
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          child: Icon(Icons.add_a_photo, color: Colors.white),
+                          decoration: BoxDecoration(color: Colors.deepOrange, borderRadius: BorderRadius.all(Radius.circular(20))),
+                        ),
+                      )
+                    ],
+                  ),
+                  Padding(padding: EdgeInsets.only(top: 15)),
                   Text('NAME',
                       style: TextStyle(
                           fontSize: 22.0, fontWeight: FontWeight.bold)),
@@ -148,6 +150,7 @@ class _TeacherProfileState extends State<TeacherProfileScreen> {
                   ),
                   SizedBox(height: 15.0),
                   FloatingActionButton.extended(
+                    backgroundColor: Theme.of(context).primaryColorLight,
                     heroTag: null,
                     onPressed: () {
                       UserDataService userDataService = service();
@@ -175,9 +178,8 @@ class _TeacherProfileState extends State<TeacherProfileScreen> {
             ),
           ),
         ),
-      ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).primaryColor,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.qr_code_scanner_rounded),
@@ -194,26 +196,17 @@ class _TeacherProfileState extends State<TeacherProfileScreen> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.black,
         onTap: _onItemTapped,
       ),
       drawer: Drawer(
         child: DrawerHeader(
           child: CheckboxListTile(
-            title: Text('Change theme color'),
+            title: Text('Change Theme Color'),
             value: changeModeNotifier.value,
             onChanged: (newValue) => changeModeNotifier.value = newValue,
           ),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.orange[200],
-                Colors.orange[50],
-                Colors.orange[200],
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
+          decoration: BoxDecoration(color: Theme.of(context).primaryColor),
         ),
       ),
     );

@@ -70,65 +70,77 @@ class _TaskListScreenState extends State<TaskListScreen> {
     final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
 
     return Scaffold(
+      backgroundColor: Theme.of(context).accentColor,
       appBar: AppBar(
-        //backgroundColor: Colors.white,
-        //leading: Icon(Icons.settings, size: 40.0),
         title: Column(
           children: <Widget>[
-            Text('${_data.title}',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            //Text('YEAR 3', style: TextStyle(fontSize: 15)),
+            Text('Task Details', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           ],
         ),
         centerTitle: true,
         actions: <Widget>[
-          Icon(Icons.calendar_today_rounded, size: 35.0),
-          SizedBox(width: 12.0)
+          IconButton(
+            icon: Icon(Icons.arrow_back), 
+            onPressed: () => Navigator.pushNamed(context, teacherSubject),
+          ),
         ],
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.orange[200],
-              Colors.orange[50],
-              Colors.orange[200],
+      body: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text('${_data.title}'.toUpperCase(), style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+
+              Padding(padding: EdgeInsets.only(top: 15)),
+
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _data.items.length,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      margin: EdgeInsets.only(bottom: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey[300],
+                            offset: Offset(0, 0),
+                            blurRadius: 5,
+                          ),
+                        ],
+                      ),
+                      child: ListTile(
+                        leading: Container(
+                          padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
+                          child: Text(
+                            '${index+1}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        tileColor: Colors.greenAccent[400],
+                        title: Text( _data.items[index].title),
+                        onLongPress: () => setState(() => _data.items.removeAt(index)),
+                      ),
+                    );
+                  },
+                ),
+              ),
             ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
           ),
         ),
-        child: ListView.separated(
-          itemCount: _data.items.length,
-          separatorBuilder: (context, index) => Divider(color: Colors.black),
-          itemBuilder: (context, index) => ListTile(
-            tileColor: Colors.greenAccent[400],
-            title: Text(
-              _data.items[index].title,
-              // style: widget._data.items[index].completed
-              //     ? TextStyle(decoration: TextDecoration.lineThrough)
-              //     : TextStyle(decoration: null),
-            ),
-            // onTap: () => setState(() {
-            //   if (widget._data.items[index].completed == true) {
-            //     widget._data.items[index].completed = false;
-            //     toggle = true;
-            //     count[index] = 1;
-            //   } else {
-            //     widget._data.items[index].completed = true;
-            //     toggle = true;
-            //     count[index] = 1;
-            //   }
-            // }),
-            onLongPress: () => setState(() => _data.items.removeAt(index)),
-          ),
-        ),
-      ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           Text('   '),
           FloatingActionButton.extended(
+            backgroundColor: Theme.of(context).primaryColorLight,
             heroTag: null,
             onPressed: () {
               Navigator.pushNamed(context, teachAddTask);
@@ -141,7 +153,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).primaryColor,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.qr_code_scanner_rounded),
@@ -157,27 +169,18 @@ class _TaskListScreenState extends State<TaskListScreen> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.grey[500],
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.black,
         onTap: _onItemTapped,
       ),
       drawer: Drawer(
         child: DrawerHeader(
           child: CheckboxListTile(
-            title: Text('Change theme color'),
+            title: Text('Change Theme Color'),
             value: changeModeNotifier.value,
             onChanged: (newValue) => changeModeNotifier.value = newValue,
           ),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.orange[200],
-                Colors.orange[50],
-                Colors.orange[200],
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
+          decoration: BoxDecoration(color: Theme.of(context).primaryColor),
         ),
       ),
     );

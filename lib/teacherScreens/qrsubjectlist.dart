@@ -54,64 +54,58 @@ class _DetailsScreenState extends State<DetailsScreen> {
     final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
 
     return Scaffold(
+      backgroundColor: Theme.of(context).accentColor,
       appBar: AppBar(
-        // leading: Container(),
-        title: Text('QR CODE GENERATOR'),
+        title: Text('QR Generator', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
         centerTitle: true,
         actions: <Widget>[
-          Icon(Icons.calendar_today_rounded, size: 35.0),
-          SizedBox(width: 12.0)
+          IconButton(
+            icon: Icon(Icons.arrow_back), 
+            onPressed: () => Navigator.pushNamed(context, teachHome),
+          ),
         ],
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.orange[200],
-              Colors.orange[50],
-              Colors.orange[200],
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: Center(
-          child: Column(children: [
-            SizedBox(height: 80.0),
-            Text('Subject',
-                style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold)),
-            SizedBox(height: 20.0),
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Padding(padding: EdgeInsets.only(top: 15)),
+            Image.asset('assets/QRSCAN.png', width: 100.0, height: 100.0),
+
+            Divider(color: Colors.grey[300], height: 25),
+            Padding(padding: EdgeInsets.only(top: 10)),
+
+            Text('Subject', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
+
             DropdownButton<String>(
               items: <String>[
                 'Choose Subject',
-                'Mathematic',
+                'Mathematics',
                 'Science',
-                'Bahasa Melayu',
+                'Bahasa Malaysia',
                 'English',
               ].map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
-                ); //DropMenuItem
+                ); 
               }).toList(),
               value: dropdownValue,
               onChanged: (String newValue) {
                 setState(() {
                   dropdownValue = newValue;
                   print("new${newValue}");
-                }); //setState
+                }); 
               },
-              //OnChange
-              isExpanded: false,
-              hint: Text(
-                'Choose subject',
-                style: TextStyle(color: Colors.black),
-              ),
+              isExpanded: true,
+              hint: Text('Choose Subject', style: TextStyle(color: Colors.black)),
             ),
-            SizedBox(height: 31.0),
-            Text('Year',
-                style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold)),
-            SizedBox(height: 20.0),
+
+            Padding(padding: EdgeInsets.only(top: 10)),
+            Text('Year', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
+
             DropdownButton<String>(
               items: <String>[
                 'Select Year',
@@ -119,6 +113,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 'Year 2',
                 'Year 3',
                 'Year 4',
+                'Year 5',
+                'Year 6',
               ].map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
@@ -130,30 +126,26 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 setState(() {
                   dropdownValue1 = newValue;
                   print("new${newValue}");
-                }); //setState
+                });
               },
-              //OnChange
-              isExpanded: false,
-              hint: Text(
-                'Select Year',
-                style: TextStyle(color: Colors.black),
-              ),
+              isExpanded: true,
+              hint: Text('Select Year', style: TextStyle(color: Colors.black)),
             ),
-            SizedBox(height: 20.0),
+
+            Padding(padding: EdgeInsets.only(top: 10)),
             FloatingActionButton.extended(
+              backgroundColor: Theme.of(context).primaryColorLight,
               heroTag: null,
               onPressed: () {
                 Navigator.pushNamed(context, QRcode);
               },
-              label: Text('   GENERATE   ',
-                  style:
-                      TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
+              label: Text('GENERATE', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
             ),
-          ]),
+          ],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).primaryColor,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.qr_code_scanner_rounded),
@@ -170,26 +162,17 @@ class _DetailsScreenState extends State<DetailsScreen> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.black,
         onTap: _onItemTapped,
       ),
       drawer: Drawer(
         child: DrawerHeader(
           child: CheckboxListTile(
-            title: Text('Change theme color'),
+            title: Text('Change Theme Color'),
             value: changeModeNotifier.value,
             onChanged: (newValue) => changeModeNotifier.value = newValue,
           ),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.orange[200],
-                Colors.orange[50],
-                Colors.orange[200],
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
+          decoration: BoxDecoration(color: Theme.of(context).primaryColor),
         ),
       ),
     );

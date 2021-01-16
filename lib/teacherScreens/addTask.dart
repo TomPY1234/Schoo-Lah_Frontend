@@ -64,37 +64,53 @@ class _AddTaskState extends State<AddTaskScreen> {
     final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
 
     return Scaffold(
+      backgroundColor: Theme.of(context).accentColor,
       appBar: AppBar(
-        //backgroundColor: Colors.white,
-        //leading: Icon(Icons.settings, size: 40.0),
-        title: Text('Add Task'),
+        title: Text('Add Task', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         centerTitle: true,
         actions: <Widget>[
-          Icon(Icons.calendar_today_rounded, size: 35.0),
-          SizedBox(width: 12.0)
+          IconButton(
+            icon: Icon(Icons.arrow_back), 
+            onPressed: () => Navigator.pushNamed(context, teachTask),
+          ),
         ],
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.orange[200],
-              Colors.orange[50],
-              Colors.orange[200],
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: Center(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Text('Add task for ${_data.title}',
-                  style:
-                      TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold)),
-              SizedBox(height: 20.0),
-              SizedBox(height: 20.0),
+              Card(
+                margin: EdgeInsets.all(10.0),
+                elevation: 1.0,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(50.0))),
+                child: Container(
+                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10.0)),
+                  child: SizedBox(
+                    height: 180.0,
+                    width: 380.0,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        ClipRRect(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10)),
+                          child: Image.asset('assets/${_data.title.toUpperCase()}.png',
+                            fit: BoxFit.cover,
+                            width: double.infinity),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+              Text('Enter Task Name', textAlign: TextAlign.center, style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
+              Padding(padding: EdgeInsets.only(top: 15)),
+
               TextField(
                 obscureText: false,
                 onChanged: (value) => title = value,
@@ -103,28 +119,30 @@ class _AddTaskState extends State<AddTaskScreen> {
                   fillColor: Colors.white,
                   filled: true,
                   contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                  hintText: 'Task name',
+                  hintText: 'Task Name',
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(32.0)),
                 ),
               ),
-              SizedBox(height: 20.0),
+
+              Padding(padding: EdgeInsets.only(top: 15)),
+
               FloatingActionButton.extended(
+                backgroundColor: Theme.of(context).primaryColorLight,
                 heroTag: null,
                 onPressed: () {
                   todoDataService.createTodo(todo: _data, task: title);
                   Navigator.pushNamed(context, teacherSubject);
                 },
-                label: Text('       ADD       ',
-                    style:
-                        TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
+                label: Text('Add Task', style:TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
+                icon: Icon(Icons.add),
               ),
             ],
           ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).primaryColor,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.qr_code_scanner_rounded),
@@ -141,26 +159,17 @@ class _AddTaskState extends State<AddTaskScreen> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.black,
         onTap: _onItemTapped,
       ),
       drawer: Drawer(
         child: DrawerHeader(
           child: CheckboxListTile(
-            title: Text('Change theme color'),
+            title: Text('Change Theme Color'),
             value: changeModeNotifier.value,
             onChanged: (newValue) => changeModeNotifier.value = newValue,
           ),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.orange[200],
-                Colors.orange[50],
-                Colors.orange[200],
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
+          decoration: BoxDecoration(color: Theme.of(context).primaryColor),
         ),
       ),
     );

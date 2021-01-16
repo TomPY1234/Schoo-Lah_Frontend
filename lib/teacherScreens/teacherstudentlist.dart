@@ -56,41 +56,79 @@ class _TeacherStudentListState extends State<TeacherStudentListScreen> {
     final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
 
     return Scaffold(
+      backgroundColor: Theme.of(context).accentColor,
       appBar: AppBar(
-        title: Text('STUDENT LIST'),
+        title: Text('My Students', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
         centerTitle: true,
         actions: <Widget>[
-          Icon(Icons.calendar_today_rounded, size: 35.0),
-          SizedBox(width: 12.0)
+          IconButton(
+            icon: Icon(Icons.arrow_back), 
+            onPressed: () => Navigator.pushNamed(context, teachHome),
+          ),
         ],
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.orange[200],
-              Colors.orange[50],
-              Colors.orange[200],
+      body: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              SizedBox(
+                height: 100.0,
+                child: Image.asset(
+                  'assets/schoolah_logo.png',
+                  width: 100.0,
+                  height: 100.0,
+                ),
+              ),
+
+              Divider(color: Colors.grey[300], height: 25),
+              Padding(padding: EdgeInsets.only(top: 15)),
+
+              Expanded(
+                child: ListView.builder(
+                  itemCount: students.length,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      margin: EdgeInsets.only(bottom: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey[300],
+                            offset: Offset(0, 0),
+                            blurRadius: 5,
+                          ),
+                        ],
+                      ),
+                      child: ListTile(
+                        leading: Container(
+                          padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
+                          child: Text(
+                            '${index+1}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        tileColor: Colors.greenAccent[400],
+                        title: Text(students[index].name, style: TextStyle(fontWeight: FontWeight.bold)),
+                        subtitle: Text('YEAR : ${students[index].year}'),
+                        onTap: () { Navigator.pushNamed(context, teachStudentList); }
+                      ),
+                    );
+                  },
+                ),
+              ),
             ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
           ),
         ),
-        child: ListView.separated(
-          itemCount: students.length,
-          separatorBuilder: (context, index) => Divider(color: Colors.black),
-          itemBuilder: (context, index) => ListTile(
-              tileColor: Colors.yellow[700],
-              title: Text(students[index].name,
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              subtitle: Text('YEAR : ${students[index].year}'),
-              onTap: () {
-                Navigator.pushNamed(context, teachStudentList);
-              }),
-        ),
-      ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).primaryColor,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.qr_code_scanner_rounded),
@@ -106,27 +144,18 @@ class _TeacherStudentListState extends State<TeacherStudentListScreen> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.grey[500],
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.black,
         onTap: _onItemTapped,
       ),
       drawer: Drawer(
         child: DrawerHeader(
           child: CheckboxListTile(
-            title: Text('Change theme color'),
+            title: Text('Change Theme Color'),
             value: changeModeNotifier.value,
             onChanged: (newValue) => changeModeNotifier.value = newValue,
           ),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.orange[200],
-                Colors.orange[50],
-                Colors.orange[200],
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
+          decoration: BoxDecoration(color: Theme.of(context).primaryColor),
         ),
       ),
     );
