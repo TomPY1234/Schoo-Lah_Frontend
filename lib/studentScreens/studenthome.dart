@@ -13,9 +13,14 @@ class StudentHomePageScreen extends StatefulWidget {
 }
 
 class _StudentHomePageState extends State<StudentHomePageScreen> {
+  List dashboard = [
+    'My Subjects',
+    'Financial Status',
+    'E-Bookstore',
+  ];
+
   User user;
   int _selectedIndex = 1;
-  //_StudentHomePageState(this.user);
 
   void _onItemTapped(int index) {
     if (index == 0) {
@@ -55,78 +60,90 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
     final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
 
     return Scaffold(
+      backgroundColor: Theme.of(context).accentColor,
       appBar: AppBar(
-        //backgroundColor: Colors.white,
-        //leading: Icon(Icons.settings, size: 40.0),
-        title: Text('HI, ${user.name}'),
+        title: Text('HI, ${user.name}', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
         centerTitle: true,
         actions: <Widget>[
-          Icon(Icons.calendar_today_rounded, size: 35.0),
-          SizedBox(width: 12.0)
+            IconButton(
+              icon: Icon(Icons.logout, color: Colors.red, size: 35),
+              onPressed: () { Navigator.pushNamed(context, '/login'); },
+            ),
         ],
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.orange[200],
-              Colors.orange[50],
-              Colors.orange[200],
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: Center(
+      body: Padding(
+          padding: const EdgeInsets.all(15.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(
-                height: 220.0,
-                child: Image.asset(
-                  'assets/schoolah_logo.png',
-                  width: 200.0,
-                  height: 200.0,
+              Padding(padding: EdgeInsets.only(top: 15)),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: dashboard.length,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      margin: EdgeInsets.only(bottom: 15),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey[300],
+                            offset: Offset(0, 0),
+                            blurRadius: 5,
+                          ),
+                        ],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Material(
+                          child: InkWell(
+                            highlightColor: Colors.white.withAlpha(50),
+                            onTap: () {
+                              if (dashboard[index] == 'My Subjects')
+                              { Navigator.pushNamed(context, studSubject); }
+                              else if (dashboard[index] == 'Financial Status')
+                              { Navigator.pushNamed(context, studFee); }
+                              else 
+                              { Navigator.pushNamed(context, studBook); }
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                ClipRRect(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(10),
+                                      topRight: Radius.circular(10)),
+                                  child: Image.asset('assets/${dashboard[index]}.png',
+                                      fit: BoxFit.cover,
+                                      width: double.infinity),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(15),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(dashboard[index], style: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.bold),
+                                      ),
+                                      Padding(padding: EdgeInsets.only(top: 5)),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
-              FloatingActionButton.extended(
-                heroTag: null,
-                onPressed: () {
-                  Navigator.pushNamed(context, studSubject);
-                },
-                label: Text('My Subjects',
-                    style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
-                icon: Icon(Icons.book_rounded),
-              ),
-              SizedBox(height: 30.0),
-              FloatingActionButton.extended(
-                heroTag: null,
-                onPressed: () {
-                  Navigator.pushNamed(context, studFee);
-                },
-                label: Text('Tuition Fee  ',
-                    style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
-                icon: Icon(Icons.attach_money_rounded),
-              ),
-              SizedBox(height: 30.0),
-              FloatingActionButton.extended(
-                heroTag: null,
-                onPressed: () {
-                  Navigator.pushNamed(context, studBook);
-                },
-                label: Text('E-Bookstore ',
-                    style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
-                icon: Icon(Icons.store_rounded),
-              ),
             ],
           ),
         ),
-      ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).primaryColor,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.qr_code_scanner_rounded),
@@ -143,26 +160,17 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.black,
         onTap: _onItemTapped,
       ),
       drawer: Drawer(
         child: DrawerHeader(
           child: CheckboxListTile(
-            title: Text('Change theme color'),
+            title: Text('Change Theme Color'),
             value: changeModeNotifier.value,
             onChanged: (newValue) => changeModeNotifier.value = newValue,
           ),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.orange[200],
-                Colors.orange[50],
-                Colors.orange[200],
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
+          decoration: BoxDecoration(color: Theme.of(context).primaryColor),
         ),
       ),
     );

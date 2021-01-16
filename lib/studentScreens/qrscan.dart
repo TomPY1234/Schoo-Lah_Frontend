@@ -34,29 +34,18 @@ class _QRState extends State<QRScreen> {
     final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
 
     return Scaffold(
+      backgroundColor: Theme.of(context).accentColor,
       appBar: AppBar(
-        //backgroundColor: Colors.white,
-        //leading: Icon(Icons.settings, size: 40.0),
-        title: Text('QR SCANNER'),
+        title: Text('QR Scanner', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
         centerTitle: true,
         actions: <Widget>[
-          Icon(Icons.calendar_today_rounded, size: 35.0),
-          SizedBox(width: 12.0)
+          IconButton(
+            icon: Icon(Icons.arrow_back), 
+            onPressed: () => Navigator.pop(context),
+          ),
         ],
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.orange[200],
-              Colors.orange[50],
-              Colors.orange[200],
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: Center(
+      body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -76,9 +65,8 @@ class _QRState extends State<QRScreen> {
             ],
           ),
         ),
-      ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).primaryColor,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.qr_code_scanner_rounded),
@@ -95,26 +83,17 @@ class _QRState extends State<QRScreen> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.black,
         onTap: _onItemTapped,
       ),
       drawer: Drawer(
         child: DrawerHeader(
           child: CheckboxListTile(
-            title: Text('Change theme color'),
+            title: Text('Change Theme Color'),
             value: changeModeNotifier.value,
             onChanged: (newValue) => changeModeNotifier.value = newValue,
           ),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.orange[200],
-                Colors.orange[50],
-                Colors.orange[200],
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
+          decoration: BoxDecoration(color: Theme.of(context).primaryColor),
         ),
       ),
     );

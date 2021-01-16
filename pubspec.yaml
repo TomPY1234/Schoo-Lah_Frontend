@@ -59,6 +59,13 @@ flutter:
     - assets/book_eight.jpeg
     - assets/qr.jpeg
     - assets/QRSCAN.png
+    - assets/BAHASA MALAYSIA.png
+    - assets/MATHEMATICS.png
+    - assets/SCIENCE.png
+    - assets/My Subjects.png
+    - assets/My Students.png
+    - assets/Financial Status.png
+    - assets/E-Bookstore.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -8,7 +8,7 @@ import 'package:schoolah_mobile_app/models/todo.dart';
 import 'package:schoolah_mobile_app/services/todo_data_service.dart';
 
 List<Todo> mockData = [
-  Todo(title: 'Mathematic', items: [
+  Todo(title: 'Mathematics', items: [
     Task(id: 1, title: "Quiz 1: Addition & Substraction", completed: true),
     Task(id: 2, title: "Exercise multiplication", completed: false),
     Task(id: 3, title: "Homework: Let's learn about money", completed: true),
