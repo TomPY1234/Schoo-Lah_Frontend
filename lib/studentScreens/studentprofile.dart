@@ -65,7 +65,7 @@ class _StudentProfileState extends State<StudentProfileScreen> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.arrow_back), 
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pushNamed(context, studHome),
           ),
         ],
       ),

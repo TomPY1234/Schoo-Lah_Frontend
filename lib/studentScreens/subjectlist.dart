@@ -76,8 +76,7 @@ class _StudentSubjectListState extends State<StudentSubjectListScreen> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.arrow_back), 
-            onPressed: () => Navigator.pop(context),
-            // onPressed: () => Navigator.pushNamed(context, studHome),
+            onPressed: () => Navigator.pushNamed(context, studHome),
           ),
         ],
       ),

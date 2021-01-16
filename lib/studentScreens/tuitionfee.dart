@@ -60,7 +60,7 @@ class _TuitionFeeState extends State<TuitionFeeScreen> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.arrow_back), 
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pushNamed(context, studHome),
           ),
         ],
       ),

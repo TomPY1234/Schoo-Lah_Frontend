@@ -56,48 +56,76 @@ class _BookstorePageState extends State<BookstorePageScreen> {
   Scaffold _buildMainScreen() {
     final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
     return Scaffold(
+      backgroundColor: Theme.of(context).accentColor,
       appBar: AppBar(
-        title: Text('BOOKSTORE'),
+        title: Text('E-Bookstore', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
         centerTitle: true,
         actions: <Widget>[
-          Icon(Icons.calendar_today_rounded, size: 35.0),
-          SizedBox(width: 12.0)
+          IconButton(
+            icon: Icon(Icons.arrow_back), 
+            onPressed: () => Navigator.pushNamed(context, studHome),
+          ),
         ],
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.orange[200],
-              Colors.orange[50],
-              Colors.orange[200],
+      body: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Card(
+                margin: EdgeInsets.all(10.0),
+                elevation: 1.0,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(50.0))),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                    child: Image.asset(
+                      'assets/E-Bookstore.png',
+                      fit: BoxFit.cover,
+                      width: double.infinity
+                    ),
+                ),
+              ),
+
+              Text('Explore all these Activity Books here !', textAlign: TextAlign.center, style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+              Divider(color: Colors.grey[500], height: 25),
+              Padding(padding: EdgeInsets.only(top: 10)),
+
+              Expanded(
+                child: ListView.builder(
+                  itemCount: books.length,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      margin: EdgeInsets.only(bottom: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey[300],
+                            offset: Offset(0, 0),
+                            blurRadius: 5,
+                          ),
+                        ],
+                      ),
+                      child: ListTile(
+                        leading: Container(
+                          padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
+                          child: Image.asset(books[index].image),
+                        ),
+                        tileColor: Theme.of(context).primaryColorLight,
+                        title: Text(books[index].title, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 17.0)),
+                      ),
+                    );
+                  },
+                ),
+              ),
             ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
           ),
         ),
-        child: ListView.separated(
-          itemCount: books.length,
-          separatorBuilder: (context, index) => Divider(
-            color: Colors.black,
-            thickness: 5.0,
-          ),
-          itemBuilder: (context, index) => ListTile(
-            tileColor: Colors.deepOrange[700],
-            leading: Image.asset(books[index].image),
-            title: Text(books[index].title,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 17.0)),
-            subtitle: Text('RM ${books[index].price.toString()}',
-                style: TextStyle(color: Colors.white)),
-            onTap: () {},
-          ),
-        ),
-      ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).primaryColor,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.qr_code_scanner_rounded),
@@ -113,26 +141,18 @@ class _BookstorePageState extends State<BookstorePageScreen> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.grey[500],
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.black,
         onTap: _onItemTapped,
       ),
       drawer: Drawer(
         child: DrawerHeader(
           child: CheckboxListTile(
-              title: Text('Change theme color'),
-              value: changeModeNotifier.value,
-              onChanged: (newValue) => changeModeNotifier.value = newValue),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.orange[200],
-                Colors.orange[50],
-                Colors.orange[200],
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
+            title: Text('Change Theme Color'),
+            value: changeModeNotifier.value,
+            onChanged: (newValue) => changeModeNotifier.value = newValue,
           ),
+          decoration: BoxDecoration(color: Theme.of(context).primaryColor),
         ),
       ),
     );
