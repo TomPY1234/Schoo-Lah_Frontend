@@ -118,7 +118,7 @@ class _TuitionFeeState extends State<TuitionFeeScreen> {
                         leading: Container(
                           padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
                           child: Text(
-                            '$index',
+                            '${index+1}',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -145,6 +145,9 @@ class _TuitionFeeState extends State<TuitionFeeScreen> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                        trailing: fees[index].feeStatus == 'PAID'
+                            ? Text('Date Paid:\n'+fees[index].date)
+                            : Text('Unpaid Yet\nPlease Pay...')
                       ),
                     );
                   },

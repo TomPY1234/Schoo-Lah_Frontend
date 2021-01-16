@@ -19,20 +19,8 @@ class _LoginPageState extends State<LoginPageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.orange[500],
-                Colors.orange[50],
-                Colors.orange[300],
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
-          child: SingleChildScrollView(
+      backgroundColor: Theme.of(context).accentColor,
+      body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(36.0),
               child: Column(
@@ -80,6 +68,7 @@ class _LoginPageState extends State<LoginPageScreen> {
                   ),
                   SizedBox(height: 20.0),
                   FloatingActionButton.extended(
+                    backgroundColor: Theme.of(context).primaryColorLight,
                     heroTag: null,
                     onPressed: () async {
                       final User success =
@@ -98,19 +87,12 @@ class _LoginPageState extends State<LoginPageScreen> {
                         }));
                       }
                     },
-                    label: Text('       LOGIN       ',
-                        style: TextStyle(
-                            fontSize: 19.0, fontWeight: FontWeight.bold)),
+                    label: Text('       LOGIN       ', style: TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
                   ),
                   SizedBox(height: 30.0),
-                  Text('Forgot Password?',
-                      style: TextStyle(
-                          fontSize: 20.0, fontWeight: FontWeight.bold)),
-                  SizedBox(height: 15.0),
-                  SizedBox(height: 90.0),
-                  Text('Terms and Conditions',
-                      style: TextStyle(
-                          fontSize: 15.0, fontWeight: FontWeight.bold)),
+                  Text('Forgot Password?', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
+                  SizedBox(height: 60.0),
+                  Text('Terms and Conditions', style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold)),
                   TextButton(
                       child: Text(
                         'First Time User? Sign Up Now!',
@@ -123,8 +105,6 @@ class _LoginPageState extends State<LoginPageScreen> {
               ),
             ),
           ),
-        ),
-      ),
     );
   }
 

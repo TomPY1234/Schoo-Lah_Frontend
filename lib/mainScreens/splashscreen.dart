@@ -15,16 +15,7 @@ class _SchoolahSplashState extends State<SchoolahSplashScreen> {
       seconds: 7,
       navigateAfterSeconds: LoginPageScreen(),
       image: Image.asset('assets/schoolah_logo.png'),
-      gradientBackground: LinearGradient(
-        colors: [
-          Colors.orange[200],
-          Colors.orange[50],
-          Colors.orange[200],
-        ],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-      ),
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).accentColor,
       photoSize: 150.0,
       loaderColor: Colors.black,
     );

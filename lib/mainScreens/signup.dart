@@ -22,32 +22,18 @@ class SignupPageState extends State<SignupPageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.orange[500],
-                Colors.orange[50],
-                Colors.orange[300],
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
-          child: SingleChildScrollView(
+      backgroundColor: Theme.of(context).accentColor,
+      body: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(36.0),
+              padding: const EdgeInsets.all(25.0),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(
-                    child: Image.asset('assets/schoolah_logo.png', scale: 15),
-                  ),
-                  SizedBox(height: 31.0),
-                  Text('SIGNUP AS:',
-                      style: TextStyle(
-                          fontSize: 30.0, fontWeight: FontWeight.bold)),
+                  SizedBox(child: Image.asset('assets/schoolah_logo.png', width: 100.0, height: 100.0,)),
+                  Padding(padding: EdgeInsets.only(bottom: 10)),
+                  Text('SIGNUP AS:', style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold)),
+                  
                   DropdownButton(
                       value: _value,
                       underline: Container(
@@ -61,6 +47,7 @@ class SignupPageState extends State<SignupPageScreen> {
                         DropdownMenuItem(
                             child: Text('Teacher'), value: 'teacher')
                       ],
+                      isExpanded: true,
                       onChanged: (value) {
                         setState(() {
                           _value = value;
@@ -182,6 +169,7 @@ class SignupPageState extends State<SignupPageScreen> {
                   ),
                   SizedBox(height: 20.0),
                   FloatingActionButton.extended(
+                    backgroundColor: Theme.of(context).primaryColorLight,
                     heroTag: null,
                     onPressed: () {
                       userDataService.registerNew(
@@ -195,16 +183,18 @@ class SignupPageState extends State<SignupPageScreen> {
                           phone: phone);
                       Navigator.pushNamed(context, '/login');
                     },
-                    label: Text('       SIGN UP       ',
-                        style: TextStyle(
-                            fontSize: 19.0, fontWeight: FontWeight.bold)),
+                    label: Text('SIGN UP', style: TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
+                  ),
+
+                  SizedBox(height: 20.0),
+                  TextButton(
+                    child: Text( 'Already Sign Up? Login Now!', style: TextStyle(color: Colors.black)),
+                    onPressed: () { Navigator.pushNamed(context, '/login'); }
                   ),
                 ],
               ),
             ),
           ),
-        ),
-      ),
     );
   }
 }
