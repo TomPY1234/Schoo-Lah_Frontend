@@ -105,7 +105,7 @@ class _StudentTaskListState extends State<StudentTaskListScreen> {
                         leading: Container(
                           padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
                           child: Text(
-                            '$index',
+                            '${index+1}',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
