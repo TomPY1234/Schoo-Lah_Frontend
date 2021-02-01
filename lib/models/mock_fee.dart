@@ -34,8 +34,8 @@ List<Fee> mockFee = [
       feeStatus: 'UNPAID'),
 ];
 
-class FeeDataServiceMock implements FeeDataService {
-  Future<List<Fee>> getFeeList() async {
-    return [...mockFee];
-  }
-}
+// class FeeDataServiceMock implements FeeDataService {
+//   Future<List<Fee>> getFeeList() async {
+//     return [...mockFee];
+//   }
+// }

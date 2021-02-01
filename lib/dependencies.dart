@@ -14,5 +14,5 @@ void init() {
   service.registerLazySingleton<TodoDataService>(() => TodoDataServiceMock());
   service.registerLazySingleton<BookDataService>(() => BookDataServiceMock());
   service.registerLazySingleton<UserDataService>(() => UserDataServiceMock());
-  service.registerLazySingleton<FeeDataService>(() => FeeDataServiceMock());
+  //service.registerLazySingleton<FeeDataService>(() => FeeDataServiceMock());
 }
