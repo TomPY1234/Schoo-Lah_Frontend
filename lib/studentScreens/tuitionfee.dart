@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import 'package:schoolah_mobile_app/models/fees.dart';
-import 'package:schoolah_mobile_app/services/fee_data_service.dart';
-
-import '../dependencies.dart';
+import 'package:schoolah_mobile_app/services/fee_service_rest.dart';
 
 class TuitionFeeScreen extends StatefulWidget {
   @override
@@ -36,10 +34,10 @@ class _TuitionFeeState extends State<TuitionFeeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final FeeDataService feeDataService = service();
+    final dataService = FeeServiceRest();
 
     return FutureBuilder<List<Fee>>(
-        future: feeDataService.getFeeList(),
+        future: dataService.getAllFees(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             fees = snapshot.data;
@@ -55,70 +53,75 @@ class _TuitionFeeState extends State<TuitionFeeScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
       appBar: AppBar(
-        title: Text('Financial Status', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
+        title: Text(
+          'Financial Status',
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.arrow_back), 
+            icon: Icon(Icons.arrow_back),
             onPressed: () => Navigator.pushNamed(context, studHome),
           ),
         ],
       ),
       body: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Card(
-                margin: EdgeInsets.all(10.0),
-                elevation: 1.0,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(50.0))),
-                child: Container(
-                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10.0)),
-                  child: SizedBox(
-                    height: 180.0,
-                    width: 380.0,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text('OUTSTANDING', style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold)),
-                        SizedBox(height: 10.0),
-                        displayOutstanding(fees),
-                      ],
-                    ),
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Card(
+              margin: EdgeInsets.all(10.0),
+              elevation: 1.0,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(50.0))),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10.0)),
+                child: SizedBox(
+                  height: 180.0,
+                  width: 380.0,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text('OUTSTANDING',
+                          style: TextStyle(
+                              fontSize: 25.0, fontWeight: FontWeight.bold)),
+                      SizedBox(height: 10.0),
+                      displayOutstanding(fees),
+                    ],
                   ),
                 ),
               ),
-
-              Divider(color: Colors.grey[300], height: 25),
-
-              Text('Fee History'.toUpperCase(), style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-
-              Padding(padding: EdgeInsets.only(top: 10)),
-
-              Expanded(
-                child: ListView.builder(
-                  itemCount: fees.length,
-                  shrinkWrap: true,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      margin: EdgeInsets.only(bottom: 10),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey[300],
-                            offset: Offset(0, 0),
-                            blurRadius: 5,
-                          ),
-                        ],
-                      ),
-                      child: ListTile(
+            ),
+            Divider(color: Colors.grey[300], height: 25),
+            Text('Fee History'.toUpperCase(),
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+            Padding(padding: EdgeInsets.only(top: 10)),
+            Expanded(
+              child: ListView.builder(
+                itemCount: fees.length,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey[300],
+                          offset: Offset(0, 0),
+                          blurRadius: 5,
+                        ),
+                      ],
+                    ),
+                    child: ListTile(
                         leading: Container(
                           padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
                           child: Text(
-                            '${index+1}',
+                            '${index + 1}',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -146,16 +149,15 @@ class _TuitionFeeState extends State<TuitionFeeScreen> {
                           ),
                         ),
                         trailing: fees[index].feeStatus == 'PAID'
-                            ? Text('Date Paid:\n'+fees[index].date)
-                            : Text('Unpaid Yet\nPlease Pay...')
-                      ),
-                    );
-                  },
-                ),
+                            ? Text('Date Paid:\n' + fees[index].date)
+                            : Text('Unpaid Yet\nPlease Pay...')),
+                  );
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Theme.of(context).primaryColor,
         items: const <BottomNavigationBarItem>[
@@ -237,24 +239,21 @@ Card topArea() => Card(
       ),
     );
 
-displayOutstanding(List<Fee> _fees)
-{
+displayOutstanding(List<Fee> _fees) {
   var display;
 
-  for (int i = 0; i < _fees.length; i++)
-  {
-    if (_fees[i].feeStatus == 'UNPAID')
-    {
+  for (int i = 0; i < _fees.length; i++) {
+    if (_fees[i].feeStatus == 'UNPAID') {
       display = Text(
         'RM' + _fees[i].amount,
-        style: TextStyle(fontSize: 50.0, fontWeight: FontWeight.bold, color: Colors.red),
+        style: TextStyle(
+            fontSize: 50.0, fontWeight: FontWeight.bold, color: Colors.red),
       );
-    }
-    else 
-    {
+    } else {
       display = Text(
         'RM 0.00',
-        style: TextStyle(fontSize: 50.0, fontWeight: FontWeight.bold, color: Colors.red),
+        style: TextStyle(
+            fontSize: 50.0, fontWeight: FontWeight.bold, color: Colors.red),
       );
     }
   }

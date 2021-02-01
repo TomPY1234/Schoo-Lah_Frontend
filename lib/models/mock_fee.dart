@@ -1,4 +1,3 @@
-import 'package:schoolah_mobile_app/services/fee_data_service.dart';
 import 'fees.dart';
 
 List<Fee> mockFee = [
@@ -34,8 +33,8 @@ List<Fee> mockFee = [
       feeStatus: 'UNPAID'),
 ];
 
-class FeeDataServiceMock implements FeeDataService {
-  Future<List<Fee>> getFeeList() async {
-    return [...mockFee];
-  }
-}
+// class FeeDataServiceMock implements FeeDataService {
+//   Future<List<Fee>> getFeeList() async {
+//     return [...mockFee];
+//   }
+// }
