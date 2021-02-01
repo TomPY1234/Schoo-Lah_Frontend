@@ -68,7 +68,6 @@ flutter:
     - assets/My Students.png
     - assets/Financial Status.png
     - assets/E-Bookstore.png
-<<<<<<< HEAD
     - assets/ebook.png
     - assets/financial.png
     - assets/qrcode.png
@@ -80,8 +79,6 @@ flutter:
     - assets/tick.png
     - assets/cross.png
 
-=======
->>>>>>> b9c1fa3a1bcd33dddeaa3bb1d2c489482edc151c
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see
