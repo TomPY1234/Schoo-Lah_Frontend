@@ -19,12 +19,14 @@ void main() {
                 primaryColor: Color(0XFFFF99DD),
                 accentColor: Color(0XFFFFE6F7),
                 primaryColorLight: Color(0XFFFF33BB),
+                brightness: Brightness.dark,
                 )
               : ThemeData(
                 primarySwatch: Colors.orange,
                 primaryColor: Color(0XFFFFD1B3),
                 accentColor: Color(0XFFFFF0E6),
                 primaryColorLight: Color(0XFFFF8533),
+                brightness: Brightness.light,
                 ),
           home: SchoolahSplashScreen(),
         ),

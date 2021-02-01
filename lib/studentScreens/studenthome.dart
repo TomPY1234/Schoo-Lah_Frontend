@@ -13,12 +13,6 @@ class StudentHomePageScreen extends StatefulWidget {
 }
 
 class _StudentHomePageState extends State<StudentHomePageScreen> {
-  List dashboard = [
-    'My Subjects',
-    'Financial Status',
-    'E-Bookstore',
-  ];
-
   User user;
   int _selectedIndex = 1;
 
@@ -27,7 +21,7 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, QRStudentcode);
+      Navigator.pushNamed(context, '/login');
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;
@@ -61,96 +55,169 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
-      appBar: AppBar(
-        title: Text('HI, ${user.name}', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
-        centerTitle: true,
-        actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.logout, color: Colors.red, size: 35),
-              onPressed: () { Navigator.pushNamed(context, '/login'); },
+
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            new SliverAppBar(
+              floating: true,
+              elevation: 0,
+              snap: true,
+              backgroundColor: Colors.white,
+              brightness: Brightness.light,
             ),
-        ],
-      ),
-      body: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(padding: EdgeInsets.only(top: 15)),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: dashboard.length,
-                  shrinkWrap: true,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      margin: EdgeInsets.only(bottom: 15),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey[300],
-                            offset: Offset(0, 0),
-                            blurRadius: 5,
-                          ),
-                        ],
+          ];
+        },
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [Theme.of(context).accentColor, Colors.white],
+            ),
+          ),
+          child: MediaQuery.removePadding(
+            context: context,
+            removeTop: true,
+            child: ListView(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text('Hello,', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w300, fontSize: 26, color: Colors.black)),
+                      
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 6),
+                        child: Text('${user.name}', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w700, fontSize: 26, color: Colors.black)),
                       ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Material(
-                          child: InkWell(
-                            highlightColor: Colors.white.withAlpha(50),
-                            onTap: () {
-                              if (dashboard[index] == 'My Subjects')
-                              { Navigator.pushNamed(context, studSubject); }
-                              else if (dashboard[index] == 'Financial Status')
-                              { Navigator.pushNamed(context, studFee); }
-                              else 
-                              { Navigator.pushNamed(context, studBook); }
-                            },
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                ClipRRect(
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(10),
-                                      topRight: Radius.circular(10)),
-                                  child: Image.asset('assets/${dashboard[index]}.png',
-                                      fit: BoxFit.cover,
-                                      width: double.infinity),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(15),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(dashboard[index], style: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.bold),
-                                      ),
-                                      Padding(padding: EdgeInsets.only(top: 5)),
-                                    ],
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 7),
+                                child: homeCategoryItem(
+                                    context,
+                                    Colors.red,
+                                    'assets/study.png', 
+                                    'Subjects',
+                                    Colors.orange,
+                                    'Subjects'
                                   ),
                                 ),
-                              ],
+                              ),
+
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 7),
+                                child: homeCategoryItem(
+                                  context,
+                                  Colors.green,
+                                  'assets/financial.png', 
+                                  'Financial',
+                                  Colors.greenAccent,
+                                  'Financial'
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
                       ),
-                    );
-                  },
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 7),
+                                child: homeCategoryItem(
+                                  context,
+                                  Colors.greenAccent,
+                                  'assets/ebook.png',
+                                  'E-Bookstore',
+                                  Colors.green,
+                                  'E-Bookstore'
+                                ),
+                              ),
+                            ),
+
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 7),
+                                child: homeCategoryItem(
+                                  context,
+                                  Colors.orange,
+                                  'assets/qrcode.png',
+                                  'QR Scan',
+                                  Colors.red,
+                                  'QR Scan'
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.only(top: 30, bottom: 10),
+                        child: RichText(
+                          text: TextSpan(children: [
+                            TextSpan(text: 'Popular ', style: TextStyle(
+                              fontFamily: "pop",
+                              fontWeight: FontWeight.w700,
+                              fontSize: 20,
+                              color: Colors.black,
+                            )),
+
+                            TextSpan(text: 'Subjects', style: TextStyle(
+                              fontFamily: "pop",
+                              fontWeight: FontWeight.w700,
+                              fontSize: 20,
+                              color: Colors.orange,
+                            )),
+                          ]),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+
+                Container(
+                  height: 200,
+                  width: MediaQuery.of(context).size.width,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+                      horizontalScrollCourseItem(context, 'assets/SCIENCE.png', 'Science'),
+
+                      horizontalScrollCourseItem(context, 'assets/BAHASA MALAYSIA.png', 'Bahasa Melayu'),
+
+                      horizontalScrollCourseItem(context, 'assets/MATHEMATICS.png', 'Mathematics'),
+
+                      SizedBox(width: 16),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
+      ),
+
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).accentColor,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.qr_code_scanner_rounded),
-            label: 'QRScan',
+            icon: Icon(Icons.logout),
+            label: 'Logout',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home_outlined),
             label: 'Home',
           ),
           BottomNavigationBarItem(
@@ -161,14 +228,50 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.black,
+        selectedFontSize: 12,
         onTap: _onItemTapped,
       ),
-      drawer: Drawer(
+
+      endDrawer: Drawer(
         child: DrawerHeader(
-          child: CheckboxListTile(
-            title: Text('Change Theme Color'),
-            value: changeModeNotifier.value,
-            onChanged: (newValue) => changeModeNotifier.value = newValue,
+          child: Column(
+            children: <Widget>[
+              ListTile(
+                title: Text('Menu', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, fontSize: 30, color: Colors.black)),
+                tileColor: Theme.of(context).accentColor,
+              ),
+
+              CheckboxListTile(
+                title: Text('Change Theme Color', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                subtitle: changeModeNotifier.value ? Text('Pink') : Text('Orange'),
+                value: changeModeNotifier.value,
+                onChanged: (newValue) => changeModeNotifier.value = newValue,
+              ),
+
+              ListTile(
+                title: Text('Subjects', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                onTap: () { Navigator.pushNamed(context, studSubject); },
+                trailing: Icon(Icons.arrow_forward_ios_outlined),
+              ),
+
+              ListTile(
+                title: Text('Financial', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                onTap: () { Navigator.pushNamed(context, studFee); },
+                trailing: Icon(Icons.arrow_forward_ios_outlined),
+              ),
+
+              ListTile(
+                title: Text('E-Bookstore', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                onTap: () { Navigator.pushNamed(context, studBook); },
+                trailing: Icon(Icons.arrow_forward_ios_outlined),
+              ),
+
+              ListTile(
+                title: Text('QR Scan', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                onTap: () { Navigator.pushNamed(context, QRStudentcode); },
+                trailing: Icon(Icons.arrow_forward_ios_outlined),
+              ),
+            ],
           ),
           decoration: BoxDecoration(color: Theme.of(context).primaryColor),
         ),
@@ -190,4 +293,122 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
       ),
     );
   }
+}
+
+//---------------------------------------------------------------------------------------
+Widget homeCategoryItem(BuildContext context, Color primaryColor, String primaryIcon, String primaryTitle, Color secondaryColor, String dashboard)
+{
+  return Container(
+    decoration: BoxDecoration(boxShadow: [
+      BoxShadow(
+        color: primaryColor.withOpacity(0.4),
+        blurRadius: 10,
+        offset: Offset(0.0, 6),
+      ),
+    ],
+    color: primaryColor,
+    borderRadius: BorderRadius.circular(10),
+    ),
+    child: Material(
+      type: MaterialType.transparency,
+      child: InkWell(
+        onTap: () {
+          if (dashboard == 'Subjects')
+          { Navigator.pushNamed(context, studSubject); }
+          else if (dashboard == 'Financial')
+          { Navigator.pushNamed(context, studFee); }
+          else if (dashboard == 'E-Bookstore')
+          { Navigator.pushNamed(context, studBook); }
+          else 
+          { Navigator.pushNamed(context, QRStudentcode); }
+        },
+        borderRadius: BorderRadius.circular(10),
+        child: Container(
+          height: 100,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Flexible(
+                flex: 2,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Image.asset(primaryIcon, height: 45),
+                      
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: Text(primaryTitle, style: TextStyle(
+                            fontFamily: "pop",
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                            color: Colors.white
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Flexible(
+                flex: 1,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Icon(Icons.arrow_forward_ios_outlined),
+                  decoration: BoxDecoration(
+                    color: secondaryColor,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(10),
+                      bottomRight: Radius.circular(10),
+                      bottomLeft: Radius.circular(40),
+                      topLeft: Radius.circular(40),
+                    )
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+Widget horizontalScrollCourseItem(BuildContext context, String courseImage, String courseTitle)
+{
+  return Padding(
+    padding: const EdgeInsets.only(left: 16),
+    child: Material(
+      type: MaterialType.transparency,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Flexible(
+              flex: 3,
+              child: Container(
+                width: MediaQuery.of(context).size.width / 1.2,
+                child: Image.asset(courseImage),
+              ),
+            ),
+
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Text(courseTitle, style: TextStyle(
+                  fontFamily: "pop",
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                  color: Colors.deepPurple
+                )
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }

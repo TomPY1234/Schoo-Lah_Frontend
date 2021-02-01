@@ -59,128 +59,220 @@ class _StudentTaskListState extends State<StudentTaskListScreen> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
-      appBar: AppBar(
-        title: Column(
-          children: <Widget>[
-            Text('Task Details', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          ],
-        ),
-        backgroundColor: Theme.of(context).primaryColor,
-        centerTitle: true,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.arrow_back), 
-            onPressed: () => _cancel(context, toggle, count),
+
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            new SliverAppBar(
+              floating: true,
+              elevation: 0,
+              snap: true,
+              backgroundColor: Colors.white,
+              brightness: Brightness.light,
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back_ios_outlined),
+                onPressed: () => _cancel(context, toggle, count),
+              ),
+            ),
+          ];
+        },
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [Theme.of(context).accentColor, Colors.white],
+            ),
           ),
-        ],
-      ),
-      body: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text('${widget._data.title}'.toUpperCase(), style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-
-              Padding(padding: EdgeInsets.only(top: 15)),
-
-              Expanded(
-                child: ListView.builder(
-                  itemCount: widget._data.items.length,
-                  shrinkWrap: true,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      margin: EdgeInsets.only(bottom: 10),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey[300],
-                            offset: Offset(0, 0),
-                            blurRadius: 5,
-                          ),
-                        ],
-                      ),
-                      child: ListTile(
-                        leading: Container(
-                          padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
-                          child: Text(
-                            '${index+1}',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+          child: MediaQuery.removePadding(
+            context: context,
+            removeTop: true,
+            child: ListView(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.green.withOpacity(0.4),
+                              blurRadius: 10,
+                              offset: Offset(0.0, 6),
                             ),
+                          ],
+                          color: Colors.green,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Row(
+                            children: <Widget>[
+                              Text('${widget._data.title}'.toUpperCase()+
+                                   '\n\n${widget._data.percent.round()} % completed'+
+                                   '\n\n${widget._data.items.asMap().length} Tasks in Total     ', style: TextStyle(
+                                fontFamily: "pop",
+                                fontWeight: FontWeight.w700,
+                                fontSize: 15,
+                                color: Colors.white
+                              )),
+
+                              Image.asset('assets/subject.png', height: 120),
+                            ],
                           ),
                         ),
-                        tileColor: widget._data.items[index].completed
-                            ? Colors.greenAccent[400]
-                            : Colors.redAccent[400],
-                        title: Text(
-                          widget._data.items[index].title.toUpperCase(),
-                          style: widget._data.items[index].completed
-                              ? TextStyle(
-                                decoration: TextDecoration.lineThrough,
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                )
-                              : TextStyle(
-                                decoration: null,
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                ),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.only(top: 30, bottom: 10),
+                        child: RichText(
+                          text: TextSpan(children: [
+                            TextSpan(text: 'My ', style: TextStyle(
+                              fontFamily: "pop",
+                              fontWeight: FontWeight.w700,
+                              fontSize: 20,
+                              color: Colors.black,
+                            )),
+
+                            TextSpan(text: 'Tasks', style: TextStyle(
+                              fontFamily: "pop",
+                              fontWeight: FontWeight.w700,
+                              fontSize: 20,
+                              color: Colors.orange,
+                            )),
+                          ]),
                         ),
+                      ),
+                    ],
+                  ),
+                ),
+                 
+                for (var task in widget._data.items)
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
+                  child: Container(
+                    decoration: BoxDecoration(boxShadow: [
+                      BoxShadow(
+                        color: Colors.green.withOpacity(0.4),
+                        blurRadius: 10,
+                        offset: Offset(0.0, 6),
+                      ),
+                    ],
+                    color: task.completed ? Colors.green : Colors.red,
+                    borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Material(
+                      type: MaterialType.transparency,
+                      child: InkWell(
                         onTap: () => setState(() {
-                          if (widget._data.items[index].completed == true) {
-                            widget._data.items[index].completed = false;
+                          if (task.completed == true) {
+                            task.completed = false;
                             toggle = true;
-                            count[index] = 1;
+                            count[task.id-1] = 1;
                           } else {
-                            widget._data.items[index].completed = true;
+                            task.completed = true;
                             toggle = true;
-                            count[index] = 1;
+                            count[task.id-1] = 1;
                           }
                         }),
-                        onLongPress: () => setState(() => widget._data.items.removeAt(index)),
+                        borderRadius: BorderRadius.circular(10),
+                        child: Container(
+                          height: 80,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Flexible(
+                                flex: 3,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 10),
+                                        child: Text('${task.title}', style: TextStyle(
+                                          fontFamily: "pop",
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 16,
+                                          color: Colors.white)
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+
+                              Flexible(
+                                flex: 1,
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  child: task.completed ? Image.asset('assets/tick.png', height: 80) : Image.asset('assets/cross.png', height: 80),
+                                  decoration: BoxDecoration(
+                                    color: task.completed ? Colors.greenAccent : Colors.orangeAccent,
+                                    borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(10),
+                                      bottomRight: Radius.circular(10),
+                                      bottomLeft: Radius.circular(40),
+                                      topLeft: Radius.circular(40),
+                                    )
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    );
-                  },
+                    ),
+                  ),
                 ),
-              ),
-            ],
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    ElevatedButton.icon(
+                      onPressed: () => Navigator.pop(context, widget._data),
+                      icon: Icon(Icons.update_outlined, size: 18),
+                      label: Text("Update" , style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16,
+                        color: Colors.white)
+                      ),
+                    ),
+
+                    SizedBox(width: 30),
+
+                    ElevatedButton.icon(
+                      onPressed: () => _cancel(context, toggle, count),
+                      icon: Icon(Icons.cancel_outlined, size: 18),
+                      label: Text("Cancel" , style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16,
+                        color: Colors.white)
+                      ),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 10),
+              ],
+            ),
           ),
         ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          FloatingActionButton.extended(
-            backgroundColor: Theme.of(context).primaryColorLight,
-            heroTag: null,
-            onPressed: () => Navigator.pop(context, widget._data),
-            label: Text('Update'),
-            icon: Icon(Icons.check_circle),
-          ),
-          Text('   '),
-          FloatingActionButton.extended(
-            backgroundColor: Theme.of(context).primaryColorDark,
-            heroTag: null,
-            onPressed: () => _cancel(context, toggle, count),
-            label: Text('Cancel'),
-            icon: Icon(Icons.cancel),
-          ),
-        ],
       ),
+
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).accentColor,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.qr_code_scanner_rounded),
-            label: 'QRScan',
+            icon: Icon(Icons.logout),
+            label: 'Logout',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home_outlined),
             label: 'Home',
           ),
           BottomNavigationBarItem(
@@ -191,14 +283,50 @@ class _StudentTaskListState extends State<StudentTaskListScreen> {
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.black,
+        selectedFontSize: 12,
         onTap: _onItemTapped,
       ),
-      drawer: Drawer(
+
+      endDrawer: Drawer(
         child: DrawerHeader(
-          child: CheckboxListTile(
-            title: Text('Change Theme Color'),
-            value: changeModeNotifier.value,
-            onChanged: (newValue) => changeModeNotifier.value = newValue,
+          child: Column(
+            children: <Widget>[
+              ListTile(
+                title: Text('Menu', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, fontSize: 30, color: Colors.black)),
+                tileColor: Theme.of(context).accentColor,
+              ),
+
+              CheckboxListTile(
+                title: Text('Change Theme Color', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                subtitle: changeModeNotifier.value ? Text('Pink') : Text('Orange'),
+                value: changeModeNotifier.value,
+                onChanged: (newValue) => changeModeNotifier.value = newValue,
+              ),
+
+              ListTile(
+                title: Text('Subjects', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                onTap: () { Navigator.pushNamed(context, studSubject); },
+                trailing: Icon(Icons.arrow_forward_ios_outlined),
+              ),
+
+              ListTile(
+                title: Text('Financial', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                onTap: () { Navigator.pushNamed(context, studFee); },
+                trailing: Icon(Icons.arrow_forward_ios_outlined),
+              ),
+
+              ListTile(
+                title: Text('E-Bookstore', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                onTap: () { Navigator.pushNamed(context, studBook); },
+                trailing: Icon(Icons.arrow_forward_ios_outlined),
+              ),
+
+              ListTile(
+                title: Text('QR Scan', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                onTap: () { Navigator.pushNamed(context, QRStudentcode); },
+                trailing: Icon(Icons.arrow_forward_ios_outlined),
+              ),
+            ],
           ),
           decoration: BoxDecoration(color: Theme.of(context).primaryColor),
         ),
