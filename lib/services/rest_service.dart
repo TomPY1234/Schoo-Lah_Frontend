@@ -1,11 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-// RestService is a wrapper class implmenting for REST API calls.
-//  The class is implemented using the Singleton design pattern.
-//  i.e. this class will only be instantiated once
-//  TODO: Do nothing on this class except changing the baseUrl
-
 class RestService {
   //------- Here is how we implement 'Singleton pattern' in Dart --------
   static final RestService _instance = RestService._constructor();
@@ -15,8 +10,6 @@ class RestService {
 
   RestService._constructor();
   //---------------------------- end of singleton implementation
-
-  // TODO: change the baseUrl to your own REST API service hosted on Firebase (or heroku)
 
   static const String baseUrl =
       'https://us-central1-schoo-lah.cloudfunctions.net/api';

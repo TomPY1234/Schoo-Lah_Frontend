@@ -1,4 +1,3 @@
-import 'package:schoolah_mobile_app/services/fee_data_service.dart';
 import 'fees.dart';
 
 List<Fee> mockFee = [

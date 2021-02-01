@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import 'package:schoolah_mobile_app/models/fees.dart';
-import 'package:schoolah_mobile_app/services/fee_data_service.dart';
-
-import '../dependencies.dart';
+import 'package:schoolah_mobile_app/services/fee_service_rest.dart';
 
 class TuitionFeeScreen extends StatefulWidget {
   @override
@@ -36,7 +34,7 @@ class _TuitionFeeState extends State<TuitionFeeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final dataService = FeeDataService();
+    final dataService = FeeServiceRest();
 
     return FutureBuilder<List<Fee>>(
         future: dataService.getAllFees(),
