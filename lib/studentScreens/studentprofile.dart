@@ -59,179 +59,166 @@ class _StudentProfileState extends State<StudentProfileScreen> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
-      appBar: AppBar(
-        title: Text('My Profile', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-        centerTitle: true,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.arrow_back), 
-            onPressed: () => Navigator.pushNamed(context, studHome),
+      
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            new SliverAppBar(
+              floating: true,
+              elevation: 0,
+              snap: true,
+              backgroundColor: Colors.white,
+              brightness: Brightness.light,
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back_ios_outlined),
+                onPressed: () => Navigator.pushNamed(context, studHome),
+              ),
+            ),
+          ];
+        },
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [Theme.of(context).accentColor, Colors.white],
+            ),
           ),
-        ],
-      ),
-      body: SingleChildScrollView(
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                 Stack(
+          child: MediaQuery.removePadding(
+            context: context,
+            removeTop: true,
+            child: ListView(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      CircleAvatar(
-                        radius: 70,
-                        backgroundImage: NetworkImage('https://randomuser.me/api/portraits/thumb/men/86.jpg'),
-                      ),
-                      Positioned(
-                        bottom: 1, 
-                        right: 1,
-                        child: Container(
-                          height: 40,
-                          width: 40,
-                          child: Icon(Icons.add_a_photo, color: Colors.white),
-                          decoration: BoxDecoration(color: Colors.deepOrange, borderRadius: BorderRadius.all(Radius.circular(20))),
+                      Container(
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.cyan.withOpacity(0.4),
+                              blurRadius: 10,
+                              offset: Offset(0.0, 6),
+                            ),
+                          ],
+                          color: Colors.cyan,
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                      )
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Stack(
+                                children: <Widget>[
+                                  CircleAvatar(
+                                    radius: 70,
+                                    backgroundImage: NetworkImage('https://randomuser.me/api/portraits/thumb/men/86.jpg'),
+                                  ),
+                                  Positioned(
+                                    bottom: 1, 
+                                    right: 1,
+                                    child: Container(
+                                      height: 40,
+                                      width: 40,
+                                      child: Icon(Icons.add_a_photo, color: Colors.white),
+                                      decoration: BoxDecoration(color: Colors.deepOrange, borderRadius: BorderRadius.all(Radius.circular(20))),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.only(top: 30, bottom: 10),
+                        child: RichText(
+                          text: TextSpan(children: [
+                            TextSpan(text: 'My ', style: TextStyle(
+                              fontFamily: "pop",
+                              fontWeight: FontWeight.w700,
+                              fontSize: 25,
+                              color: Colors.black,
+                            )),
+
+                            TextSpan(text: 'Profile', style: TextStyle(
+                              fontFamily: "pop",
+                              fontWeight: FontWeight.w700,
+                              fontSize: 25,
+                              color: Colors.orange,
+                            )),
+                          ]),
+                        ),
+                      ),
                     ],
                   ),
-                  Padding(padding: EdgeInsets.only(top: 15)),
-                  Text('NAME',
-                      style: TextStyle(
-                          fontSize: 22.0, fontWeight: FontWeight.bold)),
-                  TextField(
-                    onChanged: (value) => name = value,
-                    obscureText: false,
-                    style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-                    decoration: InputDecoration(
-                      hintText: user.name,
-                      fillColor: Colors.white,
-                      filled: true,
-                      contentPadding:
-                          EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32.0)),
+                ),
+
+                displayProfileString(user.name, Icons.account_circle_rounded),
+                displayProfileInt(user.year, Icons.confirmation_number_outlined),
+                displayProfileString(user.phone, Icons.phone_android_outlined),
+                displayProfileString(user.email, Icons.email_outlined),
+                displayProfileString(user.school, Icons.school_outlined),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        UserDataService userDataService = service();
+                        userDataService.updateDetails(
+                            name: name,
+                            year: year,
+                            school: school,
+                            email: email,
+                            phone: phone);
+                        Navigator.pushNamed(context, studHome);
+                      },
+                      icon: Icon(Icons.update_outlined, size: 18),
+                      label: Text("Save Changes" , style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18,
+                        color: Colors.white)
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 15.0),
-                  Text('YEAR',
-                      style: TextStyle(
-                          fontSize: 22.0, fontWeight: FontWeight.bold)),
-                  TextField(
-                    onChanged: (value) => year = int.parse(value),
-                    obscureText: false,
-                    style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-                    decoration: InputDecoration(
-                      hintText: user.year.toString(),
-                      fillColor: Colors.white,
-                      filled: true,
-                      contentPadding:
-                          EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32.0)),
+
+                    SizedBox(width: 30),
+
+                    ElevatedButton.icon(
+                      onPressed: () { Navigator.pushNamed(context, '/login'); },
+                      icon: Icon(Icons.logout, size: 18),
+                      label: Text("Log Out" , style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18,
+                        color: Colors.white)
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 15.0),
-                  Text('SCHOOL STUDIED',
-                      style: TextStyle(
-                          fontSize: 22.0, fontWeight: FontWeight.bold)),
-                  TextField(
-                    onChanged: (value) => school = value,
-                    obscureText: false,
-                    style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-                    decoration: InputDecoration(
-                      hintText: user.school,
-                      fillColor: Colors.white,
-                      filled: true,
-                      contentPadding:
-                          EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32.0)),
-                    ),
-                  ),
-                  SizedBox(height: 15.0),
-                  Text('CONTACT NO.',
-                      style: TextStyle(
-                          fontSize: 22.0, fontWeight: FontWeight.bold)),
-                  TextField(
-                    onChanged: (value) => phone = value,
-                    obscureText: false,
-                    style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-                    decoration: InputDecoration(
-                      hintText: user.phone,
-                      fillColor: Colors.white,
-                      filled: true,
-                      contentPadding:
-                          EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32.0)),
-                    ),
-                  ),
-                  SizedBox(height: 15.0),
-                  Text('EMAIL',
-                      style: TextStyle(
-                          fontSize: 22.0, fontWeight: FontWeight.bold)),
-                  TextField(
-                    obscureText: false,
-                    onChanged: (value) => email = value,
-                    style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-                    decoration: InputDecoration(
-                      hintText: user.email,
-                      fillColor: Colors.white,
-                      filled: true,
-                      contentPadding:
-                          EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32.0)),
-                    ),
-                  ),
-                  SizedBox(height: 15.0),
-                  FloatingActionButton.extended(
-                    backgroundColor: Theme.of(context).primaryColorLight,
-                    heroTag: null,
-                    onPressed: () {
-                      UserDataService userDataService = service();
-                      userDataService.updateDetails(
-                          name: name,
-                          year: year,
-                          school: school,
-                          email: email,
-                          phone: phone);
-                      Navigator.pushNamed(context, studHome);
-                    },
-                    label: Text('   UPDATE   ',
-                        style: TextStyle(
-                            fontSize: 19.0, fontWeight: FontWeight.bold)),
-                  ),
-                  SizedBox(height: 15.0),
-                  FloatingActionButton.extended(
-                    heroTag: null,
-                    backgroundColor: Colors.red,
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/login');
-                    },
-                    label: Text('   LOG OUT   ',
-                        style: TextStyle(
-                            fontSize: 19.0, fontWeight: FontWeight.bold)),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+
+                SizedBox(height: 10),
+              ],
             ),
           ),
         ),
+      ),
+
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).accentColor,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.qr_code_scanner_rounded),
-            label: 'QRScan',
+            icon: Icon(Icons.logout),
+            label: 'Logout',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home_outlined),
             label: 'Home',
           ),
           BottomNavigationBarItem(
@@ -242,14 +229,62 @@ class _StudentProfileState extends State<StudentProfileScreen> {
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.black,
+        selectedFontSize: 12,
         onTap: _onItemTapped,
       ),
-      drawer: Drawer(
+
+      endDrawer: Drawer(
         child: DrawerHeader(
-          child: CheckboxListTile(
-            title: Text('Change Theme Color'),
-            value: changeModeNotifier.value,
-            onChanged: (newValue) => changeModeNotifier.value = newValue,
+          child: Column(
+            children: <Widget>[
+              ListTile(
+                title: Text('Menu', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, fontSize: 30, color: Colors.black)),
+                tileColor: Theme.of(context).accentColor,
+              ),
+
+              CheckboxListTile(
+                title: Text('Change Theme Color', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                subtitle: changeModeNotifier.value ? Text('Pink') : Text('Orange'),
+                value: changeModeNotifier.value,
+                onChanged: (newValue) => changeModeNotifier.value = newValue,
+              ),
+
+              ListTile(
+                title: Text('Subjects', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                onTap: () { Navigator.pushNamed(context, studSubject); },
+                trailing: Image.asset('assets/study.png', height: 30),
+              ),
+
+              ListTile(
+                title: Text('Financial', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                onTap: () { Navigator.pushNamed(context, studFee); },
+                trailing: Image.asset('assets/financial.png', height: 30),
+              ),
+
+              ListTile(
+                title: Text('E-Bookstore', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                onTap: () { Navigator.pushNamed(context, studBook); },
+                trailing: Image.asset('assets/ebook.png', height: 30),
+              ),
+
+              ListTile(
+                title: Text('QR Scan', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                onTap: () { Navigator.pushNamed(context, QRStudentcode); },
+                trailing: Image.asset('assets/qrcode.png', height: 30),
+              ),
+
+              ListTile(
+                title: Text('My Profile', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                onTap: () { Navigator.pushNamed(context, studProfile); },
+                trailing: Icon(Icons.account_circle_rounded, size: 30),
+              ),
+
+              ListTile(
+                title: Text('Logout', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                onTap: () { Navigator.pushNamed(context, '/login'); },
+                trailing: Icon(Icons.logout),
+              ),
+            ],
           ),
           decoration: BoxDecoration(color: Theme.of(context).primaryColor),
         ),
@@ -271,4 +306,156 @@ class _StudentProfileState extends State<StudentProfileScreen> {
       ),
     );
   }
+}
+
+displayProfileString(String valueString, IconData valueIcon)
+{
+  return Padding(
+    padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
+    child: Container(
+      decoration: BoxDecoration(boxShadow: [
+        BoxShadow(
+          color: Colors.cyan.withOpacity(0.4),
+          blurRadius: 10,
+          offset: Offset(0.0, 6),
+        ),
+      ],
+      color: Colors.cyan,
+      borderRadius: BorderRadius.circular(10),
+    ),
+    child: Material(
+      type: MaterialType.transparency,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(10),
+        child: Container(
+          height: 100,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Flexible(
+                flex: 1,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Icon(valueIcon, size: 50),
+                  decoration: BoxDecoration(
+                    color: Colors.cyanAccent,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(40),
+                      bottomRight: Radius.circular(40),
+                      bottomLeft: Radius.circular(10),
+                      topLeft: Radius.circular(10),
+                    )
+                  ),
+                ),
+              ),
+              
+              Flexible(
+                flex: 4,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10),
+                        child: TextField(
+                            onChanged: (value) => valueString = value,
+                            obscureText: false,
+                            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                            decoration: InputDecoration(
+                              hintText: valueString,
+                              fillColor: Colors.white,
+                              filled: true,
+                              contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+displayProfileInt(int valueInt, IconData valueIcon)
+{
+  return Padding(
+    padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
+    child: Container(
+      decoration: BoxDecoration(boxShadow: [
+        BoxShadow(
+          color: Colors.cyan.withOpacity(0.4),
+          blurRadius: 10,
+          offset: Offset(0.0, 6),
+        ),
+      ],
+      color: Colors.cyan,
+      borderRadius: BorderRadius.circular(10),
+    ),
+    child: Material(
+      type: MaterialType.transparency,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(10),
+        child: Container(
+          height: 100,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Flexible(
+                flex: 1,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Icon(valueIcon, size: 50),
+                  decoration: BoxDecoration(
+                    color: Colors.cyanAccent,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(40),
+                      bottomRight: Radius.circular(40),
+                      bottomLeft: Radius.circular(10),
+                      topLeft: Radius.circular(10),
+                    )
+                  ),
+                ),
+              ),
+              
+              Flexible(
+                flex: 4,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10),
+                        child: TextField(
+                            onChanged: (value) => valueInt = int.parse(value),
+                            obscureText: false,
+                            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                            decoration: InputDecoration(
+                              hintText: valueInt.toString(),
+                              fillColor: Colors.white,
+                              filled: true,
+                              contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
 }

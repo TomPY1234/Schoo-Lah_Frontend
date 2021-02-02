@@ -78,6 +78,9 @@ flutter:
     - assets/subject.png
     - assets/tick.png
     - assets/cross.png
+    - assets/finance.png
+    - assets/qrscancode.png
+    - assets/ebookstore.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

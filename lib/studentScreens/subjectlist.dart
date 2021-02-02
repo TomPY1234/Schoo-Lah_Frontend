@@ -121,13 +121,17 @@ class _StudentSubjectListState extends State<StudentSubjectListScreen> {
                         child: Padding(
                           padding: const EdgeInsets.all(20),
                           child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
                               Text('Learning Today,\nLeading Tomorrow\n\n~ Present By\n     Schoo-Lah', style: TextStyle(
                                 fontFamily: "pop",
                                 fontWeight: FontWeight.w700,
-                                fontSize: 15,
+                                fontSize: 17,
                                 color: Colors.white
                               )),
+
+                              SizedBox(width: 10),
 
                               Image.asset('assets/subject.png', height: 120),
                             ],
@@ -142,14 +146,14 @@ class _StudentSubjectListState extends State<StudentSubjectListScreen> {
                             TextSpan(text: 'My ', style: TextStyle(
                               fontFamily: "pop",
                               fontWeight: FontWeight.w700,
-                              fontSize: 20,
+                              fontSize: 25,
                               color: Colors.black,
                             )),
 
                             TextSpan(text: 'Subjects', style: TextStyle(
                               fontFamily: "pop",
                               fontWeight: FontWeight.w700,
-                              fontSize: 20,
+                              fontSize: 25,
                               color: Colors.orange,
                             )),
                           ]),
@@ -182,7 +186,7 @@ class _StudentSubjectListState extends State<StudentSubjectListScreen> {
                         },
                         borderRadius: BorderRadius.circular(10),
                         child: Container(
-                          height: 100,
+                          height: 140,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
@@ -193,23 +197,23 @@ class _StudentSubjectListState extends State<StudentSubjectListScreen> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      Image.asset('assets/${todo.title.toUpperCase()}.png', height: 50),
+                                      Image.asset('assets/${todo.title.toUpperCase()}.png', height: 80),
 
                                       SizedBox(height: 10),
 
                                       Row(children: <Widget>[
                                         Expanded(
                                           child: Container(
-                                            margin: EdgeInsets.only(right: 15),
+                                            margin: EdgeInsets.only(left: 15, right: 15),
                                             child: LinearPercentIndicator(
                                               animation: true,
-                                              lineHeight: 7.0,
+                                              lineHeight: 16.0,
                                               animationDuration: 2500,
                                               percent: todo.percent / 100,
                                               backgroundColor: Colors.white,
                                               linearStrokeCap: LinearStrokeCap.roundAll,
                                               progressColor: getCircleAvatarColor(todo.percent.toInt()),
-                                              center: Text(todo.percent.round().toString() + ' %', style: TextStyle(fontSize: 7, fontWeight: FontWeight.w600)),
+                                              center: Text(todo.percent.round().toString() + ' %', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
                                               ),
                                             ),
                                           ),
@@ -218,16 +222,17 @@ class _StudentSubjectListState extends State<StudentSubjectListScreen> {
 
                                       SizedBox(height: 3),
 
-                                      Text('TOTAL TASKS : $todo TASKS', style: TextStyle(
+                                      Text('TOTAL TASKS : ${todo.items.length} TASKS', style: TextStyle(
                                         fontFamily: "pop",
                                         fontWeight: FontWeight.w600,
-                                        fontSize: 10,
+                                        fontSize: 15,
                                         color: Colors.white)
                                       ),
                                     ],
                                   ),
                                 ),
                               ),
+
                               Flexible(
                                 flex: 1,
                                 child: Container(
@@ -299,25 +304,37 @@ class _StudentSubjectListState extends State<StudentSubjectListScreen> {
               ListTile(
                 title: Text('Subjects', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
                 onTap: () { Navigator.pushNamed(context, studSubject); },
-                trailing: Icon(Icons.arrow_forward_ios_outlined),
+                trailing: Image.asset('assets/study.png', height: 30),
               ),
 
               ListTile(
                 title: Text('Financial', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
                 onTap: () { Navigator.pushNamed(context, studFee); },
-                trailing: Icon(Icons.arrow_forward_ios_outlined),
+                trailing: Image.asset('assets/financial.png', height: 30),
               ),
 
               ListTile(
                 title: Text('E-Bookstore', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
                 onTap: () { Navigator.pushNamed(context, studBook); },
-                trailing: Icon(Icons.arrow_forward_ios_outlined),
+                trailing: Image.asset('assets/ebook.png', height: 30),
               ),
 
               ListTile(
                 title: Text('QR Scan', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
                 onTap: () { Navigator.pushNamed(context, QRStudentcode); },
-                trailing: Icon(Icons.arrow_forward_ios_outlined),
+                trailing: Image.asset('assets/qrcode.png', height: 30),
+              ),
+
+              ListTile(
+                title: Text('My Profile', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                onTap: () { Navigator.pushNamed(context, studProfile); },
+                trailing: Icon(Icons.account_circle_rounded, size: 30),
+              ),
+
+              ListTile(
+                title: Text('Logout', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                onTap: () { Navigator.pushNamed(context, '/login'); },
+                trailing: Icon(Icons.logout),
               ),
             ],
           ),

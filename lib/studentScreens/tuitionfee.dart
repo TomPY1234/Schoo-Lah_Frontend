@@ -52,121 +52,180 @@ class _TuitionFeeState extends State<TuitionFeeScreen> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
-      appBar: AppBar(
-        title: Text(
-          'Financial Status',
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () => Navigator.pushNamed(context, studHome),
+
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            new SliverAppBar(
+              floating: true,
+              elevation: 0,
+              snap: true,
+              backgroundColor: Colors.white,
+              brightness: Brightness.light,
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back_ios_outlined),
+                onPressed: () => Navigator.pushNamed(context, studHome),
+              ),
+            ),
+          ];
+        },
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [Theme.of(context).accentColor, Colors.white],
+            ),
           ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Card(
-              margin: EdgeInsets.all(10.0),
-              elevation: 1.0,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(50.0))),
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10.0)),
-                child: SizedBox(
-                  height: 180.0,
-                  width: 380.0,
+          child: MediaQuery.removePadding(
+            context: context,
+            removeTop: true,
+            child: ListView(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text('OUTSTANDING',
-                          style: TextStyle(
-                              fontSize: 25.0, fontWeight: FontWeight.bold)),
-                      SizedBox(height: 10.0),
-                      displayOutstanding(fees),
+                      Container(
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.green.withOpacity(0.4),
+                              blurRadius: 10,
+                              offset: Offset(0.0, 6),
+                            ),
+                          ],
+                          color: Colors.purple,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Text('Outstanding\n\n'+displayOutstanding(fees), style: TextStyle(
+                                fontFamily: "pop",
+                                fontWeight: FontWeight.w700,
+                                fontSize: 20,
+                                color: Colors.white
+                              )),
+
+                              SizedBox(width: 30),
+
+                              Image.asset('assets/finance.png', height: 120),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.only(top: 30, bottom: 10),
+                        child: RichText(
+                          text: TextSpan(children: [
+                            TextSpan(text: 'Transaction ', style: TextStyle(
+                              fontFamily: "pop",
+                              fontWeight: FontWeight.w700,
+                              fontSize: 25,
+                              color: Colors.black,
+                            )),
+
+                            TextSpan(text: 'History', style: TextStyle(
+                              fontFamily: "pop",
+                              fontWeight: FontWeight.w700,
+                              fontSize: 25,
+                              color: Colors.orange,
+                            )),
+                          ]),
+                        ),
+                      ),
                     ],
                   ),
                 ),
-              ),
-            ),
-            Divider(color: Colors.grey[300], height: 25),
-            Text('Fee History'.toUpperCase(),
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-            Padding(padding: EdgeInsets.only(top: 10)),
-            Expanded(
-              child: ListView.builder(
-                itemCount: fees.length,
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    margin: EdgeInsets.only(bottom: 10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey[300],
-                          offset: Offset(0, 0),
-                          blurRadius: 5,
-                        ),
-                      ],
+                
+                for (var finance in fees)
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
+                  child: Container(
+                    decoration: BoxDecoration(boxShadow: [
+                      BoxShadow(
+                        color: Colors.green.withOpacity(0.4),
+                        blurRadius: 10,
+                        offset: Offset(0.0, 6),
+                      ),
+                    ],
+                    color: finance.feeStatus == 'PAID' ? Colors.green : Colors.red,
+                    borderRadius: BorderRadius.circular(10),
                     ),
-                    child: ListTile(
-                        leading: Container(
-                          padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
-                          child: Text(
-                            '${index + 1}',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+                    child: Material(
+                      type: MaterialType.transparency,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Container(
+                          height: 80,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Flexible(
+                                flex: 3,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 10),
+                                        child: Text('${finance.monthFee.toUpperCase()}\nRM ${finance.amount}\n${finance.date}', style: TextStyle(
+                                          fontFamily: "pop",
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 16,
+                                          color: Colors.white)
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+
+                              Flexible(
+                                flex: 1,
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  child: finance.feeStatus == 'PAID' ? Image.asset('assets/tick.png', height: 80) : Image.asset('assets/cross.png', height: 80),
+                                  decoration: BoxDecoration(
+                                    color: finance.feeStatus == 'PAID' ? Colors.greenAccent : Colors.orangeAccent,
+                                    borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(10),
+                                      bottomRight: Radius.circular(10),
+                                      bottomLeft: Radius.circular(40),
+                                      topLeft: Radius.circular(40),
+                                    )
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        tileColor: fees[index].feeStatus == 'PAID'
-                            ? Colors.greenAccent[400]
-                            : Colors.redAccent[400],
-                        title: Text(
-                          fees[index].monthFee.toUpperCase(),
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        subtitle: Text(
-                          'RM' + fees[index].amount,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        trailing: fees[index].feeStatus == 'PAID'
-                            ? Text('Date Paid:\n' + fees[index].date)
-                            : Text('Unpaid Yet\nPlease Pay...')),
-                  );
-                },
-              ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
+      
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).accentColor,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.qr_code_scanner_rounded),
-            label: 'QRScan',
+            icon: Icon(Icons.logout),
+            label: 'Logout',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home_outlined),
             label: 'Home',
           ),
           BottomNavigationBarItem(
@@ -177,14 +236,62 @@ class _TuitionFeeState extends State<TuitionFeeScreen> {
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.black,
+        selectedFontSize: 12,
         onTap: _onItemTapped,
       ),
-      drawer: Drawer(
+      
+      endDrawer: Drawer(
         child: DrawerHeader(
-          child: CheckboxListTile(
-            title: Text('Change Theme Color'),
-            value: changeModeNotifier.value,
-            onChanged: (newValue) => changeModeNotifier.value = newValue,
+          child: Column(
+            children: <Widget>[
+              ListTile(
+                title: Text('Menu', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, fontSize: 30, color: Colors.black)),
+                tileColor: Theme.of(context).accentColor,
+              ),
+
+              CheckboxListTile(
+                title: Text('Change Theme Color', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                subtitle: changeModeNotifier.value ? Text('Pink') : Text('Orange'),
+                value: changeModeNotifier.value,
+                onChanged: (newValue) => changeModeNotifier.value = newValue,
+              ),
+
+              ListTile(
+                title: Text('Subjects', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                onTap: () { Navigator.pushNamed(context, studSubject); },
+                trailing: Image.asset('assets/study.png', height: 30),
+              ),
+
+              ListTile(
+                title: Text('Financial', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                onTap: () { Navigator.pushNamed(context, studFee); },
+                trailing: Image.asset('assets/financial.png', height: 30),
+              ),
+
+              ListTile(
+                title: Text('E-Bookstore', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                onTap: () { Navigator.pushNamed(context, studBook); },
+                trailing: Image.asset('assets/ebook.png', height: 30),
+              ),
+
+              ListTile(
+                title: Text('QR Scan', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                onTap: () { Navigator.pushNamed(context, QRStudentcode); },
+                trailing: Image.asset('assets/qrcode.png', height: 30),
+              ),
+
+              ListTile(
+                title: Text('My Profile', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                onTap: () { Navigator.pushNamed(context, studProfile); },
+                trailing: Icon(Icons.account_circle_rounded, size: 30),
+              ),
+
+              ListTile(
+                title: Text('Logout', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                onTap: () { Navigator.pushNamed(context, '/login'); },
+                trailing: Icon(Icons.logout),
+              ),
+            ],
           ),
           decoration: BoxDecoration(color: Theme.of(context).primaryColor),
         ),
@@ -208,53 +315,14 @@ class _TuitionFeeState extends State<TuitionFeeScreen> {
   }
 }
 
-Card topArea() => Card(
-      margin: EdgeInsets.all(10.0),
-      elevation: 1.0,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(50.0))),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: SizedBox(
-          height: 180.0,
-          width: 380.0,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text('OUTSTANDING',
-                  style:
-                      TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold)),
-              SizedBox(height: 10.0),
-              Text('RM 50.00',
-                  style: TextStyle(
-                      fontSize: 50.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red)),
-            ],
-          ),
-        ),
-      ),
-    );
-
 displayOutstanding(List<Fee> _fees) {
   var display;
 
   for (int i = 0; i < _fees.length; i++) {
-    if (_fees[i].feeStatus == 'UNPAID') {
-      display = Text(
-        'RM' + _fees[i].amount,
-        style: TextStyle(
-            fontSize: 50.0, fontWeight: FontWeight.bold, color: Colors.red),
-      );
+    if (_fees[i].feeStatus == 'Paid') {
+      display = 'RM 0.00';
     } else {
-      display = Text(
-        'RM 0.00',
-        style: TextStyle(
-            fontSize: 50.0, fontWeight: FontWeight.bold, color: Colors.red),
-      );
+      display = 'RM' + _fees[i].amount;
     }
   }
 

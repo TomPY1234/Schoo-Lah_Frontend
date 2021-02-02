@@ -109,13 +109,14 @@ class _StudentTaskListState extends State<StudentTaskListScreen> {
                         child: Padding(
                           padding: const EdgeInsets.all(20),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
                               Text('${widget._data.title}'.toUpperCase()+
                                    '\n\n${widget._data.percent.round()} % completed'+
                                    '\n\n${widget._data.items.asMap().length} Tasks in Total     ', style: TextStyle(
                                 fontFamily: "pop",
                                 fontWeight: FontWeight.w700,
-                                fontSize: 15,
+                                fontSize: 17,
                                 color: Colors.white
                               )),
 
@@ -132,14 +133,14 @@ class _StudentTaskListState extends State<StudentTaskListScreen> {
                             TextSpan(text: 'My ', style: TextStyle(
                               fontFamily: "pop",
                               fontWeight: FontWeight.w700,
-                              fontSize: 20,
+                              fontSize: 25,
                               color: Colors.black,
                             )),
 
                             TextSpan(text: 'Tasks', style: TextStyle(
                               fontFamily: "pop",
                               fontWeight: FontWeight.w700,
-                              fontSize: 20,
+                              fontSize: 25,
                               color: Colors.orange,
                             )),
                           ]),
@@ -237,7 +238,7 @@ class _StudentTaskListState extends State<StudentTaskListScreen> {
                       label: Text("Update" , style: TextStyle(
                         fontFamily: "pop",
                         fontWeight: FontWeight.w700,
-                        fontSize: 16,
+                        fontSize: 18,
                         color: Colors.white)
                       ),
                     ),
@@ -250,7 +251,7 @@ class _StudentTaskListState extends State<StudentTaskListScreen> {
                       label: Text("Cancel" , style: TextStyle(
                         fontFamily: "pop",
                         fontWeight: FontWeight.w700,
-                        fontSize: 16,
+                        fontSize: 18,
                         color: Colors.white)
                       ),
                     ),
@@ -305,26 +306,38 @@ class _StudentTaskListState extends State<StudentTaskListScreen> {
 
               ListTile(
                 title: Text('Subjects', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, studSubject); },
-                trailing: Icon(Icons.arrow_forward_ios_outlined),
+                onTap: () { _cancel(context, toggle, count); Navigator.pushNamed(context, studSubject); },
+                trailing: Image.asset('assets/study.png', height: 30),
               ),
 
               ListTile(
                 title: Text('Financial', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, studFee); },
-                trailing: Icon(Icons.arrow_forward_ios_outlined),
+                onTap: () { _cancel(context, toggle, count); Navigator.pushNamed(context, studFee); },
+                trailing: Image.asset('assets/financial.png', height: 30),
               ),
 
               ListTile(
                 title: Text('E-Bookstore', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, studBook); },
-                trailing: Icon(Icons.arrow_forward_ios_outlined),
+                onTap: () { _cancel(context, toggle, count); Navigator.pushNamed(context, studBook); },
+                trailing: Image.asset('assets/ebook.png', height: 30),
               ),
 
               ListTile(
                 title: Text('QR Scan', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, QRStudentcode); },
-                trailing: Icon(Icons.arrow_forward_ios_outlined),
+                onTap: () { _cancel(context, toggle, count); Navigator.pushNamed(context, QRStudentcode); },
+                trailing: Image.asset('assets/qrcode.png', height: 30),
+              ),
+
+              ListTile(
+                title: Text('My Profile', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                onTap: () { Navigator.pushNamed(context, studProfile); },
+                trailing: Icon(Icons.account_circle_rounded, size: 30),
+              ),
+
+              ListTile(
+                title: Text('Logout', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                onTap: () { _cancel(context, toggle, count); Navigator.pushNamed(context, '/login'); },
+                trailing: Icon(Icons.logout),
               ),
             ],
           ),

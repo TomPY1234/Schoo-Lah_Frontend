@@ -86,11 +86,11 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text('Hello,', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w300, fontSize: 26, color: Colors.black)),
+                      Text('Hello,', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w300, fontSize: 28, color: Colors.black)),
                       
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 6),
-                        child: Text('${user.name}', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w700, fontSize: 26, color: Colors.black)),
+                        child: Text('${user.name}', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w700, fontSize: 30, color: Colors.black)),
                       ),
 
                       Padding(
@@ -102,10 +102,10 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
                                 padding: const EdgeInsets.only(right: 7),
                                 child: homeCategoryItem(
                                     context,
-                                    Colors.red,
+                                    Colors.green,
                                     'assets/study.png', 
                                     'Subjects',
-                                    Colors.orange,
+                                    Colors.greenAccent,
                                     'Subjects'
                                   ),
                                 ),
@@ -116,10 +116,10 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
                                 padding: const EdgeInsets.only(left: 7),
                                 child: homeCategoryItem(
                                   context,
-                                  Colors.green,
+                                  Colors.purple,
                                   'assets/financial.png', 
                                   'Financial',
-                                  Colors.greenAccent,
+                                  Colors.purpleAccent,
                                   'Financial'
                                 ),
                               ),
@@ -137,10 +137,10 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
                                 padding: const EdgeInsets.only(right: 7),
                                 child: homeCategoryItem(
                                   context,
-                                  Colors.greenAccent,
+                                  Colors.lime,
                                   'assets/ebook.png',
                                   'E-Bookstore',
-                                  Colors.green,
+                                  Colors.limeAccent,
                                   'E-Bookstore'
                                 ),
                               ),
@@ -170,14 +170,14 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
                             TextSpan(text: 'Popular ', style: TextStyle(
                               fontFamily: "pop",
                               fontWeight: FontWeight.w700,
-                              fontSize: 20,
+                              fontSize: 25,
                               color: Colors.black,
                             )),
 
                             TextSpan(text: 'Subjects', style: TextStyle(
                               fontFamily: "pop",
                               fontWeight: FontWeight.w700,
-                              fontSize: 20,
+                              fontSize: 25,
                               color: Colors.orange,
                             )),
                           ]),
@@ -188,16 +188,16 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
                 ),
 
                 Container(
-                  height: 200,
+                  height: 250,
                   width: MediaQuery.of(context).size.width,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: <Widget>[
-                      horizontalScrollCourseItem(context, 'assets/SCIENCE.png', 'Science'),
+                      horizontalScrollCourseItem(context, 'assets/SCIENCE.png', 'Science', 'Intresting in Science in Real Life'),
 
-                      horizontalScrollCourseItem(context, 'assets/BAHASA MALAYSIA.png', 'Bahasa Melayu'),
+                      horizontalScrollCourseItem(context, 'assets/BAHASA MALAYSIA.png', 'Bahasa Melayu', 'Memahami Bahasa Kebangsaan Kita'),
 
-                      horizontalScrollCourseItem(context, 'assets/MATHEMATICS.png', 'Mathematics'),
+                      horizontalScrollCourseItem(context, 'assets/MATHEMATICS.png', 'Mathematics', 'Calculation and Mathematics Logic'),
 
                       SizedBox(width: 16),
                     ],
@@ -251,25 +251,37 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
               ListTile(
                 title: Text('Subjects', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
                 onTap: () { Navigator.pushNamed(context, studSubject); },
-                trailing: Icon(Icons.arrow_forward_ios_outlined),
+                trailing: Image.asset('assets/study.png', height: 30),
               ),
 
               ListTile(
                 title: Text('Financial', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
                 onTap: () { Navigator.pushNamed(context, studFee); },
-                trailing: Icon(Icons.arrow_forward_ios_outlined),
+                trailing: Image.asset('assets/financial.png', height: 30),
               ),
 
               ListTile(
                 title: Text('E-Bookstore', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
                 onTap: () { Navigator.pushNamed(context, studBook); },
-                trailing: Icon(Icons.arrow_forward_ios_outlined),
+                trailing: Image.asset('assets/ebook.png', height: 30),
               ),
 
               ListTile(
                 title: Text('QR Scan', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
                 onTap: () { Navigator.pushNamed(context, QRStudentcode); },
-                trailing: Icon(Icons.arrow_forward_ios_outlined),
+                trailing: Image.asset('assets/qrcode.png', height: 30),
+              ),
+
+              ListTile(
+                title: Text('My Profile', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                onTap: () { Navigator.pushNamed(context, studProfile); },
+                trailing: Icon(Icons.account_circle_rounded, size: 30),
+              ),
+
+              ListTile(
+                title: Text('Logout', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
+                onTap: () { Navigator.pushNamed(context, '/login'); },
+                trailing: Icon(Icons.logout),
               ),
             ],
           ),
@@ -375,7 +387,7 @@ Widget homeCategoryItem(BuildContext context, Color primaryColor, String primary
   );
 }
 
-Widget horizontalScrollCourseItem(BuildContext context, String courseImage, String courseTitle)
+Widget horizontalScrollCourseItem(BuildContext context, String courseImage, String courseTitle, String courseDesc)
 {
   return Padding(
     padding: const EdgeInsets.only(left: 16),
@@ -397,10 +409,10 @@ Widget horizontalScrollCourseItem(BuildContext context, String courseImage, Stri
             Flexible(
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Text(courseTitle, style: TextStyle(
+                child: Text(courseTitle+'\n~ '+courseDesc, style: TextStyle(
                   fontFamily: "pop",
                   fontWeight: FontWeight.w600,
-                  fontSize: 16,
+                  fontSize: 18,
                   color: Colors.deepPurple
                 )
                 ),
