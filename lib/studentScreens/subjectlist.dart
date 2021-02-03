@@ -7,9 +7,6 @@ import '../models/todo.dart';
 import '../studentScreens/tasklist.dart';
 
 class StudentSubjectListScreen extends StatefulWidget {
-  final List<Todo> todo;
-
-  StudentSubjectListScreen(this.todo);
   @override
   _StudentSubjectListState createState() => _StudentSubjectListState();
 }
@@ -24,7 +21,7 @@ class _StudentSubjectListState extends State<StudentSubjectListScreen> {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, QRStudentcode);
+      Navigator.pushNamed(context, '/login');
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;
@@ -39,14 +36,11 @@ class _StudentSubjectListState extends State<StudentSubjectListScreen> {
   }
 
   void _navigate(int index) async {
-    Todo returnData = await Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                StudentTaskListScreen(Todo.copy(widget.todo[index]))));
+    Todo returnData = await Navigator.push(context,
+        MaterialPageRoute(builder: (context) => StudentTaskListScreen()));
 
     if (returnData != null) {
-      setState(() => widget.todo[index] = returnData);
+      setState(() => _todos[index] = returnData);
     }
   }
 
@@ -403,7 +397,7 @@ class _StudentSubjectListState extends State<StudentSubjectListScreen> {
           children: <Widget>[
             CircularProgressIndicator(),
             SizedBox(height: 50),
-            Text('Fetching todo... Please wait'),
+            Text('Fetching subject... Please wait'),
           ],
         ),
       ),

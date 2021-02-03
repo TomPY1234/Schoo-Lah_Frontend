@@ -24,7 +24,7 @@ class _StudentProfileState extends State<StudentProfileScreen> {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, QRStudentcode);
+      Navigator.pushNamed(context, '/login');
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;

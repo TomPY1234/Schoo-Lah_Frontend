@@ -5,9 +5,6 @@ import 'package:schoolah_mobile_app/models/todo.dart';
 import 'package:schoolah_mobile_app/services/todo_service_rest.dart';
 
 class StudentTaskListScreen extends StatefulWidget {
-  final Todo _data;
-
-  StudentTaskListScreen(this._data);
   @override
   _StudentTaskListState createState() => _StudentTaskListState();
 }
@@ -22,7 +19,7 @@ class _StudentTaskListState extends State<StudentTaskListScreen> {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, QRStudentcode);
+      Navigator.pushNamed(context, '/login');
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;
