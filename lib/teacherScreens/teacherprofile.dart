@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import 'package:schoolah_mobile_app/models/user.dart';
-import 'package:schoolah_mobile_app/services/user_data_service.dart';
-
-import '../dependencies.dart';
+import 'package:schoolah_mobile_app/services/user_service_rest.dart';
 
 class TeacherProfileScreen extends StatefulWidget {
   @override
@@ -36,10 +34,10 @@ class _TeacherProfileState extends State<TeacherProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final UserDataService userDataService = service();
+    final dataService = UserServiceRest();
 
     return FutureBuilder<User>(
-        future: userDataService.getCurrentUser(),
+        future: dataService.getCurrentUser(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             user = snapshot.data;
@@ -57,127 +55,127 @@ class _TeacherProfileState extends State<TeacherProfileScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
       appBar: AppBar(
-        title: Text('My Profile', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+        title: Text('My Profile',
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.arrow_back), 
+            icon: Icon(Icons.arrow_back),
             onPressed: () => Navigator.pushNamed(context, teachHome),
           ),
         ],
       ),
       body: SingleChildScrollView(
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Stack(
-                    children: <Widget>[
-                      CircleAvatar(
-                        radius: 70,
-                        backgroundImage: NetworkImage('https://randomuser.me/api/portraits/thumb/women/4.jpg'),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Stack(
+                  children: <Widget>[
+                    CircleAvatar(
+                      radius: 70,
+                      backgroundImage: NetworkImage(
+                          'https://randomuser.me/api/portraits/thumb/women/4.jpg'),
+                    ),
+                    Positioned(
+                      bottom: 1,
+                      right: 1,
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        child: Icon(Icons.add_a_photo, color: Colors.white),
+                        decoration: BoxDecoration(
+                            color: Colors.deepOrange,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
                       ),
-                      Positioned(
-                        bottom: 1, 
-                        right: 1,
-                        child: Container(
-                          height: 40,
-                          width: 40,
-                          child: Icon(Icons.add_a_photo, color: Colors.white),
-                          decoration: BoxDecoration(color: Colors.deepOrange, borderRadius: BorderRadius.all(Radius.circular(20))),
-                        ),
-                      )
-                    ],
-                  ),
-                  Padding(padding: EdgeInsets.only(top: 15)),
-                  Text('NAME',
-                      style: TextStyle(
-                          fontSize: 22.0, fontWeight: FontWeight.bold)),
-                  TextField(
-                    onChanged: (value) => name = value,
-                    obscureText: false,
+                    )
+                  ],
+                ),
+                Padding(padding: EdgeInsets.only(top: 15)),
+                Text('NAME',
                     style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-                    decoration: InputDecoration(
-                      hintText: user.name,
-                      fillColor: Colors.white,
-                      filled: true,
-                      contentPadding:
-                          EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32.0)),
-                    ),
+                        TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold)),
+                TextField(
+                  onChanged: (value) => name = value,
+                  obscureText: false,
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                  decoration: InputDecoration(
+                    hintText: user.name,
+                    fillColor: Colors.white,
+                    filled: true,
+                    contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(32.0)),
                   ),
-                  SizedBox(height: 15.0),
-                  Text('EMAIL',
-                      style: TextStyle(
-                          fontSize: 22.0, fontWeight: FontWeight.bold)),
-                  TextField(
-                    onChanged: (value) => email = value,
-                    obscureText: false,
+                ),
+                SizedBox(height: 15.0),
+                Text('EMAIL',
                     style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-                    decoration: InputDecoration(
-                      hintText: user.email,
-                      fillColor: Colors.white,
-                      filled: true,
-                      contentPadding:
-                          EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32.0)),
-                    ),
+                        TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold)),
+                TextField(
+                  onChanged: (value) => email = value,
+                  obscureText: false,
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                  decoration: InputDecoration(
+                    hintText: user.email,
+                    fillColor: Colors.white,
+                    filled: true,
+                    contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(32.0)),
                   ),
-                  SizedBox(height: 15.0),
-                  Text('CONTACT NO.',
-                      style: TextStyle(
-                          fontSize: 22.0, fontWeight: FontWeight.bold)),
-                  TextField(
-                    onChanged: (value) => phone = value,
-                    obscureText: false,
+                ),
+                SizedBox(height: 15.0),
+                Text('CONTACT NO.',
                     style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-                    decoration: InputDecoration(
-                      hintText: user.phone,
-                      fillColor: Colors.white,
-                      filled: true,
-                      contentPadding:
-                          EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32.0)),
-                    ),
+                        TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold)),
+                TextField(
+                  onChanged: (value) => phone = value,
+                  obscureText: false,
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                  decoration: InputDecoration(
+                    hintText: user.phone,
+                    fillColor: Colors.white,
+                    filled: true,
+                    contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(32.0)),
                   ),
-                  SizedBox(height: 15.0),
-                  FloatingActionButton.extended(
-                    backgroundColor: Theme.of(context).primaryColorLight,
-                    heroTag: null,
-                    onPressed: () {
-                      UserDataService userDataService = service();
-                      userDataService.updateDetails(
-                          name: name, email: email, phone: phone);
-                      Navigator.pushNamed(context, teachHome);
-                    },
-                    label: Text('   UPDATE   ',
-                        style: TextStyle(
-                            fontSize: 19.0, fontWeight: FontWeight.bold)),
-                  ),
-                  SizedBox(height: 15.0),
-                  FloatingActionButton.extended(
-                    heroTag: null,
-                    backgroundColor: Colors.red,
-                    onPressed: () {
-                      Navigator.pushNamed(context, login);
-                    },
-                    label: Text('   LOG OUT   ',
-                        style: TextStyle(
-                            fontSize: 19.0, fontWeight: FontWeight.bold)),
-                  ),
-                ],
-              ),
+                ),
+                SizedBox(height: 15.0),
+                FloatingActionButton.extended(
+                  backgroundColor: Theme.of(context).primaryColorLight,
+                  heroTag: null,
+                  onPressed: () async {
+                    final dataService = UserServiceRest();
+                    final newuser = await dataService.updateDetails(
+                        name: name, email: email, phone: phone, id: user.id);
+                    dataService.setCurrentUser(curruser: newuser);
+                    Navigator.pushNamed(context, teachHome);
+                  },
+                  label: Text('   UPDATE   ',
+                      style: TextStyle(
+                          fontSize: 19.0, fontWeight: FontWeight.bold)),
+                ),
+                SizedBox(height: 15.0),
+                FloatingActionButton.extended(
+                  heroTag: null,
+                  backgroundColor: Colors.red,
+                  onPressed: () {
+                    Navigator.pushNamed(context, login);
+                  },
+                  label: Text('   LOG OUT   ',
+                      style: TextStyle(
+                          fontSize: 19.0, fontWeight: FontWeight.bold)),
+                ),
+              ],
             ),
           ),
         ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Theme.of(context).primaryColor,
         items: const <BottomNavigationBarItem>[

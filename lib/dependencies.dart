@@ -3,8 +3,8 @@ import 'package:schoolah_mobile_app/models/mock_todos.dart';
 import 'package:schoolah_mobile_app/services/book_service.dart';
 import 'package:schoolah_mobile_app/services/book_service_rest.dart';
 import 'package:schoolah_mobile_app/services/fee_service_rest.dart';
-import 'package:schoolah_mobile_app/services/user_data_service.dart';
-import 'models/mock_users.dart';
+import 'package:schoolah_mobile_app/services/user_service.dart';
+import 'package:schoolah_mobile_app/services/user_service_rest.dart';
 import 'services/fee_service.dart';
 import 'services/rest_service.dart';
 import 'services/todo_data_service.dart';
@@ -16,7 +16,6 @@ void init() {
 
   service.registerLazySingleton<TodoDataService>(() => TodoDataServiceMock());
   service.registerLazySingleton<BookService>(() => BookServiceRest());
-  service.registerLazySingleton<UserDataService>(() => UserDataServiceMock());
-
+  service.registerLazySingleton<UserService>(() => UserServiceRest());
   service.registerLazySingleton<FeeService>(() => FeeServiceRest());
 }

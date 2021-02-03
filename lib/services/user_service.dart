@@ -1,6 +1,6 @@
 import 'package:schoolah_mobile_app/models/user.dart';
 
-abstract class UserDataService {
+abstract class UserService {
   Future<User> login(String us, String pw);
   Future logout();
   Future registerNew(
@@ -13,7 +13,13 @@ abstract class UserDataService {
       String type,
       String phone});
   Future<User> getCurrentUser();
+  Future setCurrentUser({User curruser});
   Future updateDetails(
-      {String name, int year, String school, String phone, String email});
+      {String name,
+      int year,
+      String school,
+      String phone,
+      String email,
+      String id});
   Future<List<User>> getStudentList();
 }

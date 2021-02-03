@@ -7,7 +7,7 @@ class User {
   String phone;
   String email;
   String school;
-  int id;
+  String id;
 
   User(
       {this.username,
@@ -20,12 +20,27 @@ class User {
       this.school,
       this.id});
 
-  /*Future login(String us, String pw, List<User> users) async {
-    for (var u in users) {
-      if (us == u.username && pw == u.password) {
-        return Future.value(u);
-      }
-    }
-    return null;
-  }*/
+  User.fromJson(Map<String, dynamic> json)
+      : this(
+            username: json['username'],
+            password: json['password'],
+            name: json['name'],
+            type: json['type'],
+            year: json['year'],
+            phone: json['phone'],
+            email: json['email'],
+            school: json['school'],
+            id: json['id'].toString());
+
+  Map<String, dynamic> toJson() => {
+        'username': username,
+        'password': password,
+        'name': name,
+        'type': type,
+        'year': year,
+        'phone': phone,
+        'email': email,
+        'school': school,
+        'id': id
+      };
 }
