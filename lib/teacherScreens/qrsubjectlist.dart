@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import 'package:schoolah_mobile_app/models/todo.dart';
-import 'package:schoolah_mobile_app/services/todo_data_service.dart';
+import 'package:schoolah_mobile_app/services/todo_service_rest.dart';
 
 import '../dependencies.dart';
 
@@ -38,10 +38,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
   String dropdownValue1 = 'Select Year';
 
   Widget build(BuildContext context) {
-    final TodoDataService todoDataService = service();
+    final dataService = TodoServiceRest();
 
     return FutureBuilder<List<Todo>>(
-        future: todoDataService.getTodoList(),
+        future: dataService.getAllTodos(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return _buildMainScreen();
@@ -56,11 +56,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
       appBar: AppBar(
-        title: Text('QR Generator', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+        title: Text('QR Generator',
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.arrow_back), 
+            icon: Icon(Icons.arrow_back),
             onPressed: () => Navigator.pushNamed(context, teachHome),
           ),
         ],
@@ -73,12 +74,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
           children: <Widget>[
             Padding(padding: EdgeInsets.only(top: 15)),
             Image.asset('assets/QRSCAN.png', width: 100.0, height: 100.0),
-
             Divider(color: Colors.grey[300], height: 25),
             Padding(padding: EdgeInsets.only(top: 10)),
-
-            Text('Subject', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
-
+            Text('Subject',
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
             DropdownButton<String>(
               items: <String>[
                 'Choose Subject',
@@ -90,22 +89,22 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
-                ); 
+                );
               }).toList(),
               value: dropdownValue,
               onChanged: (String newValue) {
                 setState(() {
                   dropdownValue = newValue;
                   print("new${newValue}");
-                }); 
+                });
               },
               isExpanded: true,
-              hint: Text('Choose Subject', style: TextStyle(color: Colors.black)),
+              hint:
+                  Text('Choose Subject', style: TextStyle(color: Colors.black)),
             ),
-
             Padding(padding: EdgeInsets.only(top: 10)),
-            Text('Year', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
-
+            Text('Year',
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
             DropdownButton<String>(
               items: <String>[
                 'Select Year',
@@ -131,7 +130,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
               isExpanded: true,
               hint: Text('Select Year', style: TextStyle(color: Colors.black)),
             ),
-
             Padding(padding: EdgeInsets.only(top: 10)),
             FloatingActionButton.extended(
               backgroundColor: Theme.of(context).primaryColorLight,
@@ -139,7 +137,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
               onPressed: () {
                 Navigator.pushNamed(context, QRcode);
               },
-              label: Text('GENERATE', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
+              label: Text('GENERATE',
+                  style:
+                      TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
             ),
           ],
         ),

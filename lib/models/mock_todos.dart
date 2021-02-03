@@ -5,7 +5,6 @@ import 'dart:async';
 
 import 'package:schoolah_mobile_app/models/task.dart';
 import 'package:schoolah_mobile_app/models/todo.dart';
-import 'package:schoolah_mobile_app/services/todo_data_service.dart';
 
 List<Todo> mockData = [
   Todo(title: 'Mathematics', items: [
@@ -28,23 +27,23 @@ List<Todo> mockData = [
   ]),
 ];
 
-class TodoDataServiceMock implements TodoDataService {
-  int _nextId = 12;
-  Todo currTodo;
-  Future<List<Todo>> getTodoList() async {
-    return [...mockData];
-  }
+// class TodoDataServiceMock implements TodoDataService {
+//   int _nextId = 12;
+//   Todo currTodo;
+//   Future<List<Todo>> getTodoList() async {
+//     return [...mockData];
+//   }
 
-  Future createTodo({Todo todo, String task}) async {
-    Task newTask = Task(id: _nextId++, title: task, completed: false);
-    todo.items.add(newTask);
-  }
+//   Future createTodo({Todo todo, String task}) async {
+//     Task newTask = Task(id: _nextId++, title: task, completed: false);
+//     todo.items.add(newTask);
+//   }
 
-  Future updateCurrentTodo({Todo todo}) async {
-    currTodo = todo;
-  }
+//   Future updateCurrentTodo({Todo todo}) async {
+//     currTodo = todo;
+//   }
 
-  Future<Todo> getTodo() async {
-    return currTodo;
-  }
-}
+//   Future<Todo> getTodo() async {
+//     return currTodo;
+//   }
+// }

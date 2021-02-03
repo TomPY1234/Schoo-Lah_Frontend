@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import 'package:schoolah_mobile_app/models/todo.dart';
-import 'package:schoolah_mobile_app/services/todo_data_service.dart';
-import '../dependencies.dart';
+import 'package:schoolah_mobile_app/services/todo_service_rest.dart';
 
 class TaskListScreen extends StatefulWidget {
   //Todo _data;
@@ -49,14 +48,14 @@ class _TaskListScreenState extends State<TaskListScreen> {
       setState(() => todo = returnData);
     }
   }*/
+  final dataService = TodoServiceRest();
 
   @override
   Widget build(BuildContext context) {
-    final TodoDataService todoDataService = service();
     //_data = todoDataService.getTodo();
 
     return FutureBuilder<Todo>(
-        future: todoDataService.getTodo(),
+        future: dataService.getCurrentTodo(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             _data = snapshot.data;
@@ -74,67 +73,74 @@ class _TaskListScreenState extends State<TaskListScreen> {
       appBar: AppBar(
         title: Column(
           children: <Widget>[
-            Text('Task Details', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            Text('Task Details',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           ],
         ),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.arrow_back), 
+            icon: Icon(Icons.arrow_back),
             onPressed: () => Navigator.pushNamed(context, teacherSubject),
           ),
         ],
       ),
       body: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text('${_data.title}'.toUpperCase(), style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-
-              Padding(padding: EdgeInsets.only(top: 15)),
-
-              Expanded(
-                child: ListView.builder(
-                  itemCount: _data.items.length,
-                  shrinkWrap: true,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      margin: EdgeInsets.only(bottom: 10),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey[300],
-                            offset: Offset(0, 0),
-                            blurRadius: 5,
-                          ),
-                        ],
-                      ),
-                      child: ListTile(
-                        leading: Container(
-                          padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
-                          child: Text(
-                            '${index+1}',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text('${_data.title}'.toUpperCase(),
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+            Padding(padding: EdgeInsets.only(top: 15)),
+            Expanded(
+              child: ListView.builder(
+                itemCount: _data.items.length,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey[300],
+                          offset: Offset(0, 0),
+                          blurRadius: 5,
+                        ),
+                      ],
+                    ),
+                    child: ListTile(
+                      leading: Container(
+                        padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
+                        child: Text(
+                          '${index + 1}',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        tileColor: Colors.greenAccent[400],
-                        title: Text( _data.items[index].title),
-                        onLongPress: () => setState(() => _data.items.removeAt(index)),
                       ),
-                    );
-                  },
-                ),
+                      tileColor: Colors.greenAccent[400],
+                      title: Text(_data.items[index].title),
+                      // onLongPress: () =>
+                      //     setState(() => _data.items.removeAt(index)),
+                      onLongPress: () async {
+                        setState(() => _data.items.removeAt(index));
+                        final updateStatus = await dataService
+                            .updateCurrentTodo(todo: _data, id: _data.id);
+                        dataService.setCurrentTodo(currtodo: updateStatus);
+                      },
+                    ),
+                  );
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
+      ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[

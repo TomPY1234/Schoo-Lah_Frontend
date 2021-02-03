@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
-import 'package:schoolah_mobile_app/models/task.dart';
 import 'package:schoolah_mobile_app/models/todo.dart';
-import 'package:schoolah_mobile_app/services/todo_data_service.dart';
+import 'package:schoolah_mobile_app/services/todo_service_rest.dart';
 import '../dependencies.dart';
-import '../models/user.dart';
 import 'package:provider/provider.dart';
-import '../models/mock_todos.dart' as data;
 
 class AddTaskScreen extends StatefulWidget {
   //final Todo _data;
@@ -20,7 +17,6 @@ class _AddTaskState extends State<AddTaskScreen> {
   int _selectedIndex = 1;
   String title;
   Todo _data;
-  final TodoDataService todoDataService = service();
 
   void _onItemTapped(int index) {
     if (index == 0) {
@@ -43,14 +39,14 @@ class _AddTaskState extends State<AddTaskScreen> {
 
   bool toggle = false;
   var count = new List(30);
+  final dataService = TodoServiceRest();
 
   @override
   Widget build(BuildContext context) {
-    final TodoDataService todoDataService = service();
     //_data = todoDataService.getTodo();
 
     return FutureBuilder<Todo>(
-        future: todoDataService.getTodo(),
+        future: dataService.getCurrentTodo(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             _data = snapshot.data;
@@ -66,11 +62,12 @@ class _AddTaskState extends State<AddTaskScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
       appBar: AppBar(
-        title: Text('Add Task', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        title: Text('Add Task',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.arrow_back), 
+            icon: Icon(Icons.arrow_back),
             onPressed: () => Navigator.pushNamed(context, teachTask),
           ),
         ],
@@ -85,9 +82,12 @@ class _AddTaskState extends State<AddTaskScreen> {
               Card(
                 margin: EdgeInsets.all(10.0),
                 elevation: 1.0,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(50.0))),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(50.0))),
                 child: Container(
-                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10.0)),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.0)),
                   child: SizedBox(
                     height: 180.0,
                     width: 380.0,
@@ -96,21 +96,23 @@ class _AddTaskState extends State<AddTaskScreen> {
                       children: <Widget>[
                         ClipRRect(
                           borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            topRight: Radius.circular(10)),
-                          child: Image.asset('assets/${_data.title.toUpperCase()}.png',
-                            fit: BoxFit.cover,
-                            width: double.infinity),
+                              topLeft: Radius.circular(10),
+                              topRight: Radius.circular(10)),
+                          child: Image.asset(
+                              'assets/${_data.title.toUpperCase()}.png',
+                              fit: BoxFit.cover,
+                              width: double.infinity),
                         ),
                       ],
                     ),
                   ),
                 ),
               ),
-
-              Text('Enter Task Name', textAlign: TextAlign.center, style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
+              Text('Enter Task Name',
+                  textAlign: TextAlign.center,
+                  style:
+                      TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
               Padding(padding: EdgeInsets.only(top: 15)),
-
               TextField(
                 obscureText: false,
                 onChanged: (value) => title = value,
@@ -124,17 +126,20 @@ class _AddTaskState extends State<AddTaskScreen> {
                       borderRadius: BorderRadius.circular(32.0)),
                 ),
               ),
-
               Padding(padding: EdgeInsets.only(top: 15)),
-
               FloatingActionButton.extended(
                 backgroundColor: Theme.of(context).primaryColorLight,
                 heroTag: null,
-                onPressed: () {
-                  todoDataService.createTodo(todo: _data, task: title);
+                onPressed: () async {
+                  dataService.createTodo(todo: _data, task: title);
+                  final updateStatus = await dataService.updateCurrentTodo(
+                      todo: _data, id: _data.id);
+                  dataService.setCurrentTodo(currtodo: updateStatus);
                   Navigator.pushNamed(context, teacherSubject);
                 },
-                label: Text('Add Task', style:TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
+                label: Text('Add Task',
+                    style:
+                        TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold)),
                 icon: Icon(Icons.add),
               ),
             ],
