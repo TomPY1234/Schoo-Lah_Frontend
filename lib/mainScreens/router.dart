@@ -21,6 +21,7 @@ import 'package:schoolah_mobile_app/teacherScreens/teachersubjectlist.dart';
 import 'package:schoolah_mobile_app/teacherScreens/tasklistTeacher.dart';
 import 'package:schoolah_mobile_app/teacherScreens/teacherhome.dart';
 import 'package:schoolah_mobile_app/teacherScreens/teacherprofile.dart';
+import 'package:schoolah_mobile_app/teacherScreens/qrscanningzone.dart';
 
 import 'constants.dart';
 import 'login.dart';
@@ -114,6 +115,11 @@ Route<dynamic> createRoute(settings) {
     case QRcode:
       return MaterialPageRoute(
         builder: (context) => ScanScreen(),
+      );
+
+    case teachScanZone:
+      return MaterialPageRoute(
+        builder: (context) => ScanZoneScreen(),
       );
 
     case QRStudentcode:

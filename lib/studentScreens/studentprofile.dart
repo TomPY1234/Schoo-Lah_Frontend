@@ -11,8 +11,14 @@ class StudentProfileScreen extends StatefulWidget {
   _StudentProfileState createState() => _StudentProfileState();
 }
 
+String name;
+String phone;
+String email;
+String school;
+int year;
+User user;
+
 class _StudentProfileState extends State<StudentProfileScreen> {
-  User user;
   int _selectedIndex = 2;
 
   void _onItemTapped(int index) {
@@ -50,11 +56,6 @@ class _StudentProfileState extends State<StudentProfileScreen> {
   }
 
   Scaffold _buildMainScreen() {
-    String name;
-    String phone;
-    String email;
-    String school;
-    int year;
     final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
 
     return Scaffold(
@@ -159,11 +160,11 @@ class _StudentProfileState extends State<StudentProfileScreen> {
                   ),
                 ),
 
-                displayProfileString(user.name, Icons.account_circle_rounded),
-                displayProfileInt(user.year, Icons.confirmation_number_outlined),
-                displayProfileString(user.phone, Icons.phone_android_outlined),
-                displayProfileString(user.email, Icons.email_outlined),
-                displayProfileString(user.school, Icons.school_outlined),
+                displayProfileString(user.name, name, Icons.account_circle_rounded),
+                displayProfileInt(user.year, year, Icons.confirmation_number_outlined),
+                displayProfileString(user.phone, phone, Icons.phone_android_outlined),
+                displayProfileString(user.email, email, Icons.email_outlined),
+                displayProfileString(user.school, school, Icons.school_outlined),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -308,7 +309,7 @@ class _StudentProfileState extends State<StudentProfileScreen> {
   }
 }
 
-displayProfileString(String valueString, IconData valueIcon)
+displayProfileString(String valueString, String valueChanged, IconData valueIcon)
 {
   return Padding(
     padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
@@ -359,7 +360,16 @@ displayProfileString(String valueString, IconData valueIcon)
                       Padding(
                         padding: EdgeInsets.only(left: 10, right: 10),
                         child: TextField(
-                            onChanged: (value) => valueString = value,
+                            onChanged: (value) {
+                              if (valueString == user.name)
+                              { valueChanged = value; name = valueChanged; }
+                              if (valueString == user.phone)
+                              { valueChanged = value; phone = valueChanged; }
+                              if (valueString == user.school)
+                              { valueChanged = value; school = valueChanged; }
+                              if (valueString == user.email)
+                              { valueChanged = value; email = valueChanged; }
+                            },
                             obscureText: false,
                             style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                             decoration: InputDecoration(
@@ -384,7 +394,7 @@ displayProfileString(String valueString, IconData valueIcon)
   );
 }
 
-displayProfileInt(int valueInt, IconData valueIcon)
+displayProfileInt(int valueInt, int valueChanged, IconData valueIcon)
 {
   return Padding(
     padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
@@ -435,7 +445,10 @@ displayProfileInt(int valueInt, IconData valueIcon)
                       Padding(
                         padding: EdgeInsets.only(left: 10, right: 10),
                         child: TextField(
-                            onChanged: (value) => valueInt = int.parse(value),
+                            onChanged: (value) {
+                              valueChanged = int.parse(value);
+                              year = valueChanged;
+                            },
                             obscureText: false,
                             style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                             decoration: InputDecoration(

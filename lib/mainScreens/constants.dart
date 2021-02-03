@@ -17,3 +17,4 @@ const String teachAddTask = '/addTask';
 const String teachQR = '/qrsubjectlist';
 const String QRcode = '/qrhistory';
 const String QRStudentcode = '/qrscan';
+const String teachScanZone = '/scanzone';

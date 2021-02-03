@@ -26,6 +26,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   dropdown_formfield: ^0.1.3
   get_it: ^5.0.4
+  intl: ^0.16.1
   percent_indicator: ^2.1.1
   provider: ^4.3.1
   splashscreen: null
@@ -81,7 +82,12 @@ flutter:
     - assets/finance.png
     - assets/qrscancode.png
     - assets/ebookstore.png
-
+    - assets/news1.jpg
+    - assets/news2.jpg
+    - assets/news3.jpg
+    - assets/comingsoon.png
+    - assets/student.jpg
+    - assets/classroom.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

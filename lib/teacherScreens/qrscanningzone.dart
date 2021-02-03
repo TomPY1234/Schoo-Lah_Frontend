@@ -6,17 +6,15 @@ import 'package:schoolah_mobile_app/services/qrcode_data_service.dart';
 
 import '../dependencies.dart';
 
-class DetailsScreen extends StatefulWidget {
-  // final List<QRCode> code;
-  // DetailsScreen(this.code);
-
+class ScanZoneScreen extends StatefulWidget {
   @override
-  _DetailsScreenState createState() => _DetailsScreenState();
+  _ScanZoneState createState() => _ScanZoneState();
 }
 
-class _DetailsScreenState extends State<DetailsScreen> {
+class _ScanZoneState extends State<ScanZoneScreen> {
   int _selectedIndex = 0;
-  List<QRCode> history;
+
+  List<QRCode> scanCode;
 
   void _onItemTapped(int index) {
     if (index == 0) {
@@ -41,14 +39,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
   Widget build(BuildContext context) {
     final QRCodeDataService qrcodeDataService = service();
 
-    // history = qrcodeDataService.getAllHistory();
-    // return _buildMainScreen();
-
     return FutureBuilder<List<QRCode>>(
         future: qrcodeDataService.getAllHistory(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            history = snapshot.data;
+            scanCode = snapshot.data;
             return _buildMainScreen();
           }
           return _buildFetchingDataScreen();
@@ -112,16 +107,16 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              Text('Total QR\nAttendance\nGenerated : \n\n${history.length} History(s)', style: TextStyle(
+                              Text('${scanCode.last.subject}\nYear ${scanCode.last.year}\n\nClass Date Time : \n${scanCode.last.classTime}', style: TextStyle(
                                 fontFamily: "pop",
                                 fontWeight: FontWeight.w700,
-                                fontSize: 17,
+                                fontSize: 15,
                                 color: Colors.white
                               )),
 
                               SizedBox(width: 20),
 
-                              Image.asset('assets/qrscancode.png', height: 120),
+                              Image.asset('assets/qrscancode.png', height: 100),
                             ],
                           ),
                         ),
@@ -131,14 +126,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         padding: const EdgeInsets.only(top: 30, bottom: 10),
                         child: RichText(
                           text: TextSpan(children: [
-                            TextSpan(text: 'QR ', style: TextStyle(
+                            TextSpan(text: 'Scan ', style: TextStyle(
                               fontFamily: "pop",
                               fontWeight: FontWeight.w700,
                               fontSize: 25,
                               color: Colors.black,
                             )),
 
-                            TextSpan(text: 'Attendance Generator', style: TextStyle(
+                            TextSpan(text: 'QR Attendance', style: TextStyle(
                               fontFamily: "pop",
                               fontWeight: FontWeight.w700,
                               fontSize: 25,
@@ -151,36 +146,17 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   ),
                 ),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    ElevatedButton.icon(
-                      onPressed: () { Navigator.pushNamed(context, QRcode); },
-                      icon: Icon(Icons.qr_code_outlined, size: 18),
-                      label: Text("Generate QR Code" , style: TextStyle(
-                        fontFamily: "pop",
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18,
-                        color: Colors.white)
-                      ),
-                    ),
-                  ],
-                ),
-
-                SizedBox(height: 10),
-                
-                for (var code in history)
                 Padding(
                   padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
                   child: Container(
                     decoration: BoxDecoration(boxShadow: [
                       BoxShadow(
-                        color: Colors.red.withOpacity(0.4),
+                        color: Colors.blueGrey.withOpacity(0.4),
                         blurRadius: 10,
                         offset: Offset(0.0, 6),
                       ),
                     ],
-                    color: Colors.red,
+                    color: Colors.blueGrey,
                     borderRadius: BorderRadius.circular(10),
                     ),
                     child: Material(
@@ -188,44 +164,22 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       child: InkWell(
                         borderRadius: BorderRadius.circular(10),
                         child: Container(
-                          height: 100,
+                          height: 400,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Flexible(
-                                flex: 3,
+                                flex: 4,
                                 child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Padding(
-                                        padding: EdgeInsets.only(left: 10),
-                                        child: Text('${code.subject}\nYear ${code.year}\n\nCreated On:\n${code.classTime}', style: TextStyle(
-                                          fontFamily: "pop",
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 14,
-                                          color: Colors.white)
-                                        ),
+                                        padding: EdgeInsets.only(left: 10, right: 10),
+                                        child: Image.asset('assets/qr.jpeg'),
                                       ),
                                     ],
-                                  ),
-                                ),
-                              ),
-
-                              Flexible(
-                                flex: 1,
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  child: Image.asset('assets/qrcode.png', width: 60, color: Colors.red),
-                                  decoration: BoxDecoration(
-                                    color: Colors.orange,
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(10),
-                                      bottomRight: Radius.circular(10),
-                                      bottomLeft: Radius.circular(40),
-                                      topLeft: Radius.circular(40),
-                                    )
                                   ),
                                 ),
                               ),
@@ -236,12 +190,30 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     ),
                   ),
                 ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    ElevatedButton.icon(
+                      onPressed: () { Navigator.pushNamed(context, teachQR); },
+                      icon: Icon(Icons.arrow_back_ios_outlined, size: 18),
+                      label: Text("Back" , style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18,
+                        color: Colors.white)
+                      ),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 10),
               ],
             ),
           ),
         ),
       ),
-
+      
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Theme.of(context).accentColor,
         items: const <BottomNavigationBarItem>[
@@ -326,7 +298,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
           children: <Widget>[
             CircularProgressIndicator(),
             SizedBox(height: 50),
-            Text('Fetching history... Please wait'),
+            Text('Generating QR Code... Please wait'),
           ],
         ),
       ),
