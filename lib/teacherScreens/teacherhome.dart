@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
+import 'package:schoolah_mobile_app/services/user_service_rest.dart';
 import '../models/user.dart';
 import 'package:provider/provider.dart';
 
@@ -11,7 +12,7 @@ class TeacherHomePageScreen extends StatefulWidget {
 }
 
 class _TeacherHomePageState extends State<TeacherHomePageScreen> {
-  final User user;
+  User user;
   int _selectedIndex = 1;
   _TeacherHomePageState(this.user);
 
@@ -36,8 +37,21 @@ class _TeacherHomePageState extends State<TeacherHomePageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
+    final dataService = UserServiceRest();
 
+    return FutureBuilder<User>(
+        future: dataService.getCurrentUser(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            user = snapshot.data;
+            return _buildMainScreen();
+          }
+          return _buildFetchingDataScreen();
+        });
+  }
+
+  Scaffold _buildMainScreen() {
+    final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
 
@@ -318,6 +332,21 @@ class _TeacherHomePageState extends State<TeacherHomePageScreen> {
             ],
           ),
           decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+        ),
+      ),
+    );
+  }
+
+  Scaffold _buildFetchingDataScreen() {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            SizedBox(height: 50),
+            Text('Fetching current user... Please wait'),
+          ],
         ),
       ),
     );

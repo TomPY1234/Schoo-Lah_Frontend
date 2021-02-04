@@ -54,12 +54,12 @@ Route<dynamic> createRoute(settings) {
 
     case studTask:
       return MaterialPageRoute(
-        builder: (context) => StudentTaskListScreen(mockData[0]),
+        builder: (context) => StudentTaskListScreen(),
       );
 
     case studSubject:
       return MaterialPageRoute(
-        builder: (context) => StudentSubjectListScreen(mockData),
+        builder: (context) => StudentSubjectListScreen(),
       );
 
     case teacherSubject:

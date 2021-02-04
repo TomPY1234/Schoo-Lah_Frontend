@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import 'package:schoolah_mobile_app/models/user.dart';
-import 'package:schoolah_mobile_app/services/user_data_service.dart';
-
-import '../dependencies.dart';
+import 'package:schoolah_mobile_app/services/user_service_rest.dart';
 
 class StudentProfileScreen extends StatefulWidget {
   @override
@@ -26,7 +24,7 @@ class _StudentProfileState extends State<StudentProfileScreen> {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, QRStudentcode);
+      Navigator.pushNamed(context, '/login');
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;
@@ -42,10 +40,10 @@ class _StudentProfileState extends State<StudentProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final UserDataService userDataService = service();
+    final dataService = UserServiceRest();
 
     return FutureBuilder<User>(
-        future: userDataService.getCurrentUser(),
+        future: dataService.getCurrentUser(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             user = snapshot.data;
@@ -60,7 +58,7 @@ class _StudentProfileState extends State<StudentProfileScreen> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
-      
+
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -117,16 +115,21 @@ class _StudentProfileState extends State<StudentProfileScreen> {
                                 children: <Widget>[
                                   CircleAvatar(
                                     radius: 70,
-                                    backgroundImage: NetworkImage('https://randomuser.me/api/portraits/thumb/men/86.jpg'),
+                                    backgroundImage: NetworkImage(
+                                        'https://randomuser.me/api/portraits/thumb/men/86.jpg'),
                                   ),
                                   Positioned(
-                                    bottom: 1, 
+                                    bottom: 1,
                                     right: 1,
                                     child: Container(
                                       height: 40,
                                       width: 40,
-                                      child: Icon(Icons.add_a_photo, color: Colors.white),
-                                      decoration: BoxDecoration(color: Colors.deepOrange, borderRadius: BorderRadius.all(Radius.circular(20))),
+                                      child: Icon(Icons.add_a_photo,
+                                          color: Colors.white),
+                                      decoration: BoxDecoration(
+                                          color: Colors.deepOrange,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20))),
                                     ),
                                   )
                                 ],
@@ -135,75 +138,81 @@ class _StudentProfileState extends State<StudentProfileScreen> {
                           ),
                         ),
                       ),
-
                       Padding(
                         padding: const EdgeInsets.only(top: 30, bottom: 10),
                         child: RichText(
                           text: TextSpan(children: [
-                            TextSpan(text: 'My ', style: TextStyle(
-                              fontFamily: "pop",
-                              fontWeight: FontWeight.w700,
-                              fontSize: 25,
-                              color: Colors.black,
-                            )),
-
-                            TextSpan(text: 'Profile', style: TextStyle(
-                              fontFamily: "pop",
-                              fontWeight: FontWeight.w700,
-                              fontSize: 25,
-                              color: Colors.orange,
-                            )),
+                            TextSpan(
+                                text: 'My ',
+                                style: TextStyle(
+                                  fontFamily: "pop",
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 25,
+                                  color: Colors.black,
+                                )),
+                            TextSpan(
+                                text: 'Profile',
+                                style: TextStyle(
+                                  fontFamily: "pop",
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 25,
+                                  color: Colors.orange,
+                                )),
                           ]),
                         ),
                       ),
                     ],
                   ),
                 ),
-
-                displayProfileString(user.name, name, Icons.account_circle_rounded),
-                displayProfileInt(user.year, year, Icons.confirmation_number_outlined),
-                displayProfileString(user.phone, phone, Icons.phone_android_outlined),
-                displayProfileString(user.email, email, Icons.email_outlined),
-                displayProfileString(user.school, school, Icons.school_outlined),
-
+                displayProfileString(
+                    user.name, Icons.account_circle_rounded, name),
+                displayProfileInt(
+                    user.year, Icons.confirmation_number_outlined),
+                displayProfileString(
+                    user.phone, Icons.phone_android_outlined, phone),
+                displayProfileString(user.email, Icons.email_outlined, email),
+                displayProfileString(
+                    user.school, Icons.school_outlined, school),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     ElevatedButton.icon(
-                      onPressed: () {
-                        UserDataService userDataService = service();
-                        userDataService.updateDetails(
+                      onPressed: () async {
+                        final dataService = UserServiceRest();
+                        final newuser = await dataService.updateDetails(
                             name: name,
                             year: year,
                             school: school,
                             email: email,
-                            phone: phone);
+                            phone: phone,
+                            id: user.id);
+                        print(name);
+                        dataService.setCurrentUser(curruser: newuser);
                         Navigator.pushNamed(context, studHome);
                       },
                       icon: Icon(Icons.update_outlined, size: 18),
-                      label: Text("Save Changes" , style: TextStyle(
-                        fontFamily: "pop",
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18,
-                        color: Colors.white)
-                      ),
+                      label: Text("Save Changes",
+                          style: TextStyle(
+                              fontFamily: "pop",
+                              fontWeight: FontWeight.w700,
+                              fontSize: 18,
+                              color: Colors.white)),
                     ),
-
                     SizedBox(width: 30),
-
                     ElevatedButton.icon(
-                      onPressed: () { Navigator.pushNamed(context, '/login'); },
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/login');
+                      },
                       icon: Icon(Icons.logout, size: 18),
-                      label: Text("Log Out" , style: TextStyle(
-                        fontFamily: "pop",
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18,
-                        color: Colors.white)
-                      ),
+                      label: Text("Log Out",
+                          style: TextStyle(
+                              fontFamily: "pop",
+                              fontWeight: FontWeight.w700,
+                              fontSize: 18,
+                              color: Colors.white)),
                     ),
                   ],
                 ),
-
                 SizedBox(height: 10),
               ],
             ),
@@ -233,56 +242,95 @@ class _StudentProfileState extends State<StudentProfileScreen> {
         selectedFontSize: 12,
         onTap: _onItemTapped,
       ),
-
+      
       endDrawer: Drawer(
         child: DrawerHeader(
           child: Column(
             children: <Widget>[
               ListTile(
-                title: Text('Menu', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, fontSize: 30, color: Colors.black)),
+                title: Text('Menu',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        fontSize: 30,
+                        color: Colors.black)),
                 tileColor: Theme.of(context).accentColor,
               ),
-
               CheckboxListTile(
-                title: Text('Change Theme Color', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                subtitle: changeModeNotifier.value ? Text('Pink') : Text('Orange'),
+                title: Text('Change Theme Color',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                subtitle:
+                    changeModeNotifier.value ? Text('Pink') : Text('Orange'),
                 value: changeModeNotifier.value,
                 onChanged: (newValue) => changeModeNotifier.value = newValue,
               ),
-
               ListTile(
-                title: Text('Subjects', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, studSubject); },
+                title: Text('Subjects',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, studSubject);
+                },
                 trailing: Image.asset('assets/study.png', height: 30),
               ),
-
               ListTile(
-                title: Text('Financial', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, studFee); },
+                title: Text('Financial',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, studFee);
+                },
                 trailing: Image.asset('assets/financial.png', height: 30),
               ),
-
               ListTile(
-                title: Text('E-Bookstore', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, studBook); },
+                title: Text('E-Bookstore',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, studBook);
+                },
                 trailing: Image.asset('assets/ebook.png', height: 30),
               ),
-
               ListTile(
-                title: Text('QR Scan', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, QRStudentcode); },
+                title: Text('QR Scan',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, QRStudentcode);
+                },
                 trailing: Image.asset('assets/qrcode.png', height: 30),
               ),
-
               ListTile(
-                title: Text('My Profile', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, studProfile); },
+                title: Text('My Profile',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, studProfile);
+                },
                 trailing: Icon(Icons.account_circle_rounded, size: 30),
               ),
-
               ListTile(
-                title: Text('Logout', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, '/login'); },
+                title: Text('Logout',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, '/login');
+                },
                 trailing: Icon(Icons.logout),
               ),
             ],
@@ -309,75 +357,85 @@ class _StudentProfileState extends State<StudentProfileScreen> {
   }
 }
 
-displayProfileString(String valueString, String valueChanged, IconData valueIcon)
-{
+displayProfileString(
+    String valueString, IconData valueIcon, String valueChanged) {
   return Padding(
     padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
     child: Container(
-      decoration: BoxDecoration(boxShadow: [
-        BoxShadow(
-          color: Colors.cyan.withOpacity(0.4),
-          blurRadius: 10,
-          offset: Offset(0.0, 6),
-        ),
-      ],
-      color: Colors.cyan,
-      borderRadius: BorderRadius.circular(10),
-    ),
-    child: Material(
-      type: MaterialType.transparency,
-      child: InkWell(
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.cyan.withOpacity(0.4),
+            blurRadius: 10,
+            offset: Offset(0.0, 6),
+          ),
+        ],
+        color: Colors.cyan,
         borderRadius: BorderRadius.circular(10),
-        child: Container(
-          height: 100,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Flexible(
-                flex: 1,
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Icon(valueIcon, size: 50),
-                  decoration: BoxDecoration(
-                    color: Colors.cyanAccent,
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(40),
-                      bottomRight: Radius.circular(40),
-                      bottomLeft: Radius.circular(10),
-                      topLeft: Radius.circular(10),
-                    )
+      ),
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(10),
+          child: Container(
+            height: 100,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Flexible(
+                  flex: 1,
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: Icon(valueIcon, size: 50),
+                    decoration: BoxDecoration(
+                        color: Colors.cyanAccent,
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(40),
+                          bottomRight: Radius.circular(40),
+                          bottomLeft: Radius.circular(10),
+                          topLeft: Radius.circular(10),
+                        )),
                   ),
                 ),
-              ),
-              
-              Flexible(
-                flex: 4,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10),
-                        child: TextField(
+                Flexible(
+                  flex: 4,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: 10, right: 10),
+                          child: TextField(
                             onChanged: (value) {
-                              if (valueString == user.name)
-                              { valueChanged = value; name = valueChanged; }
-                              if (valueString == user.phone)
-                              { valueChanged = value; phone = valueChanged; }
-                              if (valueString == user.school)
-                              { valueChanged = value; school = valueChanged; }
-                              if (valueString == user.email)
-                              { valueChanged = value; email = valueChanged; }
+                              if (valueString == user.name) {
+                                valueChanged = value;
+                                name = valueChanged;
+                              }
+                              if (valueString == user.phone) {
+                                valueChanged = value;
+                                phone = valueChanged;
+                              }
+                              if (valueString == user.school) {
+                                valueChanged = value;
+                                school = valueChanged;
+                              }
+                              if (valueString == user.email) {
+                                valueChanged = value;
+                                email = valueChanged;
+                              }
                             },
                             obscureText: false,
-                            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontSize: 20.0, fontWeight: FontWeight.bold),
                             decoration: InputDecoration(
                               hintText: valueString,
                               fillColor: Colors.white,
                               filled: true,
-                              contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                              contentPadding:
+                                  EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(32.0)),
                             ),
                           ),
                         ),
@@ -394,69 +452,67 @@ displayProfileString(String valueString, String valueChanged, IconData valueIcon
   );
 }
 
-displayProfileInt(int valueInt, int valueChanged, IconData valueIcon)
-{
+displayProfileInt(int valueInt, IconData valueIcon) {
   return Padding(
     padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
     child: Container(
-      decoration: BoxDecoration(boxShadow: [
-        BoxShadow(
-          color: Colors.cyan.withOpacity(0.4),
-          blurRadius: 10,
-          offset: Offset(0.0, 6),
-        ),
-      ],
-      color: Colors.cyan,
-      borderRadius: BorderRadius.circular(10),
-    ),
-    child: Material(
-      type: MaterialType.transparency,
-      child: InkWell(
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.cyan.withOpacity(0.4),
+            blurRadius: 10,
+            offset: Offset(0.0, 6),
+          ),
+        ],
+        color: Colors.cyan,
         borderRadius: BorderRadius.circular(10),
-        child: Container(
-          height: 100,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Flexible(
-                flex: 1,
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Icon(valueIcon, size: 50),
-                  decoration: BoxDecoration(
-                    color: Colors.cyanAccent,
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(40),
-                      bottomRight: Radius.circular(40),
-                      bottomLeft: Radius.circular(10),
-                      topLeft: Radius.circular(10),
-                    )
+      ),
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(10),
+          child: Container(
+            height: 100,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Flexible(
+                  flex: 1,
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: Icon(valueIcon, size: 50),
+                    decoration: BoxDecoration(
+                        color: Colors.cyanAccent,
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(40),
+                          bottomRight: Radius.circular(40),
+                          bottomLeft: Radius.circular(10),
+                          topLeft: Radius.circular(10),
+                        )),
                   ),
                 ),
-              ),
-              
-              Flexible(
-                flex: 4,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10),
-                        child: TextField(
-                            onChanged: (value) {
-                              valueChanged = int.parse(value);
-                              year = valueChanged;
-                            },
+                Flexible(
+                  flex: 4,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: 10, right: 10),
+                          child: TextField(
+                            onChanged: (value) => year = int.parse(value),
                             obscureText: false,
-                            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontSize: 20.0, fontWeight: FontWeight.bold),
                             decoration: InputDecoration(
                               hintText: valueInt.toString(),
                               fillColor: Colors.white,
                               filled: true,
-                              contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                              contentPadding:
+                                  EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(32.0)),
                             ),
                           ),
                         ),

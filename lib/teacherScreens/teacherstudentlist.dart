@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import 'package:schoolah_mobile_app/models/user.dart';
-import 'package:schoolah_mobile_app/services/user_data_service.dart';
-import '../dependencies.dart';
+import 'package:schoolah_mobile_app/services/user_service_rest.dart';
 
 class TeacherStudentListScreen extends StatefulWidget {
   //final List<Todo> todo;
@@ -38,12 +37,10 @@ class _TeacherStudentListState extends State<TeacherStudentListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final UserDataService userDataService = service();
+    final dataService = UserServiceRest();
 
-    //students = userDataService.getStudentList();
-    //return _buildMainScreen();
     return FutureBuilder<List<User>>(
-        future: userDataService.getStudentList(),
+        future: dataService.getStudentList(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             students = snapshot.data;

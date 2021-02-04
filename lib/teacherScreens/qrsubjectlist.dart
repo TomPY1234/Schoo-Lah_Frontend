@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
+import 'package:schoolah_mobile_app/models/mock_qrcode.dart';
 import 'package:schoolah_mobile_app/models/qrcode.dart';
-import 'package:schoolah_mobile_app/services/qrcode_data_service.dart';
 
 import '../dependencies.dart';
 
@@ -15,7 +15,9 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
+  final qrCodeDataService = QRCodeDataServiceMock();
   int _selectedIndex = 0;
+  int selected = 0;
   List<QRCode> history;
 
   void _onItemTapped(int index) {
@@ -39,13 +41,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final QRCodeDataService qrcodeDataService = service();
-
-    // history = qrcodeDataService.getAllHistory();
-    // return _buildMainScreen();
-
     return FutureBuilder<List<QRCode>>(
-        future: qrcodeDataService.getAllHistory(),
+        future: qrCodeDataService.getAllHistory(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             history = snapshot.data;
@@ -186,6 +183,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     child: Material(
                       type: MaterialType.transparency,
                       child: InkWell(
+                        onLongPress: () {
+                          // Part ini sila check sebab aku tak tau how to delete
+                          selected = history.indexOf(code);
+                          setState(() => history.removeAt(selected));
+                        },
                         borderRadius: BorderRadius.circular(10),
                         child: Container(
                           height: 100,

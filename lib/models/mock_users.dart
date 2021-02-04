@@ -1,10 +1,8 @@
-import 'package:schoolah_mobile_app/services/user_data_service.dart';
-
 import 'user.dart';
 
 List<User> globalUserList = [
   User(
-      id: 1,
+      id: "1",
       username: 'ahmadaiman',
       password: 'ahmad123',
       name: 'Ahmad Aiman',
@@ -14,7 +12,7 @@ List<User> globalUserList = [
       phone: '0197542776',
       email: 'ahmad.aiman@gmail.com'),
   User(
-      id: 2,
+      id: "2",
       username: 'nurain',
       password: 'ain123',
       name: 'Nur Ain',
@@ -24,89 +22,89 @@ List<User> globalUserList = [
       email: 'ainn765@gmail.com'),
 ];
 
-class UserDataServiceMock implements UserDataService {
-  User currUser;
-  int nextId = 3;
-  Future<User> login(String us, String pw) async {
-    for (var u in globalUserList) {
-      if (us == u.username && pw == u.password) {
-        currUser = u;
-        return Future.value(u);
-      }
-    }
-    return null;
-  }
+// class UserDataServiceMock implements UserDataService {
+//   User currUser;
+//   int nextId = 3;
+//   Future<User> login(String us, String pw) async {
+//     for (var u in globalUserList) {
+//       if (us == u.username && pw == u.password) {
+//         currUser = u;
+//         return Future.value(u);
+//       }
+//     }
+//     return null;
+//   }
 
-  Future logout() async {
-    currUser = null;
-  }
+//   Future logout() async {
+//     currUser = null;
+//   }
 
-  Future registerNew(
-      {String username,
-      String password,
-      String name,
-      int year,
-      String school,
-      String email,
-      String type,
-      String phone}) async {
-    final newuser = User(
-        id: nextId++,
-        username: username,
-        password: password,
-        name: name,
-        year: year,
-        school: school,
-        email: email,
-        type: type,
-        phone: phone);
-    globalUserList.add(newuser);
-  }
+//   Future registerNew(
+//       {String username,
+//       String password,
+//       String name,
+//       int year,
+//       String school,
+//       String email,
+//       String type,
+//       String phone}) async {
+//     final newuser = User(
+//         id: nextId++,
+//         username: username,
+//         password: password,
+//         name: name,
+//         year: year,
+//         school: school,
+//         email: email,
+//         type: type,
+//         phone: phone);
+//     globalUserList.add(newuser);
+//   }
 
-  Future<User> getCurrentUser() async {
-    return currUser;
-  }
+//   Future<User> getCurrentUser() async {
+//     return currUser;
+//   }
 
-  Future updateDetails(
-      {String name,
-      int year,
-      String school,
-      String phone,
-      String email}) async {
-    if (name == null) {
-      name = currUser.name;
-    }
-    if (year == null) {
-      year = currUser.year;
-    }
+//   Future updateDetails(
+//       {String name,
+//       int year,
+//       String school,
+//       String phone,
+//       String email}) async {
+//     if (name == null) {
+//       name = currUser.name;
+//     }
+//     if (year == null) {
+//       year = currUser.year;
+//     }
 
-    if (school == null) {
-      school = currUser.school;
-    }
+//     if (school == null) {
+//       school = currUser.school;
+//     }
 
-    if (phone == null) {
-      phone = currUser.phone;
-    }
+//     if (phone == null) {
+//       phone = currUser.phone;
+//     }
 
-    if (email == null) {
-      email = currUser.email;
-    }
-    currUser.name = name;
-    currUser.year = year;
-    currUser.school = school;
-    currUser.phone = phone;
-    currUser.email = email;
-  }
+//     if (email == null) {
+//       email = currUser.email;
+//     }
+//     currUser.name = name;
+//     currUser.year = year;
+//     currUser.school = school;
+//     currUser.phone = phone;
+//     currUser.email = email;
+//   }
 
-  Future<List<User>> getStudentList() async {
-    List<User> students = new List<User>();
-    print(globalUserList.length);
+//   Future<List<User>> getStudentList() async {
+//     List<User> students = new List<User>();
+//     print(globalUserList.length);
 
-    for (int i = 0; i < globalUserList.length; i++) {
-      if (globalUserList[i].type == 'student') {
-        students.add(globalUserList[i]);
-      }
-    }
-    return students;
-  }
-}
+//     for (int i = 0; i < globalUserList.length; i++) {
+//       if (globalUserList[i].type == 'student') {
+//         students.add(globalUserList[i]);
+//       }
+//     }
+//     return students;
+//   }
+//}

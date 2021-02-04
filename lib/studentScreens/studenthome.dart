@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
-import 'package:schoolah_mobile_app/services/user_data_service.dart';
-import '../dependencies.dart';
+import 'package:schoolah_mobile_app/services/user_service_rest.dart';
 import '../models/user.dart';
 import 'package:provider/provider.dart';
 
 class StudentHomePageScreen extends StatefulWidget {
-  //User currUser;
-  //StudentHomePageScreen(this.currUser);
   @override
   _StudentHomePageState createState() => _StudentHomePageState();
 }
@@ -37,10 +34,10 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final UserDataService userDataService = service();
+    final dataService = UserServiceRest();
 
     return FutureBuilder<User>(
-        future: userDataService.getCurrentUser(),
+        future: dataService.getCurrentUser(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             user = snapshot.data;
@@ -55,7 +52,6 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
-
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -86,13 +82,21 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text('Hello,', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w300, fontSize: 28, color: Colors.black)),
-                      
+                      Text('Hello,',
+                          style: TextStyle(
+                              fontFamily: "pop",
+                              fontWeight: FontWeight.w300,
+                              fontSize: 28,
+                              color: Colors.black)),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 6),
-                        child: Text('${user.name}', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w700, fontSize: 30, color: Colors.black)),
+                        child: Text('${user.name}',
+                            style: TextStyle(
+                                fontFamily: "pop",
+                                fontWeight: FontWeight.w700,
+                                fontSize: 30,
+                                color: Colors.black)),
                       ),
-
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         child: Row(
@@ -103,31 +107,27 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
                                 child: homeCategoryItem(
                                     context,
                                     Colors.green,
-                                    'assets/study.png', 
+                                    'assets/study.png',
                                     'Subjects',
                                     Colors.greenAccent,
-                                    'Subjects'
-                                  ),
-                                ),
+                                    'Subjects'),
                               ),
-
+                            ),
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 7),
                                 child: homeCategoryItem(
-                                  context,
-                                  Colors.purple,
-                                  'assets/financial.png', 
-                                  'Financial',
-                                  Colors.purpleAccent,
-                                  'Financial'
-                                ),
+                                    context,
+                                    Colors.purple,
+                                    'assets/financial.png',
+                                    'Financial',
+                                    Colors.purpleAccent,
+                                    'Financial'),
                               ),
                             ),
                           ],
                         ),
                       ),
-
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Row(
@@ -136,69 +136,73 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
                               child: Padding(
                                 padding: const EdgeInsets.only(right: 7),
                                 child: homeCategoryItem(
-                                  context,
-                                  Colors.lime,
-                                  'assets/ebook.png',
-                                  'E-Bookstore',
-                                  Colors.limeAccent,
-                                  'E-Bookstore'
-                                ),
+                                    context,
+                                    Colors.lime,
+                                    'assets/ebook.png',
+                                    'E-Bookstore',
+                                    Colors.limeAccent,
+                                    'E-Bookstore'),
                               ),
                             ),
-
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 7),
                                 child: homeCategoryItem(
-                                  context,
-                                  Colors.orange,
-                                  'assets/qrcode.png',
-                                  'QR Scan',
-                                  Colors.red,
-                                  'QR Scan'
-                                ),
+                                    context,
+                                    Colors.orange,
+                                    'assets/qrcode.png',
+                                    'QR Scan',
+                                    Colors.red,
+                                    'QR Scan'),
                               ),
                             ),
                           ],
                         ),
                       ),
-
                       Padding(
                         padding: const EdgeInsets.only(top: 30, bottom: 10),
                         child: RichText(
                           text: TextSpan(children: [
-                            TextSpan(text: 'Popular ', style: TextStyle(
-                              fontFamily: "pop",
-                              fontWeight: FontWeight.w700,
-                              fontSize: 25,
-                              color: Colors.black,
-                            )),
-
-                            TextSpan(text: 'Subjects', style: TextStyle(
-                              fontFamily: "pop",
-                              fontWeight: FontWeight.w700,
-                              fontSize: 25,
-                              color: Colors.orange,
-                            )),
+                            TextSpan(
+                                text: 'Popular ',
+                                style: TextStyle(
+                                  fontFamily: "pop",
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 25,
+                                  color: Colors.black,
+                                )),
+                            TextSpan(
+                                text: 'Subjects',
+                                style: TextStyle(
+                                  fontFamily: "pop",
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 25,
+                                  color: Colors.orange,
+                                )),
                           ]),
                         ),
                       ),
                     ],
                   ),
                 ),
-
                 Container(
                   height: 250,
                   width: MediaQuery.of(context).size.width,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: <Widget>[
-                      horizontalScrollCourseItem(context, 'assets/SCIENCE.png', 'Science', 'Intresting in Science in Real Life'),
-
-                      horizontalScrollCourseItem(context, 'assets/BAHASA MALAYSIA.png', 'Bahasa Melayu', 'Memahami Bahasa Kebangsaan Kita'),
-
-                      horizontalScrollCourseItem(context, 'assets/MATHEMATICS.png', 'Mathematics', 'Calculation and Mathematics Logic'),
-
+                      horizontalScrollCourseItem(context, 'assets/SCIENCE.png',
+                          'Science', 'Intresting in Science in Real Life'),
+                      horizontalScrollCourseItem(
+                          context,
+                          'assets/BAHASA MALAYSIA.png',
+                          'Bahasa Melayu',
+                          'Memahami Bahasa Kebangsaan Kita'),
+                      horizontalScrollCourseItem(
+                          context,
+                          'assets/MATHEMATICS.png',
+                          'Mathematics',
+                          'Calculation and Mathematics Logic'),
                       SizedBox(width: 16),
                     ],
                   ),
@@ -208,7 +212,6 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
           ),
         ),
       ),
-
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Theme.of(context).accentColor,
         items: const <BottomNavigationBarItem>[
@@ -231,56 +234,94 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
         selectedFontSize: 12,
         onTap: _onItemTapped,
       ),
-
       endDrawer: Drawer(
         child: DrawerHeader(
           child: Column(
             children: <Widget>[
               ListTile(
-                title: Text('Menu', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, fontSize: 30, color: Colors.black)),
+                title: Text('Menu',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        fontSize: 30,
+                        color: Colors.black)),
                 tileColor: Theme.of(context).accentColor,
               ),
-
               CheckboxListTile(
-                title: Text('Change Theme Color', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                subtitle: changeModeNotifier.value ? Text('Pink') : Text('Orange'),
+                title: Text('Change Theme Color',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                subtitle:
+                    changeModeNotifier.value ? Text('Pink') : Text('Orange'),
                 value: changeModeNotifier.value,
                 onChanged: (newValue) => changeModeNotifier.value = newValue,
               ),
-
               ListTile(
-                title: Text('Subjects', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, studSubject); },
+                title: Text('Subjects',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, studSubject);
+                },
                 trailing: Image.asset('assets/study.png', height: 30),
               ),
-
               ListTile(
-                title: Text('Financial', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, studFee); },
+                title: Text('Financial',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, studFee);
+                },
                 trailing: Image.asset('assets/financial.png', height: 30),
               ),
-
               ListTile(
-                title: Text('E-Bookstore', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, studBook); },
+                title: Text('E-Bookstore',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, studBook);
+                },
                 trailing: Image.asset('assets/ebook.png', height: 30),
               ),
-
               ListTile(
-                title: Text('QR Scan', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, QRStudentcode); },
+                title: Text('QR Scan',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, QRStudentcode);
+                },
                 trailing: Image.asset('assets/qrcode.png', height: 30),
               ),
-
               ListTile(
-                title: Text('My Profile', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, studProfile); },
+                title: Text('My Profile',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, studProfile);
+                },
                 trailing: Icon(Icons.account_circle_rounded, size: 30),
               ),
-
               ListTile(
-                title: Text('Logout', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, '/login'); },
+                title: Text('Logout',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, '/login');
+                },
                 trailing: Icon(Icons.logout),
               ),
             ],
@@ -308,31 +349,38 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
 }
 
 //---------------------------------------------------------------------------------------
-Widget homeCategoryItem(BuildContext context, Color primaryColor, String primaryIcon, String primaryTitle, Color secondaryColor, String dashboard)
-{
+Widget homeCategoryItem(
+    BuildContext context,
+    Color primaryColor,
+    String primaryIcon,
+    String primaryTitle,
+    Color secondaryColor,
+    String dashboard) {
   return Container(
-    decoration: BoxDecoration(boxShadow: [
-      BoxShadow(
-        color: primaryColor.withOpacity(0.4),
-        blurRadius: 10,
-        offset: Offset(0.0, 6),
-      ),
-    ],
-    color: primaryColor,
-    borderRadius: BorderRadius.circular(10),
+    decoration: BoxDecoration(
+      boxShadow: [
+        BoxShadow(
+          color: primaryColor.withOpacity(0.4),
+          blurRadius: 10,
+          offset: Offset(0.0, 6),
+        ),
+      ],
+      color: primaryColor,
+      borderRadius: BorderRadius.circular(10),
     ),
     child: Material(
       type: MaterialType.transparency,
       child: InkWell(
         onTap: () {
-          if (dashboard == 'Subjects')
-          { Navigator.pushNamed(context, studSubject); }
-          else if (dashboard == 'Financial')
-          { Navigator.pushNamed(context, studFee); }
-          else if (dashboard == 'E-Bookstore')
-          { Navigator.pushNamed(context, studBook); }
-          else 
-          { Navigator.pushNamed(context, QRStudentcode); }
+          if (dashboard == 'Subjects') {
+            Navigator.pushNamed(context, studSubject);
+          } else if (dashboard == 'Financial') {
+            Navigator.pushNamed(context, studFee);
+          } else if (dashboard == 'E-Bookstore') {
+            Navigator.pushNamed(context, studBook);
+          } else {
+            Navigator.pushNamed(context, QRStudentcode);
+          }
         },
         borderRadius: BorderRadius.circular(10),
         child: Container(
@@ -348,15 +396,15 @@ Widget homeCategoryItem(BuildContext context, Color primaryColor, String primary
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Image.asset(primaryIcon, height: 45),
-                      
                       Padding(
                         padding: const EdgeInsets.only(top: 8),
-                        child: Text(primaryTitle, style: TextStyle(
-                            fontFamily: "pop",
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                            color: Colors.white
-                          ),
+                        child: Text(
+                          primaryTitle,
+                          style: TextStyle(
+                              fontFamily: "pop",
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                              color: Colors.white),
                         ),
                       ),
                     ],
@@ -369,14 +417,13 @@ Widget homeCategoryItem(BuildContext context, Color primaryColor, String primary
                   alignment: Alignment.center,
                   child: Icon(Icons.arrow_forward_ios_outlined),
                   decoration: BoxDecoration(
-                    color: secondaryColor,
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(10),
-                      bottomRight: Radius.circular(10),
-                      bottomLeft: Radius.circular(40),
-                      topLeft: Radius.circular(40),
-                    )
-                  ),
+                      color: secondaryColor,
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(10),
+                        bottomRight: Radius.circular(10),
+                        bottomLeft: Radius.circular(40),
+                        topLeft: Radius.circular(40),
+                      )),
                 ),
               ),
             ],
@@ -387,8 +434,8 @@ Widget homeCategoryItem(BuildContext context, Color primaryColor, String primary
   );
 }
 
-Widget horizontalScrollCourseItem(BuildContext context, String courseImage, String courseTitle, String courseDesc)
-{
+Widget horizontalScrollCourseItem(BuildContext context, String courseImage,
+    String courseTitle, String courseDesc) {
   return Padding(
     padding: const EdgeInsets.only(left: 16),
     child: Material(
@@ -405,17 +452,15 @@ Widget horizontalScrollCourseItem(BuildContext context, String courseImage, Stri
                 child: Image.asset(courseImage),
               ),
             ),
-
             Flexible(
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Text(courseTitle+'\n~ '+courseDesc, style: TextStyle(
-                  fontFamily: "pop",
-                  fontWeight: FontWeight.w600,
-                  fontSize: 18,
-                  color: Colors.deepPurple
-                )
-                ),
+                child: Text(courseTitle + '\n~ ' + courseDesc,
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18,
+                        color: Colors.deepPurple)),
               ),
             ),
           ],

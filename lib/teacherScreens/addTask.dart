@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
-import 'package:schoolah_mobile_app/models/task.dart';
 import 'package:schoolah_mobile_app/models/todo.dart';
-import 'package:schoolah_mobile_app/services/todo_data_service.dart';
+import 'package:schoolah_mobile_app/services/todo_service_rest.dart';
 import '../dependencies.dart';
-import '../models/user.dart';
 import 'package:provider/provider.dart';
-import '../models/mock_todos.dart' as data;
 
 class AddTaskScreen extends StatefulWidget {
   //final Todo _data;
@@ -20,14 +17,13 @@ class _AddTaskState extends State<AddTaskScreen> {
   int _selectedIndex = 1;
   String title;
   Todo _data;
-  final TodoDataService todoDataService = service();
 
   void _onItemTapped(int index) {
     if (index == 0) {
       setState(() {
         _selectedIndex = index;
       });
-      Navigator.pushNamed(context, teachQR);
+      Navigator.pushNamed(context, '/login');
     } else if (index == 1) {
       setState(() {
         _selectedIndex = index;
@@ -43,14 +39,14 @@ class _AddTaskState extends State<AddTaskScreen> {
 
   bool toggle = false;
   var count = new List(30);
+  final dataService = TodoServiceRest();
 
   @override
   Widget build(BuildContext context) {
-    final TodoDataService todoDataService = service();
     //_data = todoDataService.getTodo();
 
     return FutureBuilder<Todo>(
-        future: todoDataService.getTodo(),
+        future: dataService.getCurrentTodo(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             _data = snapshot.data;
@@ -217,8 +213,11 @@ class _AddTaskState extends State<AddTaskScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     ElevatedButton.icon(
-                      onPressed: () {
-                        todoDataService.createTodo(todo: _data, task: title);
+                      onPressed: () async {
+                        dataService.createTodo(todo: _data, task: title);
+                        final updateStatus = await dataService.updateCurrentTodo(
+                            todo: _data, id: _data.id);
+                        dataService.setCurrentTodo(currtodo: updateStatus);
                         Navigator.pushNamed(context, teacherSubject);
                       },
                       icon: Icon(Icons.add_box_outlined, size: 18),

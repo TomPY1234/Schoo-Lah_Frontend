@@ -55,7 +55,11 @@ class QRCodeDataServiceMock implements QRCodeDataService {
     mockQRCode.add(newHistory);
   }
 
-  Future<QRCode> getHistory() async {
+  Future<QRCode> getHistory({QRCode code}) async {
     return currQRCode;
+  }
+
+  Future<QRCode> updateHistory({QRCode code}) async {
+    currQRCode = code;
   }
 }

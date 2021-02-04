@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import 'package:schoolah_mobile_app/models/todo.dart';
-import 'package:schoolah_mobile_app/services/todo_data_service.dart';
-import '../dependencies.dart';
+import 'package:schoolah_mobile_app/services/todo_service_rest.dart';
 
 class TaskListScreen extends StatefulWidget {
   //Todo _data;
@@ -50,14 +49,14 @@ class _TaskListScreenState extends State<TaskListScreen> {
       setState(() => todo = returnData);
     }
   }*/
+  final dataService = TodoServiceRest();
 
   @override
   Widget build(BuildContext context) {
-    final TodoDataService todoDataService = service();
     //_data = todoDataService.getTodo();
 
     return FutureBuilder<Todo>(
-        future: todoDataService.getTodo(),
+        future: dataService.getCurrentTodo(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             _data = snapshot.data;
@@ -180,10 +179,11 @@ class _TaskListScreenState extends State<TaskListScreen> {
                     child: Material(
                       type: MaterialType.transparency,
                       child: InkWell(
-                        onLongPress: () {
+                        onLongPress: () async {
                           selected = _data.items.indexOf(task);
-                          print(selected);
-                          setState(() => _data.items.removeAt(selected)); 
+                          setState(() => _data.items.removeAt(selected));
+                          final updateStatus = await dataService.updateCurrentTodo(todo: _data, id: _data.id);
+                          dataService.setCurrentTodo(currtodo: updateStatus); 
                         },
                         borderRadius: BorderRadius.circular(10),
                         child: Container(

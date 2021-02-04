@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
-import 'package:schoolah_mobile_app/services/todo_data_service.dart';
-import '../dependencies.dart';
+import 'package:schoolah_mobile_app/services/todo_service_rest.dart';
 import '../models/todo.dart';
-import 'tasklistTeacher.dart';
 
 class TeacherSubjectListScreen extends StatefulWidget {
   final List<Todo> todo;
@@ -37,12 +35,12 @@ class _TeacherSubjectListState extends State<TeacherSubjectListScreen> {
     }
   }
 
+  final dataService = TodoServiceRest();
+
   @override
   Widget build(BuildContext context) {
-    final TodoDataService todoDataService = service();
-
     return FutureBuilder<List<Todo>>(
-        future: todoDataService.getTodoList(),
+        future: dataService.getAllTodos(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             _todos = snapshot.data;
@@ -167,8 +165,7 @@ class _TeacherSubjectListState extends State<TeacherSubjectListScreen> {
                       type: MaterialType.transparency,
                       child: InkWell(
                         onTap: () {
-                          final TodoDataService todoDataService = service();
-                          todoDataService.updateCurrentTodo(todo: todo);
+                          dataService.setCurrentTodo(currtodo: todo);
                           Navigator.pushNamed(context, teachTask);
                         },
                         borderRadius: BorderRadius.circular(10),
@@ -192,8 +189,7 @@ class _TeacherSubjectListState extends State<TeacherSubjectListScreen> {
                                         fontFamily: "pop",
                                         fontWeight: FontWeight.w600,
                                         fontSize: 15,
-                                        color: Colors.white)
-                                      ),
+                                        color: Colors.white)),
                                     ],
                                   ),
                                 ),
