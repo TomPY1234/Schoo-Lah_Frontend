@@ -58,7 +58,6 @@ class _StudentProfileState extends State<StudentProfileScreen> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
-
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -186,7 +185,6 @@ class _StudentProfileState extends State<StudentProfileScreen> {
                             email: email,
                             phone: phone,
                             id: user.id);
-                        print(name);
                         dataService.setCurrentUser(curruser: newuser);
                         Navigator.pushNamed(context, studHome);
                       },
@@ -219,7 +217,6 @@ class _StudentProfileState extends State<StudentProfileScreen> {
           ),
         ),
       ),
-
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Theme.of(context).accentColor,
         items: const <BottomNavigationBarItem>[
@@ -242,7 +239,6 @@ class _StudentProfileState extends State<StudentProfileScreen> {
         selectedFontSize: 12,
         onTap: _onItemTapped,
       ),
-      
       endDrawer: Drawer(
         child: DrawerHeader(
           child: Column(

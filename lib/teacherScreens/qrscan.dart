@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import 'package:schoolah_mobile_app/models/qrcode.dart';
-import 'package:schoolah_mobile_app/services/qrcode_data_service.dart';
-
-import '../dependencies.dart';
+import 'package:schoolah_mobile_app/services/qrcode_service_rest.dart';
 
 class ScanZoneScreen extends StatefulWidget {
   @override
@@ -14,7 +12,7 @@ class ScanZoneScreen extends StatefulWidget {
 class _ScanZoneState extends State<ScanZoneScreen> {
   int _selectedIndex = 0;
 
-  List<QRCode> scanCode;
+  QRCode scanCode;
 
   void _onItemTapped(int index) {
     if (index == 0) {
@@ -35,12 +33,12 @@ class _ScanZoneState extends State<ScanZoneScreen> {
     }
   }
 
+  final dataService = QRCodeServiceRest();
+
   @override
   Widget build(BuildContext context) {
-    final QRCodeDataService qrcodeDataService = service();
-
-    return FutureBuilder<List<QRCode>>(
-        future: qrcodeDataService.getAllHistory(),
+    return FutureBuilder<QRCode>(
+        future: dataService.getLatestQR(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             scanCode = snapshot.data;
@@ -55,7 +53,6 @@ class _ScanZoneState extends State<ScanZoneScreen> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
-
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -66,9 +63,10 @@ class _ScanZoneState extends State<ScanZoneScreen> {
               backgroundColor: Colors.white,
               brightness: Brightness.light,
               leading: IconButton(
-                icon: Icon(Icons.arrow_back_ios_outlined),
-                onPressed: () { Navigator.pushNamed(context, teachHome); }
-              ),
+                  icon: Icon(Icons.arrow_back_ios_outlined),
+                  onPressed: () {
+                    Navigator.pushNamed(context, teachHome);
+                  }),
             ),
           ];
         },
@@ -107,57 +105,59 @@ class _ScanZoneState extends State<ScanZoneScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              Text('${scanCode.last.subject}\nYear ${scanCode.last.year}\n\nClass Date Time : \n${scanCode.last.classTime}', style: TextStyle(
-                                fontFamily: "pop",
-                                fontWeight: FontWeight.w700,
-                                fontSize: 15,
-                                color: Colors.white
-                              )),
-
+                              Text(
+                                  '${scanCode.subject}\nYear ${scanCode.year}\n\nClass Date Time : \n${scanCode.classTime}',
+                                  style: TextStyle(
+                                      fontFamily: "pop",
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 15,
+                                      color: Colors.white)),
                               SizedBox(width: 20),
-
                               Image.asset('assets/qrscancode.png', height: 100),
                             ],
                           ),
                         ),
                       ),
-
                       Padding(
                         padding: const EdgeInsets.only(top: 30, bottom: 10),
                         child: RichText(
                           text: TextSpan(children: [
-                            TextSpan(text: 'Scan ', style: TextStyle(
-                              fontFamily: "pop",
-                              fontWeight: FontWeight.w700,
-                              fontSize: 25,
-                              color: Colors.black,
-                            )),
-
-                            TextSpan(text: 'QR Attendance', style: TextStyle(
-                              fontFamily: "pop",
-                              fontWeight: FontWeight.w700,
-                              fontSize: 25,
-                              color: Colors.orange,
-                            )),
+                            TextSpan(
+                                text: 'Scan ',
+                                style: TextStyle(
+                                  fontFamily: "pop",
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 25,
+                                  color: Colors.black,
+                                )),
+                            TextSpan(
+                                text: 'QR Attendance',
+                                style: TextStyle(
+                                  fontFamily: "pop",
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 25,
+                                  color: Colors.orange,
+                                )),
                           ]),
                         ),
                       ),
                     ],
                   ),
                 ),
-
                 Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
+                  padding:
+                      const EdgeInsets.only(left: 15, right: 15, bottom: 15),
                   child: Container(
-                    decoration: BoxDecoration(boxShadow: [
-                      BoxShadow(
-                        color: Colors.blueGrey.withOpacity(0.4),
-                        blurRadius: 10,
-                        offset: Offset(0.0, 6),
-                      ),
-                    ],
-                    color: Colors.blueGrey,
-                    borderRadius: BorderRadius.circular(10),
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.blueGrey.withOpacity(0.4),
+                          blurRadius: 10,
+                          offset: Offset(0.0, 6),
+                        ),
+                      ],
+                      color: Colors.blueGrey,
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     child: Material(
                       type: MaterialType.transparency,
@@ -176,7 +176,8 @@ class _ScanZoneState extends State<ScanZoneScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Padding(
-                                        padding: EdgeInsets.only(left: 10, right: 10),
+                                        padding: EdgeInsets.only(
+                                            left: 10, right: 10),
                                         child: Image.asset('assets/qr.jpeg'),
                                       ),
                                     ],
@@ -190,30 +191,29 @@ class _ScanZoneState extends State<ScanZoneScreen> {
                     ),
                   ),
                 ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     ElevatedButton.icon(
-                      onPressed: () { Navigator.pushNamed(context, teachQR); },
+                      onPressed: () {
+                        Navigator.pushNamed(context, teachQR);
+                      },
                       icon: Icon(Icons.arrow_back_ios_outlined, size: 18),
-                      label: Text("Back" , style: TextStyle(
-                        fontFamily: "pop",
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18,
-                        color: Colors.white)
-                      ),
+                      label: Text("Back",
+                          style: TextStyle(
+                              fontFamily: "pop",
+                              fontWeight: FontWeight.w700,
+                              fontSize: 18,
+                              color: Colors.white)),
                     ),
                   ],
                 ),
-
                 SizedBox(height: 10),
               ],
             ),
           ),
         ),
       ),
-      
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Theme.of(context).accentColor,
         items: const <BottomNavigationBarItem>[
@@ -236,50 +236,83 @@ class _ScanZoneState extends State<ScanZoneScreen> {
         selectedFontSize: 12,
         onTap: _onItemTapped,
       ),
-
       endDrawer: Drawer(
         child: DrawerHeader(
           child: Column(
             children: <Widget>[
               ListTile(
-                title: Text('Menu', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, fontSize: 30, color: Colors.black)),
+                title: Text('Menu',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        fontSize: 30,
+                        color: Colors.black)),
                 tileColor: Theme.of(context).accentColor,
               ),
-
               CheckboxListTile(
-                title: Text('Change Theme Color', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                subtitle: changeModeNotifier.value ? Text('Pink') : Text('Orange'),
+                title: Text('Change Theme Color',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                subtitle:
+                    changeModeNotifier.value ? Text('Pink') : Text('Orange'),
                 value: changeModeNotifier.value,
                 onChanged: (newValue) => changeModeNotifier.value = newValue,
               ),
-
               ListTile(
-                title: Text('Subjects', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, teacherSubject); },
+                title: Text('Subjects',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, teacherSubject);
+                },
                 trailing: Image.asset('assets/study.png', height: 30),
               ),
-
               ListTile(
-                title: Text('Students', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, '/teacherstudentlist'); },
+                title: Text('Students',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, '/teacherstudentlist');
+                },
                 trailing: Image.asset('assets/student.jpg', height: 24),
               ),
-
               ListTile(
-                title: Text('QR History', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, teachQR); },
+                title: Text('QR History',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, teachQR);
+                },
                 trailing: Image.asset('assets/qrcode.png', height: 30),
               ),
-
               ListTile(
-                title: Text('My Profile', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, teachProfile); },
+                title: Text('My Profile',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, teachProfile);
+                },
                 trailing: Icon(Icons.account_circle_rounded, size: 30),
               ),
-
               ListTile(
-                title: Text('Logout', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, '/login'); },
+                title: Text('Logout',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, '/login');
+                },
                 trailing: Icon(Icons.logout),
               ),
             ],

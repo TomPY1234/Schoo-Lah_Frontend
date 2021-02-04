@@ -5,9 +5,6 @@ import 'package:schoolah_mobile_app/models/user.dart';
 import 'package:schoolah_mobile_app/services/user_service_rest.dart';
 
 class TeacherStudentListScreen extends StatefulWidget {
-  //final List<Todo> todo;
-
-  //TeacherStudentListScreen(this.todo);
   @override
   _TeacherStudentListState createState() => _TeacherStudentListState();
 }
@@ -55,7 +52,6 @@ class _TeacherStudentListState extends State<TeacherStudentListScreen> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
-
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -66,9 +62,10 @@ class _TeacherStudentListState extends State<TeacherStudentListScreen> {
               backgroundColor: Colors.white,
               brightness: Brightness.light,
               leading: IconButton(
-                icon: Icon(Icons.arrow_back_ios_outlined),
-                onPressed: () { Navigator.pushNamed(context, teachHome); }
-              ),
+                  icon: Icon(Icons.arrow_back_ios_outlined),
+                  onPressed: () {
+                    Navigator.pushNamed(context, teachHome);
+                  }),
             ),
           ];
         },
@@ -107,118 +104,120 @@ class _TeacherStudentListState extends State<TeacherStudentListScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              Text('Total Students : \n\n${students.length} student(s)', style: TextStyle(
-                                fontFamily: "pop",
-                                fontWeight: FontWeight.w700,
-                                fontSize: 17,
-                                color: Colors.white
-                              )),
-
+                              Text(
+                                  'Total Students : \n\n${students.length} student(s)',
+                                  style: TextStyle(
+                                      fontFamily: "pop",
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 17,
+                                      color: Colors.white)),
                               SizedBox(width: 20),
-
                               Image.asset('assets/classroom.png', height: 120),
                             ],
                           ),
                         ),
                       ),
-
                       Padding(
                         padding: const EdgeInsets.only(top: 30, bottom: 10),
                         child: RichText(
                           text: TextSpan(children: [
-                            TextSpan(text: 'My ', style: TextStyle(
-                              fontFamily: "pop",
-                              fontWeight: FontWeight.w700,
-                              fontSize: 25,
-                              color: Colors.black,
-                            )),
-
-                            TextSpan(text: 'Students', style: TextStyle(
-                              fontFamily: "pop",
-                              fontWeight: FontWeight.w700,
-                              fontSize: 25,
-                              color: Colors.orange,
-                            )),
+                            TextSpan(
+                                text: 'My ',
+                                style: TextStyle(
+                                  fontFamily: "pop",
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 25,
+                                  color: Colors.black,
+                                )),
+                            TextSpan(
+                                text: 'Students',
+                                style: TextStyle(
+                                  fontFamily: "pop",
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 25,
+                                  color: Colors.orange,
+                                )),
                           ]),
                         ),
                       ),
                     ],
                   ),
                 ),
-                 
                 for (var user in students)
-                Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
-                  child: Container(
-                    decoration: BoxDecoration(boxShadow: [
-                      BoxShadow(
-                        color: Colors.blueGrey.withOpacity(0.4),
-                        blurRadius: 10,
-                        offset: Offset(0.0, 6),
-                      ),
-                    ],
-                    color: Colors.purple,
-                    borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Material(
-                      type: MaterialType.transparency,
-                      child: InkWell(
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 15, right: 15, bottom: 15),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.blueGrey.withOpacity(0.4),
+                            blurRadius: 10,
+                            offset: Offset(0.0, 6),
+                          ),
+                        ],
+                        color: Colors.purple,
                         borderRadius: BorderRadius.circular(10),
-                        child: Container(
-                          height: 100,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Flexible(
-                                flex: 3,
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 10),
-                                        child: Text('${user.name}\nYear ${user.year}\n${user.school}\n${user.phone}', style: TextStyle(
-                                          fontFamily: "pop",
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 16,
-                                          color: Colors.white)
+                      ),
+                      child: Material(
+                        type: MaterialType.transparency,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Container(
+                            height: 100,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Flexible(
+                                  flex: 3,
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 10),
+                                          child: Text(
+                                              '${user.name}\nYear ${user.year}\n${user.school}\n${user.phone}',
+                                              style: TextStyle(
+                                                  fontFamily: "pop",
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 16,
+                                                  color: Colors.white)),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-
-                              Flexible(
-                                flex: 1,
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  child: Image.asset('assets/student.jpg', width: 60, color: Colors.deepPurple),
-                                  decoration: BoxDecoration(
-                                    color: Colors.purpleAccent,
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(10),
-                                      bottomRight: Radius.circular(10),
-                                      bottomLeft: Radius.circular(40),
-                                      topLeft: Radius.circular(40),
-                                    )
+                                Flexible(
+                                  flex: 1,
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    child: Image.asset('assets/student.jpg',
+                                        width: 60, color: Colors.deepPurple),
+                                    decoration: BoxDecoration(
+                                        color: Colors.purpleAccent,
+                                        borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(10),
+                                          bottomRight: Radius.circular(10),
+                                          bottomLeft: Radius.circular(40),
+                                          topLeft: Radius.circular(40),
+                                        )),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
               ],
             ),
           ),
         ),
       ),
-      
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Theme.of(context).accentColor,
         items: const <BottomNavigationBarItem>[
@@ -241,50 +240,83 @@ class _TeacherStudentListState extends State<TeacherStudentListScreen> {
         selectedFontSize: 12,
         onTap: _onItemTapped,
       ),
-
       endDrawer: Drawer(
         child: DrawerHeader(
           child: Column(
             children: <Widget>[
               ListTile(
-                title: Text('Menu', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, fontSize: 30, color: Colors.black)),
+                title: Text('Menu',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        fontSize: 30,
+                        color: Colors.black)),
                 tileColor: Theme.of(context).accentColor,
               ),
-
               CheckboxListTile(
-                title: Text('Change Theme Color', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                subtitle: changeModeNotifier.value ? Text('Pink') : Text('Orange'),
+                title: Text('Change Theme Color',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                subtitle:
+                    changeModeNotifier.value ? Text('Pink') : Text('Orange'),
                 value: changeModeNotifier.value,
                 onChanged: (newValue) => changeModeNotifier.value = newValue,
               ),
-
               ListTile(
-                title: Text('Subjects', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, teacherSubject); },
+                title: Text('Subjects',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, teacherSubject);
+                },
                 trailing: Image.asset('assets/study.png', height: 30),
               ),
-
               ListTile(
-                title: Text('Students', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, '/teacherstudentlist'); },
+                title: Text('Students',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, '/teacherstudentlist');
+                },
                 trailing: Image.asset('assets/student.jpg', height: 24),
               ),
-
               ListTile(
-                title: Text('QR History', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, teachQR); },
+                title: Text('QR History',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, teachQR);
+                },
                 trailing: Image.asset('assets/qrcode.png', height: 30),
               ),
-
               ListTile(
-                title: Text('My Profile', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, teachProfile); },
+                title: Text('My Profile',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, teachProfile);
+                },
                 trailing: Icon(Icons.account_circle_rounded, size: 30),
               ),
-
               ListTile(
-                title: Text('Logout', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, '/login'); },
+                title: Text('Logout',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, '/login');
+                },
                 trailing: Icon(Icons.logout),
               ),
             ],

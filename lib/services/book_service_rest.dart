@@ -16,7 +16,6 @@ class BookServiceRest implements BookService {
 
   Future<List<Book>> getAllBooks() async {
     final listJson = await rest.get('books');
-    print(listJson);
     return (listJson as List)
         .map((itemJson) => Book.fromJson(itemJson))
         .toList();

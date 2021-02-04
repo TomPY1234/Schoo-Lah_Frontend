@@ -5,9 +5,6 @@ import 'package:schoolah_mobile_app/services/todo_service_rest.dart';
 import '../models/todo.dart';
 
 class TeacherSubjectListScreen extends StatefulWidget {
-  final List<Todo> todo;
-
-  TeacherSubjectListScreen(this.todo);
   @override
   _TeacherSubjectListState createState() => _TeacherSubjectListState();
 }
@@ -55,7 +52,6 @@ class _TeacherSubjectListState extends State<TeacherSubjectListScreen> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
-
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -108,122 +104,125 @@ class _TeacherSubjectListState extends State<TeacherSubjectListScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              Text('Learning Today,\nLeading Tomorrow\n\n~ Present By\n     Schoo-Lah', style: TextStyle(
-                                fontFamily: "pop",
-                                fontWeight: FontWeight.w700,
-                                fontSize: 17,
-                                color: Colors.white
-                              )),
-
+                              Text(
+                                  'Learning Today,\nLeading Tomorrow\n\n~ Present By\n     Schoo-Lah',
+                                  style: TextStyle(
+                                      fontFamily: "pop",
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 17,
+                                      color: Colors.white)),
                               SizedBox(width: 10),
-
                               Image.asset('assets/subject.png', height: 120),
                             ],
                           ),
                         ),
                       ),
-
                       Padding(
                         padding: const EdgeInsets.only(top: 30, bottom: 10),
                         child: RichText(
                           text: TextSpan(children: [
-                            TextSpan(text: 'My ', style: TextStyle(
-                              fontFamily: "pop",
-                              fontWeight: FontWeight.w700,
-                              fontSize: 25,
-                              color: Colors.black,
-                            )),
-
-                            TextSpan(text: 'Subjects', style: TextStyle(
-                              fontFamily: "pop",
-                              fontWeight: FontWeight.w700,
-                              fontSize: 25,
-                              color: Colors.orange,
-                            )),
+                            TextSpan(
+                                text: 'My ',
+                                style: TextStyle(
+                                  fontFamily: "pop",
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 25,
+                                  color: Colors.black,
+                                )),
+                            TextSpan(
+                                text: 'Subjects',
+                                style: TextStyle(
+                                  fontFamily: "pop",
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 25,
+                                  color: Colors.orange,
+                                )),
                           ]),
                         ),
                       ),
                     ],
                   ),
                 ),
-                
-                for (var todo in _todos) 
-                Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
-                  child: Container(
-                    decoration: BoxDecoration(boxShadow: [
-                      BoxShadow(
-                        color: Colors.green.withOpacity(0.4),
-                        blurRadius: 10,
-                        offset: Offset(0.0, 6),
-                      ),
-                    ],
-                    color: Colors.green,
-                    borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Material(
-                      type: MaterialType.transparency,
-                      child: InkWell(
-                        onTap: () {
-                          dataService.setCurrentTodo(currtodo: todo);
-                          Navigator.pushNamed(context, teachTask);
-                        },
+                for (var todo in _todos)
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 15, right: 15, bottom: 15),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.green.withOpacity(0.4),
+                            blurRadius: 10,
+                            offset: Offset(0.0, 6),
+                          ),
+                        ],
+                        color: Colors.green,
                         borderRadius: BorderRadius.circular(10),
-                        child: Container(
-                          height: 140,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Flexible(
-                                flex: 4,
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Image.asset('assets/${todo.title.toUpperCase()}.png', height: 80),
-
-                                      SizedBox(height: 10),
-
-                                      Text('TOTAL TASKS CREATED : ${todo.items.length} TASKS', style: TextStyle(
-                                        fontFamily: "pop",
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 15,
-                                        color: Colors.white)),
-                                    ],
+                      ),
+                      child: Material(
+                        type: MaterialType.transparency,
+                        child: InkWell(
+                          onTap: () {
+                            dataService.setCurrentTodo(currtodo: todo);
+                            Navigator.pushNamed(context, teachTask);
+                          },
+                          borderRadius: BorderRadius.circular(10),
+                          child: Container(
+                            height: 140,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Flexible(
+                                  flex: 4,
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Image.asset(
+                                            'assets/${todo.title.toUpperCase()}.png',
+                                            height: 80),
+                                        SizedBox(height: 10),
+                                        Text(
+                                            'TOTAL TASKS CREATED : ${todo.items.length} TASKS',
+                                            style: TextStyle(
+                                                fontFamily: "pop",
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 15,
+                                                color: Colors.white)),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-
-                              Flexible(
-                                flex: 1,
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  child: Icon(Icons.arrow_forward_ios_outlined),
-                                  decoration: BoxDecoration(
-                                    color: Colors.greenAccent,
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(10),
-                                      bottomRight: Radius.circular(10),
-                                      bottomLeft: Radius.circular(40),
-                                      topLeft: Radius.circular(40),
-                                    )
+                                Flexible(
+                                  flex: 1,
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    child:
+                                        Icon(Icons.arrow_forward_ios_outlined),
+                                    decoration: BoxDecoration(
+                                        color: Colors.greenAccent,
+                                        borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(10),
+                                          bottomRight: Radius.circular(10),
+                                          bottomLeft: Radius.circular(40),
+                                          topLeft: Radius.circular(40),
+                                        )),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),         
               ],
             ),
           ),
         ),
       ),
-
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Theme.of(context).accentColor,
         items: const <BottomNavigationBarItem>[
@@ -246,50 +245,83 @@ class _TeacherSubjectListState extends State<TeacherSubjectListScreen> {
         selectedFontSize: 12,
         onTap: _onItemTapped,
       ),
-
       endDrawer: Drawer(
         child: DrawerHeader(
           child: Column(
             children: <Widget>[
               ListTile(
-                title: Text('Menu', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, fontSize: 30, color: Colors.black)),
+                title: Text('Menu',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        fontSize: 30,
+                        color: Colors.black)),
                 tileColor: Theme.of(context).accentColor,
               ),
-
               CheckboxListTile(
-                title: Text('Change Theme Color', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                subtitle: changeModeNotifier.value ? Text('Pink') : Text('Orange'),
+                title: Text('Change Theme Color',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                subtitle:
+                    changeModeNotifier.value ? Text('Pink') : Text('Orange'),
                 value: changeModeNotifier.value,
                 onChanged: (newValue) => changeModeNotifier.value = newValue,
               ),
-
               ListTile(
-                title: Text('Subjects', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, teacherSubject); },
+                title: Text('Subjects',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, teacherSubject);
+                },
                 trailing: Image.asset('assets/study.png', height: 30),
               ),
-
               ListTile(
-                title: Text('Students', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, '/teacherstudentlist'); },
+                title: Text('Students',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, '/teacherstudentlist');
+                },
                 trailing: Image.asset('assets/student.jpg', height: 24),
               ),
-
               ListTile(
-                title: Text('QR History', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, teachQR); },
+                title: Text('QR History',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, teachQR);
+                },
                 trailing: Image.asset('assets/qrcode.png', height: 30),
               ),
-
               ListTile(
-                title: Text('My Profile', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, teachProfile); },
+                title: Text('My Profile',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, teachProfile);
+                },
                 trailing: Icon(Icons.account_circle_rounded, size: 30),
               ),
-
               ListTile(
-                title: Text('Logout', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, '/login'); },
+                title: Text('Logout',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, '/login');
+                },
                 trailing: Icon(Icons.logout),
               ),
             ],

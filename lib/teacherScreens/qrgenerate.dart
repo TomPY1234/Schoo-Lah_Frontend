@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:schoolah_mobile_app/mainScreens/constants.dart';
-import 'package:schoolah_mobile_app/models/todo.dart';
-import 'package:schoolah_mobile_app/services/todo_service_rest.dart';
 import 'package:provider/provider.dart';
+import 'package:schoolah_mobile_app/mainScreens/constants.dart';
+import 'package:schoolah_mobile_app/models/qrcode.dart';
+import 'package:schoolah_mobile_app/services/qrcode_service_rest.dart';
 
-class AddTaskScreen extends StatefulWidget {
+class ScanScreen extends StatefulWidget {
   @override
-  _AddTaskState createState() => _AddTaskState();
+  _ScanState createState() => _ScanState();
 }
 
-class _AddTaskState extends State<AddTaskScreen> {
-  int _selectedIndex = 1;
-  String title;
-  Todo _data;
+class _ScanState extends State<ScanScreen> {
+  int _selectedIndex = 0;
+
+  QRCode code;
+  int year;
+  String subject;
+  String classTime;
 
   void _onItemTapped(int index) {
     if (index == 0) {
@@ -33,24 +36,13 @@ class _AddTaskState extends State<AddTaskScreen> {
     }
   }
 
-  bool toggle = false;
-  var count = new List(30);
-  final dataService = TodoServiceRest();
+  final dataService = QRCodeServiceRest();
 
   @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<Todo>(
-        future: dataService.getCurrentTodo(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            _data = snapshot.data;
-            return _buildMainScreen();
-          }
-          return _buildFetchingDataScreen();
-        });
-  }
+  String dropdownValue = 'Choose Subject';
+  String dropdownValue1 = 'Select Year of Study';
 
-  Scaffold _buildMainScreen() {
+  Widget build(BuildContext context) {
     final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
 
     return Scaffold(
@@ -67,7 +59,7 @@ class _AddTaskState extends State<AddTaskScreen> {
               leading: IconButton(
                   icon: Icon(Icons.arrow_back_ios_outlined),
                   onPressed: () {
-                    Navigator.pushNamed(context, teachTask);
+                    Navigator.pushNamed(context, teachQR);
                   }),
             ),
           ];
@@ -94,12 +86,12 @@ class _AddTaskState extends State<AddTaskScreen> {
                         decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.green.withOpacity(0.4),
+                              color: Colors.orange.withOpacity(0.4),
                               blurRadius: 10,
                               offset: Offset(0.0, 6),
                             ),
                           ],
-                          color: Colors.green,
+                          color: Colors.orange,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Padding(
@@ -107,15 +99,14 @@ class _AddTaskState extends State<AddTaskScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              Text(
-                                  '${_data.title}\n\n${_data.items.length} Tasks Created',
+                              Text('Generating QR\nCode Attendance',
                                   style: TextStyle(
                                       fontFamily: "pop",
                                       fontWeight: FontWeight.w700,
                                       fontSize: 17,
                                       color: Colors.white)),
                               SizedBox(width: 20),
-                              Image.asset('assets/subject.png', height: 120),
+                              Image.asset('assets/qrscancode.png', height: 120),
                             ],
                           ),
                         ),
@@ -133,7 +124,7 @@ class _AddTaskState extends State<AddTaskScreen> {
                                   color: Colors.black,
                                 )),
                             TextSpan(
-                                text: 'Tasks',
+                                text: 'QR Attendance',
                                 style: TextStyle(
                                   fontFamily: "pop",
                                   fontWeight: FontWeight.w700,
@@ -180,9 +171,177 @@ class _AddTaskState extends State<AddTaskScreen> {
                                       Padding(
                                         padding: EdgeInsets.only(
                                             left: 10, right: 10),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(50)),
+                                          child: Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 5, left: 20, right: 20),
+                                            child: DropdownButton<String>(
+                                              items: <String>[
+                                                'Choose Subject',
+                                                'Mathematics',
+                                                'Science',
+                                                'Bahasa Malaysia',
+                                                'English',
+                                                'Bahasa Cina'
+                                              ].map<DropdownMenuItem<String>>(
+                                                  (String value) {
+                                                return DropdownMenuItem<String>(
+                                                  value: value,
+                                                  child: Text(value),
+                                                );
+                                              }).toList(),
+                                              value: dropdownValue,
+                                              onChanged: (String newValue) {
+                                                setState(() {
+                                                  dropdownValue =
+                                                      subject = newValue;
+                                                });
+                                              },
+                                              isExpanded: true,
+                                              hint: Text('Choose Subject',
+                                                  style: TextStyle(
+                                                      color: Colors.black)),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 15, right: 15, bottom: 15),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.blueGrey.withOpacity(0.4),
+                          blurRadius: 10,
+                          offset: Offset(0.0, 6),
+                        ),
+                      ],
+                      color: Colors.blueGrey,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Material(
+                      type: MaterialType.transparency,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Container(
+                          height: 80,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Flexible(
+                                flex: 3,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 10, right: 10),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(50)),
+                                          child: Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 5, left: 20, right: 20),
+                                            child: DropdownButton<String>(
+                                              items: <String>[
+                                                'Select Year of Study',
+                                                '1',
+                                                '2',
+                                                '3',
+                                                '4',
+                                                '5',
+                                                '6',
+                                              ].map<DropdownMenuItem<String>>(
+                                                  (String value) {
+                                                return DropdownMenuItem<String>(
+                                                  value: value,
+                                                  child: Text(value),
+                                                );
+                                              }).toList(),
+                                              value: dropdownValue1,
+                                              onChanged: (String newValue) {
+                                                setState(() {
+                                                  dropdownValue1 = newValue;
+                                                  year = int.parse(newValue);
+                                                });
+                                              },
+                                              isExpanded: true,
+                                              hint: Text('Select Year of Study',
+                                                  style: TextStyle(
+                                                      color: Colors.black)),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 15, right: 15, bottom: 15),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.blueGrey.withOpacity(0.4),
+                          blurRadius: 10,
+                          offset: Offset(0.0, 6),
+                        ),
+                      ],
+                      color: Colors.blueGrey,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Material(
+                      type: MaterialType.transparency,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Container(
+                          height: 80,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Flexible(
+                                flex: 3,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 10, right: 10),
                                         child: TextField(
                                           obscureText: false,
-                                          onChanged: (value) => title = value,
+                                          onChanged: (value) =>
+                                              classTime = value,
                                           style: TextStyle(
                                               fontSize: 20.0,
                                               fontWeight: FontWeight.bold),
@@ -191,7 +350,9 @@ class _AddTaskState extends State<AddTaskScreen> {
                                             filled: true,
                                             contentPadding: EdgeInsets.fromLTRB(
                                                 20.0, 15.0, 20.0, 15.0),
-                                            hintText: 'Task Name',
+                                            hintText:
+                                                'Class Time (EXP: YYYY-MM-DD 00:00 AM)',
+                                            hintStyle: TextStyle(fontSize: 15),
                                             border: OutlineInputBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(
@@ -215,14 +376,17 @@ class _AddTaskState extends State<AddTaskScreen> {
                   children: <Widget>[
                     ElevatedButton.icon(
                       onPressed: () async {
-                        dataService.createTodo(todo: _data, task: title);
-                        final updateStatus = await dataService
-                            .updateCurrentTodo(todo: _data, id: _data.id);
-                        dataService.setCurrentTodo(currtodo: updateStatus);
-                        Navigator.pushNamed(context, teacherSubject);
+                        final addQR = await dataService.createQRCode(
+                            code: code,
+                            year: year,
+                            subject: subject,
+                            classTime: classTime);
+                        dataService.setLatestQR(code: addQR);
+
+                        Navigator.pushNamed(context, teachScanZone);
                       },
-                      icon: Icon(Icons.add_box_outlined, size: 18),
-                      label: Text("Add Task",
+                      icon: Icon(Icons.qr_code_scanner_outlined, size: 18),
+                      label: Text("Generate",
                           style: TextStyle(
                               fontFamily: "pop",
                               fontWeight: FontWeight.w700,
@@ -341,21 +505,6 @@ class _AddTaskState extends State<AddTaskScreen> {
             ],
           ),
           decoration: BoxDecoration(color: Theme.of(context).primaryColor),
-        ),
-      ),
-    );
-  }
-
-  Scaffold _buildFetchingDataScreen() {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            CircularProgressIndicator(),
-            SizedBox(height: 50),
-            Text('Fetching current todo... Please wait'),
-          ],
         ),
       ),
     );
