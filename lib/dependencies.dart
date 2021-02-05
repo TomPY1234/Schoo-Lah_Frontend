@@ -6,6 +6,7 @@ import 'package:schoolah_mobile_app/services/qrcode_service_rest.dart';
 import 'package:schoolah_mobile_app/services/todo_service_rest.dart';
 import 'package:schoolah_mobile_app/services/user_service.dart';
 import 'package:schoolah_mobile_app/services/user_service_rest.dart';
+import 'package:schoolah_mobile_app/studentScreens/booklist_viewmodel.dart';
 import 'package:schoolah_mobile_app/teacherScreens/studentlist_viewmodel.dart';
 import 'services/fee_service.dart';
 import 'services/qrcode_service.dart';
@@ -23,4 +24,5 @@ void init() {
   service.registerLazySingleton<FeeService>(() => FeeServiceRest());
   service.registerLazySingleton<QRCodeService>(() => QRCodeServiceRest());
   service.registerLazySingleton(() => UserlistViewmodel());
+  service.registerLazySingleton(() => BooklistViewmodel());
 }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
+import 'package:schoolah_mobile_app/mainScreens/view.dart';
 import 'package:schoolah_mobile_app/models/book.dart';
-import 'package:schoolah_mobile_app/services/book_service_rest.dart';
+
+import 'booklist_viewmodel.dart';
 
 class BookstorePageScreen extends StatefulWidget {
   //final List<Book> books;
@@ -36,17 +38,16 @@ class _BookstorePageState extends State<BookstorePageScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final dataService = BookServiceRest();
 
-    return FutureBuilder<List<Book>>(
-        future: dataService.getAllBooks(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            books = snapshot.data;
-            return _buildMainScreen();
+  Widget build(BuildContext context) {
+    return View<BooklistViewmodel>(
+        initViewmodel: (viewmodel) => viewmodel.getAllBooks(),
+        builder: (context, viewmodel, _) {
+          if (viewmodel.busy) {
+            return _buildFetchingDataScreen();
           }
-          return _buildFetchingDataScreen();
+          books = viewmodel.books;
+          return _buildMainScreen();
         });
   }
 
