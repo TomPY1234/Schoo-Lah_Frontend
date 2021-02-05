@@ -2,13 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import 'package:schoolah_mobile_app/models/todo.dart';
 import 'package:schoolah_mobile_app/services/todo_service_rest.dart';
-import '../dependencies.dart';
 import 'package:provider/provider.dart';
 
 class AddTaskScreen extends StatefulWidget {
-  //final Todo _data;
-
-  //AddTaskScreen(this._data);
   @override
   _AddTaskState createState() => _AddTaskState();
 }
@@ -43,8 +39,6 @@ class _AddTaskState extends State<AddTaskScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //_data = todoDataService.getTodo();
-
     return FutureBuilder<Todo>(
         future: dataService.getCurrentTodo(),
         builder: (context, snapshot) {
@@ -61,7 +55,6 @@ class _AddTaskState extends State<AddTaskScreen> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
-
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -72,9 +65,10 @@ class _AddTaskState extends State<AddTaskScreen> {
               backgroundColor: Theme.of(context).primaryColorDark,
               brightness: Brightness.light,
               leading: IconButton(
-                icon: Icon(Icons.arrow_back_ios_outlined),
-                onPressed: () { Navigator.pushNamed(context, teachTask); }
-              ),
+                  icon: Icon(Icons.arrow_back_ios_outlined),
+                  onPressed: () {
+                    Navigator.pushNamed(context, teachTask);
+                  }),
             ),
           ];
         },
@@ -113,21 +107,19 @@ class _AddTaskState extends State<AddTaskScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              Text('${_data.title}\n\n${_data.items.length} Tasks Created', style: TextStyle(
-                                fontFamily: "pop",
-                                fontWeight: FontWeight.w700,
-                                fontSize: 17,
-                                color: Colors.white
-                              )),
-
+                              Text(
+                                  '${_data.title}\n\n${_data.items.length} Tasks Created',
+                                  style: TextStyle(
+                                      fontFamily: "pop",
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 17,
+                                      color: Colors.white)),
                               SizedBox(width: 20),
-
                               Image.asset('assets/subject.png', height: 120),
                             ],
                           ),
                         ),
                       ),
-
                       Padding(
                         padding: const EdgeInsets.only(top: 30, bottom: 10),
                         child: RichText(
@@ -151,19 +143,20 @@ class _AddTaskState extends State<AddTaskScreen> {
                     ],
                   ),
                 ),
-                
                 Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
+                  padding:
+                      const EdgeInsets.only(left: 15, right: 15, bottom: 15),
                   child: Container(
-                    decoration: BoxDecoration(boxShadow: [
-                      BoxShadow(
-                        color: Colors.blueGrey.withOpacity(0.4),
-                        blurRadius: 10,
-                        offset: Offset(0.0, 6),
-                      ),
-                    ],
-                    color: Colors.blueGrey,
-                    borderRadius: BorderRadius.circular(10),
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.blueGrey.withOpacity(0.4),
+                          blurRadius: 10,
+                          offset: Offset(0.0, 6),
+                        ),
+                      ],
+                      color: Colors.blueGrey,
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     child: Material(
                       type: MaterialType.transparency,
@@ -182,18 +175,24 @@ class _AddTaskState extends State<AddTaskScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Padding(
-                                        padding: EdgeInsets.only(left: 10, right: 10),
+                                        padding: EdgeInsets.only(
+                                            left: 10, right: 10),
                                         child: TextField(
                                           obscureText: false,
                                           onChanged: (value) => title = value,
-                                          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                                          style: TextStyle(
+                                              fontSize: 20.0,
+                                              fontWeight: FontWeight.bold),
                                           decoration: InputDecoration(
                                             fillColor: Colors.white,
                                             filled: true,
-                                            contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                                            contentPadding: EdgeInsets.fromLTRB(
+                                                20.0, 15.0, 20.0, 15.0),
                                             hintText: 'Task Name',
                                             border: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(32.0)),
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        32.0)),
                                           ),
                                         ),
                                       ),
@@ -208,36 +207,33 @@ class _AddTaskState extends State<AddTaskScreen> {
                     ),
                   ),
                 ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     ElevatedButton.icon(
                       onPressed: () async {
                         dataService.createTodo(todo: _data, task: title);
-                        final updateStatus = await dataService.updateCurrentTodo(
-                            todo: _data, id: _data.id);
+                        final updateStatus = await dataService
+                            .updateCurrentTodo(todo: _data, id: _data.id);
                         dataService.setCurrentTodo(currtodo: updateStatus);
                         Navigator.pushNamed(context, teacherSubject);
                       },
                       icon: Icon(Icons.add_box_outlined, size: 18),
-                      label: Text("Add Task" , style: TextStyle(
-                        fontFamily: "pop",
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18,
-                        color: Colors.white)
-                      ),
+                      label: Text("Add Task",
+                          style: TextStyle(
+                              fontFamily: "pop",
+                              fontWeight: FontWeight.w700,
+                              fontSize: 18,
+                              color: Colors.white)),
                     ),
                   ],
                 ),
-
                 SizedBox(height: 10),
               ],
             ),
           ),
         ),
       ),
-      
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Theme.of(context).accentColor,
         items: const <BottomNavigationBarItem>[
@@ -260,50 +256,78 @@ class _AddTaskState extends State<AddTaskScreen> {
         selectedFontSize: 12,
         onTap: _onItemTapped,
       ),
-
       endDrawer: Drawer(
         child: DrawerHeader(
           child: Column(
             children: <Widget>[
               ListTile(
-                title: Text('Menu', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, fontSize: 30, color: Colors.black)),
+                title: Text('Menu',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        fontSize: 30,
+                        color: Colors.black)),
                 tileColor: Theme.of(context).accentColor,
               ),
-
               CheckboxListTile(
                 title: Text('Change Theme Color', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
                 subtitle: changeModeNotifier.value ? Text('Dark Mode') : Text('Light Mode'),
                 value: changeModeNotifier.value,
                 onChanged: (newValue) => changeModeNotifier.value = newValue,
               ),
-
               ListTile(
-                title: Text('Subjects', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, teacherSubject); },
+                title: Text('Subjects',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, teacherSubject);
+                },
                 trailing: Image.asset('assets/study.png', height: 30),
               ),
-
               ListTile(
-                title: Text('Students', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, '/teacherstudentlist'); },
+                title: Text('Students',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, '/teacherstudentlist');
+                },
                 trailing: Image.asset('assets/student.jpg', height: 24),
               ),
-
               ListTile(
-                title: Text('QR History', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, teachQR); },
+                title: Text('QR History',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, teachQR);
+                },
                 trailing: Image.asset('assets/qrcode.png', height: 30),
               ),
-
               ListTile(
-                title: Text('My Profile', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, teachProfile); },
+                title: Text('My Profile',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, teachProfile);
+                },
                 trailing: Icon(Icons.account_circle_rounded, size: 30),
               ),
-
               ListTile(
-                title: Text('Logout', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, '/login'); },
+                title: Text('Logout',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, '/login');
+                },
                 trailing: Icon(Icons.logout),
               ),
             ],

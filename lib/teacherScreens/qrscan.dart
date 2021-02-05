@@ -1,24 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
-import 'package:schoolah_mobile_app/models/mock_qrcode.dart';
 import 'package:schoolah_mobile_app/models/qrcode.dart';
+import 'package:schoolah_mobile_app/services/qrcode_service_rest.dart';
 
-import '../dependencies.dart';
-
-class DetailsScreen extends StatefulWidget {
-  // final List<QRCode> code;
-  // DetailsScreen(this.code);
-
+class ScanZoneScreen extends StatefulWidget {
   @override
-  _DetailsScreenState createState() => _DetailsScreenState();
+  _ScanZoneState createState() => _ScanZoneState();
 }
 
-class _DetailsScreenState extends State<DetailsScreen> {
-  final qrCodeDataService = QRCodeDataServiceMock();
+class _ScanZoneState extends State<ScanZoneScreen> {
   int _selectedIndex = 0;
-  int selected = 0;
-  List<QRCode> history;
+
+  QRCode scanCode;
 
   void _onItemTapped(int index) {
     if (index == 0) {
@@ -39,13 +33,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
     }
   }
 
+  final dataService = QRCodeServiceRest();
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<QRCode>>(
-        future: qrCodeDataService.getAllHistory(),
+    return FutureBuilder<QRCode>(
+        future: dataService.getLatestQR(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            history = snapshot.data;
+            scanCode = snapshot.data;
             return _buildMainScreen();
           }
           return _buildFetchingDataScreen();
@@ -57,7 +53,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
-
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -68,9 +63,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
               backgroundColor: Theme.of(context).primaryColorDark,
               brightness: Brightness.light,
               leading: IconButton(
-                icon: Icon(Icons.arrow_back_ios_outlined),
-                onPressed: () { Navigator.pushNamed(context, teachHome); }
-              ),
+                  icon: Icon(Icons.arrow_back_ios_outlined),
+                  onPressed: () {
+                    Navigator.pushNamed(context, teachHome);
+                  }),
             ),
           ];
         },
@@ -109,33 +105,31 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              Text('Total QR\nAttendance\nGenerated : \n\n${history.length} History(s)', style: TextStyle(
-                                fontFamily: "pop",
-                                fontWeight: FontWeight.w700,
-                                fontSize: 17,
-                                color: Colors.white
-                              )),
-
+                              Text(
+                                  '${scanCode.subject}\nYear ${scanCode.year}\n\nClass Date Time : \n${scanCode.classTime}',
+                                  style: TextStyle(
+                                      fontFamily: "pop",
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 15,
+                                      color: Colors.white)),
                               SizedBox(width: 20),
-
-                              Image.asset('assets/qrscancode.png', height: 120),
+                              Image.asset('assets/qrscancode.png', height: 100),
                             ],
                           ),
                         ),
                       ),
-
                       Padding(
                         padding: const EdgeInsets.only(top: 30, bottom: 10),
                         child: RichText(
                           text: TextSpan(children: [
-                            TextSpan(text: 'QR ', style: TextStyle(
+                            TextSpan(text: 'Scan ', style: TextStyle(
                               fontFamily: "pop",
                               fontWeight: FontWeight.w700,
                               fontSize: 25,
                               color: Theme.of(context).primaryColorLight,
                             )),
 
-                            TextSpan(text: 'Attendance Generator', style: TextStyle(
+                            TextSpan(text: 'QR Attendance', style: TextStyle(
                               fontFamily: "pop",
                               fontWeight: FontWeight.w700,
                               fontSize: 25,
@@ -147,87 +141,43 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     ],
                   ),
                 ),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    ElevatedButton.icon(
-                      onPressed: () { Navigator.pushNamed(context, QRcode); },
-                      icon: Icon(Icons.qr_code_outlined, size: 18),
-                      label: Text("Generate QR Code" , style: TextStyle(
-                        fontFamily: "pop",
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18,
-                        color: Colors.white)
-                      ),
-                    ),
-                  ],
-                ),
-
-                SizedBox(height: 10),
-                
-                for (var code in history)
                 Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
+                  padding:
+                      const EdgeInsets.only(left: 15, right: 15, bottom: 15),
                   child: Container(
-                    decoration: BoxDecoration(boxShadow: [
-                      BoxShadow(
-                        color: Colors.red.withOpacity(0.4),
-                        blurRadius: 10,
-                        offset: Offset(0.0, 6),
-                      ),
-                    ],
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(10),
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.blueGrey.withOpacity(0.4),
+                          blurRadius: 10,
+                          offset: Offset(0.0, 6),
+                        ),
+                      ],
+                      color: Colors.blueGrey,
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     child: Material(
                       type: MaterialType.transparency,
                       child: InkWell(
-                        onLongPress: () {
-                          // Part ini sila check sebab aku tak tau how to delete
-                          selected = history.indexOf(code);
-                          setState(() => history.removeAt(selected));
-                        },
                         borderRadius: BorderRadius.circular(10),
                         child: Container(
-                          height: 100,
+                          height: 400,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Flexible(
-                                flex: 3,
+                                flex: 4,
                                 child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Padding(
-                                        padding: EdgeInsets.only(left: 10),
-                                        child: Text('${code.subject}\nYear ${code.year}\n\nCreated On:\n${code.classTime}', style: TextStyle(
-                                          fontFamily: "pop",
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 14,
-                                          color: Colors.white)
-                                        ),
+                                        padding: EdgeInsets.only(
+                                            left: 10, right: 10),
+                                        child: Image.asset('assets/qr.jpeg'),
                                       ),
                                     ],
-                                  ),
-                                ),
-                              ),
-
-                              Flexible(
-                                flex: 1,
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  child: Image.asset('assets/qrcode.png', width: 60, color: Colors.red),
-                                  decoration: BoxDecoration(
-                                    color: Colors.orange,
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(10),
-                                      bottomRight: Radius.circular(10),
-                                      bottomLeft: Radius.circular(40),
-                                      topLeft: Radius.circular(40),
-                                    )
                                   ),
                                 ),
                               ),
@@ -238,12 +188,29 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     ),
                   ),
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.pushNamed(context, teachQR);
+                      },
+                      icon: Icon(Icons.arrow_back_ios_outlined, size: 18),
+                      label: Text("Back",
+                          style: TextStyle(
+                              fontFamily: "pop",
+                              fontWeight: FontWeight.w700,
+                              fontSize: 18,
+                              color: Colors.white)),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
               ],
             ),
           ),
         ),
       ),
-
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Theme.of(context).accentColor,
         items: const <BottomNavigationBarItem>[
@@ -266,50 +233,78 @@ class _DetailsScreenState extends State<DetailsScreen> {
         selectedFontSize: 12,
         onTap: _onItemTapped,
       ),
-
       endDrawer: Drawer(
         child: DrawerHeader(
           child: Column(
             children: <Widget>[
               ListTile(
-                title: Text('Menu', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, fontSize: 30, color: Colors.black)),
+                title: Text('Menu',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        fontSize: 30,
+                        color: Colors.black)),
                 tileColor: Theme.of(context).accentColor,
               ),
-
               CheckboxListTile(
                 title: Text('Change Theme Color', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
                 subtitle: changeModeNotifier.value ? Text('Dark Mode') : Text('Light Mode'),
                 value: changeModeNotifier.value,
                 onChanged: (newValue) => changeModeNotifier.value = newValue,
               ),
-
               ListTile(
-                title: Text('Subjects', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, teacherSubject); },
+                title: Text('Subjects',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, teacherSubject);
+                },
                 trailing: Image.asset('assets/study.png', height: 30),
               ),
-
               ListTile(
-                title: Text('Students', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, '/teacherstudentlist'); },
+                title: Text('Students',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, '/teacherstudentlist');
+                },
                 trailing: Image.asset('assets/student.jpg', height: 24),
               ),
-
               ListTile(
-                title: Text('QR History', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, teachQR); },
+                title: Text('QR History',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, teachQR);
+                },
                 trailing: Image.asset('assets/qrcode.png', height: 30),
               ),
-
               ListTile(
-                title: Text('My Profile', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, teachProfile); },
+                title: Text('My Profile',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, teachProfile);
+                },
                 trailing: Icon(Icons.account_circle_rounded, size: 30),
               ),
-
               ListTile(
-                title: Text('Logout', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                onTap: () { Navigator.pushNamed(context, '/login'); },
+                title: Text('Logout',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                onTap: () {
+                  Navigator.pushNamed(context, '/login');
+                },
                 trailing: Icon(Icons.logout),
               ),
             ],
@@ -328,7 +323,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
           children: <Widget>[
             CircularProgressIndicator(),
             SizedBox(height: 50),
-            Text('Fetching history... Please wait'),
+            Text('Generating QR Code... Please wait'),
           ],
         ),
       ),

@@ -19,7 +19,6 @@ class UserServiceRest implements UserService {
 
   Future<List<User>> getAllUsers() async {
     final listJson = await rest.get('users');
-    print(listJson);
     return (listJson as List)
         .map((itemJson) => User.fromJson(itemJson))
         .toList();
