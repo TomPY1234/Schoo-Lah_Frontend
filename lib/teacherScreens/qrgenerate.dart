@@ -69,7 +69,10 @@ class _ScanState extends State<ScanScreen> {
             gradient: LinearGradient(
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
-              colors: [Theme.of(context).accentColor, Theme.of(context).primaryColorDark],
+              colors: [
+                Theme.of(context).accentColor,
+                Theme.of(context).primaryColorDark
+              ],
             ),
           ),
           child: MediaQuery.removePadding(
@@ -195,23 +198,31 @@ class _ScanState extends State<ScanScreen> {
                                                   (String value) {
                                                 return DropdownMenuItem<String>(
                                                   value: value,
-                                                  child: Text(value, style: TextStyle(
-                                                    fontFamily: "pop",
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 15,
-                                                    color: Colors.black,
-                                                  )),
+                                                  child: Text(value,
+                                                      style: TextStyle(
+                                                        fontFamily: "pop",
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        fontSize: 15,
+                                                        color: Colors.black,
+                                                      )),
                                                 );
                                               }).toList(),
                                               value: dropdownValue,
-                                              onChanged: (String newValue) { setState(() { dropdownValue = subject = newValue; }); },
+                                              onChanged: (String newValue) {
+                                                setState(() {
+                                                  dropdownValue =
+                                                      subject = newValue;
+                                                });
+                                              },
                                               isExpanded: true,
-                                              hint: Text('Choose Subject', style: TextStyle(
-                                                fontFamily: "pop",
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 30,
-                                                color: Colors.black,
-                                              )),
+                                              hint: Text('Choose Subject',
+                                                  style: TextStyle(
+                                                    fontFamily: "pop",
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 30,
+                                                    color: Colors.black,
+                                                  )),
                                             ),
                                           ),
                                         ),
@@ -286,23 +297,32 @@ class _ScanState extends State<ScanScreen> {
                                                   (String value) {
                                                 return DropdownMenuItem<String>(
                                                   value: value,
-                                                  child: Text(value, style: TextStyle(
-                                                    fontFamily: "pop",
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 15,
-                                                    color: Colors.black,
-                                                  )),
+                                                  child: Text(value,
+                                                      style: TextStyle(
+                                                        fontFamily: "pop",
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        fontSize: 15,
+                                                        color: Colors.black,
+                                                      )),
                                                 );
                                               }).toList(),
                                               value: dropdownValue1,
-                                              onChanged: (String newValue) { setState(() { dropdownValue1 = newValue; year = int.parse(newValue); }); },
+                                              onChanged: (String newValue) {
+                                                setState(() {
+                                                  dropdownValue1 = newValue;
+
+                                                  year = int.parse(newValue);
+                                                });
+                                              },
                                               isExpanded: true,
-                                              hint: Text('Select Year of Study', style: TextStyle(
-                                                fontFamily: "pop",
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 30,
-                                                color: Colors.black,
-                                              )),
+                                              hint: Text('Select Year of Study',
+                                                  style: TextStyle(
+                                                    fontFamily: "pop",
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 30,
+                                                    color: Colors.black,
+                                                  )),
                                             ),
                                           ),
                                         ),
@@ -456,8 +476,9 @@ class _ScanState extends State<ScanScreen> {
                         fontFamily: "pop",
                         fontWeight: FontWeight.w600,
                         color: Colors.black)),
-                subtitle:
-                    changeModeNotifier.value ? Text('Dark Mode') : Text('Light Mode'),
+                subtitle: changeModeNotifier.value
+                    ? Text('Dark Mode')
+                    : Text('Light Mode'),
                 value: changeModeNotifier.value,
                 onChanged: (newValue) => changeModeNotifier.value = newValue,
               ),

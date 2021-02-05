@@ -3,8 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:schoolah_mobile_app/mainScreens/studentsignup.dart';
 import 'package:schoolah_mobile_app/mainScreens/teachersignup.dart';
-import 'package:schoolah_mobile_app/models/mock_users.dart';
-import 'package:schoolah_mobile_app/models/mock_todos.dart';
 import 'package:schoolah_mobile_app/studentScreens/bookstore.dart';
 import 'package:schoolah_mobile_app/studentScreens/qrscan.dart';
 
@@ -84,7 +82,7 @@ Route<dynamic> createRoute(settings) {
 
     case teachHome:
       return MaterialPageRoute(
-        builder: (context) => TeacherHomePageScreen(globalUserList[1]),
+        builder: (context) => TeacherHomePageScreen(),
       );
 
     case studentSignup:

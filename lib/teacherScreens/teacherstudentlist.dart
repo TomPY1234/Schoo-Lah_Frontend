@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
+import 'package:schoolah_mobile_app/mainScreens/view.dart';
 import 'package:schoolah_mobile_app/models/user.dart';
-import 'package:schoolah_mobile_app/services/user_service_rest.dart';
+import 'package:schoolah_mobile_app/teacherScreens/studentlist_viewmodel.dart';
 
 class TeacherStudentListScreen extends StatefulWidget {
   @override
@@ -34,16 +35,14 @@ class _TeacherStudentListState extends State<TeacherStudentListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final dataService = UserServiceRest();
-
-    return FutureBuilder<List<User>>(
-        future: dataService.getStudentList(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            students = snapshot.data;
-            return _buildMainScreen();
+    return View<UserlistViewmodel>(
+        initViewmodel: (viewmodel) => viewmodel.getStudentList(),
+        builder: (context, viewmodel, _) {
+          if (viewmodel.busy) {
+            return _buildFetchingDataScreen();
           }
-          return _buildFetchingDataScreen();
+          students = viewmodel.users;
+          return _buildMainScreen();
         });
   }
 
@@ -74,7 +73,10 @@ class _TeacherStudentListState extends State<TeacherStudentListScreen> {
             gradient: LinearGradient(
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
-              colors: [Theme.of(context).accentColor, Theme.of(context).primaryColorDark],
+              colors: [
+                Theme.of(context).accentColor,
+                Theme.of(context).primaryColorDark
+              ],
             ),
           ),
           child: MediaQuery.removePadding(
@@ -121,19 +123,22 @@ class _TeacherStudentListState extends State<TeacherStudentListScreen> {
                         padding: const EdgeInsets.only(top: 30, bottom: 10),
                         child: RichText(
                           text: TextSpan(children: [
-                            TextSpan(text: 'My ', style: TextStyle(
-                              fontFamily: "pop",
-                              fontWeight: FontWeight.w700,
-                              fontSize: 25,
-                              color: Theme.of(context).primaryColorLight,
-                            )),
-
-                            TextSpan(text: 'Students', style: TextStyle(
-                              fontFamily: "pop",
-                              fontWeight: FontWeight.w700,
-                              fontSize: 25,
-                              color: Theme.of(context).primaryColor,
-                            )),
+                            TextSpan(
+                                text: 'My ',
+                                style: TextStyle(
+                                  fontFamily: "pop",
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 25,
+                                  color: Theme.of(context).primaryColorLight,
+                                )),
+                            TextSpan(
+                                text: 'Students',
+                                style: TextStyle(
+                                  fontFamily: "pop",
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 25,
+                                  color: Theme.of(context).primaryColor,
+                                )),
                           ]),
                         ),
                       ),
@@ -251,8 +256,14 @@ class _TeacherStudentListState extends State<TeacherStudentListScreen> {
                 tileColor: Theme.of(context).accentColor,
               ),
               CheckboxListTile(
-                title: Text('Change Theme Color', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                subtitle: changeModeNotifier.value ? Text('Dark Mode') : Text('Light Mode'),
+                title: Text('Change Theme Color',
+                    style: TextStyle(
+                        fontFamily: "pop",
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+                subtitle: changeModeNotifier.value
+                    ? Text('Dark Mode')
+                    : Text('Light Mode'),
                 value: changeModeNotifier.value,
                 onChanged: (newValue) => changeModeNotifier.value = newValue,
               ),
