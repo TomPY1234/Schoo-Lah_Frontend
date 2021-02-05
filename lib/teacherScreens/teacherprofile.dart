@@ -64,7 +64,7 @@ class _TeacherProfileState extends State<TeacherProfileScreen> {
               floating: true,
               elevation: 0,
               snap: true,
-              backgroundColor: Colors.white,
+              backgroundColor: Theme.of(context).primaryColorDark,
               brightness: Brightness.light,
               leading: IconButton(
                 icon: Icon(Icons.arrow_back_ios_outlined),
@@ -78,7 +78,7 @@ class _TeacherProfileState extends State<TeacherProfileScreen> {
             gradient: LinearGradient(
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
-              colors: [Theme.of(context).accentColor, Colors.white],
+              colors: [Theme.of(context).accentColor, Theme.of(context).primaryColorDark],
             ),
           ),
           child: MediaQuery.removePadding(
@@ -107,9 +107,9 @@ class _TeacherProfileState extends State<TeacherProfileScreen> {
                           padding: const EdgeInsets.all(20),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              Stack(
+                             Stack(
                                 children: <Widget>[
                                   CircleAvatar(
                                     radius: 70,
@@ -128,9 +128,13 @@ class _TeacherProfileState extends State<TeacherProfileScreen> {
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(20))),
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
+
+                              SizedBox(width: 10),
+
+                              Image.asset('assets/profile.png', height: 120),
                             ],
                           ),
                         ),
@@ -145,7 +149,7 @@ class _TeacherProfileState extends State<TeacherProfileScreen> {
                                   fontFamily: "pop",
                                   fontWeight: FontWeight.w700,
                                   fontSize: 25,
-                                  color: Colors.black,
+                                  color: Theme.of(context).primaryColorLight,
                                 )),
                             TextSpan(
                                 text: 'Profile',
@@ -153,7 +157,7 @@ class _TeacherProfileState extends State<TeacherProfileScreen> {
                                   fontFamily: "pop",
                                   fontWeight: FontWeight.w700,
                                   fontSize: 25,
-                                  color: Colors.orange,
+                                  color: Theme.of(context).primaryColor,
                                 )),
                           ]),
                         ),
@@ -242,7 +246,7 @@ class _TeacherProfileState extends State<TeacherProfileScreen> {
 
               CheckboxListTile(
                 title: Text('Change Theme Color', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                subtitle: changeModeNotifier.value ? Text('Pink') : Text('Orange'),
+                subtitle: changeModeNotifier.value ? Text('Dark Mode') : Text('Light Mode'),
                 value: changeModeNotifier.value,
                 onChanged: (newValue) => changeModeNotifier.value = newValue,
               ),
@@ -278,7 +282,7 @@ class _TeacherProfileState extends State<TeacherProfileScreen> {
               ),
             ],
           ),
-          decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+          decoration: BoxDecoration(color: Theme.of(context).accentColor),
         ),
       ),
     );

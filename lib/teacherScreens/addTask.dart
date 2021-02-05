@@ -69,7 +69,7 @@ class _AddTaskState extends State<AddTaskScreen> {
               floating: true,
               elevation: 0,
               snap: true,
-              backgroundColor: Colors.white,
+              backgroundColor: Theme.of(context).primaryColorDark,
               brightness: Brightness.light,
               leading: IconButton(
                 icon: Icon(Icons.arrow_back_ios_outlined),
@@ -83,7 +83,7 @@ class _AddTaskState extends State<AddTaskScreen> {
             gradient: LinearGradient(
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
-              colors: [Theme.of(context).accentColor, Colors.white],
+              colors: [Theme.of(context).accentColor, Theme.of(context).primaryColorDark],
             ),
           ),
           child: MediaQuery.removePadding(
@@ -136,14 +136,14 @@ class _AddTaskState extends State<AddTaskScreen> {
                               fontFamily: "pop",
                               fontWeight: FontWeight.w700,
                               fontSize: 25,
-                              color: Colors.black,
+                              color: Theme.of(context).primaryColorLight,
                             )),
 
                             TextSpan(text: 'Tasks', style: TextStyle(
                               fontFamily: "pop",
                               fontWeight: FontWeight.w700,
                               fontSize: 25,
-                              color: Colors.orange,
+                              color: Theme.of(context).primaryColor,
                             )),
                           ]),
                         ),
@@ -272,7 +272,7 @@ class _AddTaskState extends State<AddTaskScreen> {
 
               CheckboxListTile(
                 title: Text('Change Theme Color', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                subtitle: changeModeNotifier.value ? Text('Pink') : Text('Orange'),
+                subtitle: changeModeNotifier.value ? Text('Dark Mode') : Text('Light Mode'),
                 value: changeModeNotifier.value,
                 onChanged: (newValue) => changeModeNotifier.value = newValue,
               ),
@@ -308,7 +308,7 @@ class _AddTaskState extends State<AddTaskScreen> {
               ),
             ],
           ),
-          decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+          decoration: BoxDecoration(color: Theme.of(context).accentColor),
         ),
       ),
     );

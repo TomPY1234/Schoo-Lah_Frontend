@@ -15,18 +15,18 @@ void main() {
           debugShowCheckedModeBanner: false,
           theme: notifier.value
               ? ThemeData(
-                primarySwatch: Colors.pink,
-                primaryColor: Color(0XFFFF99DD),
-                accentColor: Color(0XFFFFE6F7),
-                primaryColorLight: Color(0XFFFF33BB),
-                brightness: Brightness.dark,
+                primarySwatch: Colors.indigo,
+                accentColor: Color(0XFF33CCCC),
+                primaryColor: Colors.indigo,
+                primaryColorDark: Colors.black,
+                primaryColorLight: Colors.white,
                 )
               : ThemeData(
                 primarySwatch: Colors.orange,
-                primaryColor: Color(0XFFFFD1B3),
                 accentColor: Color(0XFFFFF0E6),
-                primaryColorLight: Color(0XFFFF8533),
-                brightness: Brightness.light,
+                primaryColor: Colors.orange,
+                primaryColorDark: Colors.white,
+                primaryColorLight: Colors.black,
                 ),
           home: SchoolahSplashScreen(),
         ),

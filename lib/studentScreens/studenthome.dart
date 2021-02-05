@@ -59,7 +59,7 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
               floating: true,
               elevation: 0,
               snap: true,
-              backgroundColor: Colors.white,
+              backgroundColor: Theme.of(context).primaryColorDark,
               brightness: Brightness.light,
             ),
           ];
@@ -69,7 +69,7 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
             gradient: LinearGradient(
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
-              colors: [Theme.of(context).accentColor, Colors.white],
+              colors: [Theme.of(context).accentColor, Theme.of(context).primaryColorDark],
             ),
           ),
           child: MediaQuery.removePadding(
@@ -87,7 +87,7 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
                               fontFamily: "pop",
                               fontWeight: FontWeight.w300,
                               fontSize: 28,
-                              color: Colors.black)),
+                              color: Theme.of(context).primaryColorLight)),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 6),
                         child: Text('${user.name}',
@@ -95,7 +95,7 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
                                 fontFamily: "pop",
                                 fontWeight: FontWeight.w700,
                                 fontSize: 30,
-                                color: Colors.black)),
+                                color: Theme.of(context).primaryColorLight)),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20),
@@ -169,7 +169,7 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
                                   fontFamily: "pop",
                                   fontWeight: FontWeight.w700,
                                   fontSize: 25,
-                                  color: Colors.black,
+                                  color: Theme.of(context).primaryColorLight,
                                 )),
                             TextSpan(
                                 text: 'Subjects',
@@ -177,7 +177,7 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
                                   fontFamily: "pop",
                                   fontWeight: FontWeight.w700,
                                   fontSize: 25,
-                                  color: Colors.orange,
+                                  color: Theme.of(context).primaryColor,
                                 )),
                           ]),
                         ),
@@ -254,7 +254,7 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
                         fontWeight: FontWeight.w600,
                         color: Colors.black)),
                 subtitle:
-                    changeModeNotifier.value ? Text('Pink') : Text('Orange'),
+                    changeModeNotifier.value ? Text('Dark Mode') : Text('Light Mode'),
                 value: changeModeNotifier.value,
                 onChanged: (newValue) => changeModeNotifier.value = newValue,
               ),
@@ -326,7 +326,7 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
               ),
             ],
           ),
-          decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+          decoration: BoxDecoration(color: Theme.of(context).accentColor),
         ),
       ),
     );
@@ -460,7 +460,7 @@ Widget horizontalScrollCourseItem(BuildContext context, String courseImage,
                         fontFamily: "pop",
                         fontWeight: FontWeight.w600,
                         fontSize: 18,
-                        color: Colors.deepPurple)),
+                        color: Theme.of(context).primaryColorLight)),
               ),
             ),
           ],

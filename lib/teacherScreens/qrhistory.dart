@@ -57,7 +57,7 @@ class _ScanState extends State<ScanScreen> {
               floating: true,
               elevation: 0,
               snap: true,
-              backgroundColor: Colors.white,
+              backgroundColor: Theme.of(context).primaryColorDark,
               brightness: Brightness.light,
               leading: IconButton(
                 icon: Icon(Icons.arrow_back_ios_outlined),
@@ -71,7 +71,7 @@ class _ScanState extends State<ScanScreen> {
             gradient: LinearGradient(
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
-              colors: [Theme.of(context).accentColor, Colors.white],
+              colors: [Theme.of(context).accentColor, Theme.of(context).primaryColorDark],
             ),
           ),
           child: MediaQuery.removePadding(
@@ -124,14 +124,14 @@ class _ScanState extends State<ScanScreen> {
                               fontFamily: "pop",
                               fontWeight: FontWeight.w700,
                               fontSize: 25,
-                              color: Colors.black,
+                              color: Theme.of(context).primaryColorLight,
                             )),
 
                             TextSpan(text: 'QR Attendance', style: TextStyle(
                               fontFamily: "pop",
                               fontWeight: FontWeight.w700,
                               fontSize: 25,
-                              color: Colors.orange,
+                              color: Theme.of(context).primaryColor,
                             )),
                           ]),
                         ),
@@ -176,6 +176,10 @@ class _ScanState extends State<ScanScreen> {
                                           child: Padding(
                                             padding: EdgeInsets.only(top: 5, left: 20, right: 20),
                                             child: DropdownButton<String>(
+                                              underline: Container(
+                                                height: 2,
+                                                color: Colors.white,
+                                              ),
                                               items: <String>[
                                                 'Choose Subject',
                                                 'Mathematics',
@@ -186,13 +190,23 @@ class _ScanState extends State<ScanScreen> {
                                               ].map<DropdownMenuItem<String>>((String value) {
                                                 return DropdownMenuItem<String>(
                                                   value: value,
-                                                  child: Text(value),
+                                                  child: Text(value, style: TextStyle(
+                                                    fontFamily: "pop",
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 15,
+                                                    color: Colors.black,
+                                                  )),
                                                 ); 
                                               }).toList(),
                                               value: dropdownValue,
                                               onChanged: (String newValue) { setState(() { dropdownValue = subject = newValue; }); },
                                               isExpanded: true,
-                                              hint: Text('Choose Subject', style: TextStyle(color: Colors.black)),
+                                              hint: Text('Choose Subject', style: TextStyle(
+                                                fontFamily: "pop",
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 30,
+                                                color: Colors.black,
+                                              )),
                                             ),
                                           ),
                                         ),
@@ -245,6 +259,10 @@ class _ScanState extends State<ScanScreen> {
                                           child: Padding(
                                             padding: EdgeInsets.only(top: 5, left: 20, right: 20),
                                             child: DropdownButton<String>(
+                                              underline: Container(
+                                                height: 2,
+                                                color: Colors.white,
+                                              ),
                                               items: <String>[
                                                 'Select Year of Study',
                                                 '1',
@@ -256,13 +274,23 @@ class _ScanState extends State<ScanScreen> {
                                               ].map<DropdownMenuItem<String>>((String value) {
                                                 return DropdownMenuItem<String>(
                                                   value: value,
-                                                  child: Text(value),
+                                                  child: Text(value, style: TextStyle(
+                                                    fontFamily: "pop",
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 15,
+                                                    color: Colors.black,
+                                                  )),
                                                 );
                                               }).toList(),
                                               value: dropdownValue1,
                                               onChanged: (String newValue) { setState(() { dropdownValue1 = newValue; year = int.parse(newValue); }); },
                                               isExpanded: true,
-                                              hint: Text('Select Year of Study', style: TextStyle(color: Colors.black)),
+                                              hint: Text('Select Year of Study', style: TextStyle(
+                                                fontFamily: "pop",
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 30,
+                                                color: Colors.black,
+                                              )),
                                             ),
                                           ),
                                         ),
@@ -397,7 +425,7 @@ class _ScanState extends State<ScanScreen> {
 
               CheckboxListTile(
                 title: Text('Change Theme Color', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                subtitle: changeModeNotifier.value ? Text('Pink') : Text('Orange'),
+                subtitle: changeModeNotifier.value ? Text('Dark Mode') : Text('Light Mode'),
                 value: changeModeNotifier.value,
                 onChanged: (newValue) => changeModeNotifier.value = newValue,
               ),
@@ -433,7 +461,7 @@ class _ScanState extends State<ScanScreen> {
               ),
             ],
           ),
-          decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+          decoration: BoxDecoration(color: Theme.of(context).accentColor),
         ),
       ),
     );

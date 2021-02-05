@@ -3,18 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:schoolah_mobile_app/services/user_service_rest.dart';
 import 'package:provider/provider.dart';
 
-class TeacherSignupPageScreen extends StatefulWidget {
+class StudentSignupPageScreen extends StatefulWidget {
   @override
-  TeacherSignupPageState createState() => TeacherSignupPageState();
+  StudentSignupPageState createState() => StudentSignupPageState();
 }
 
-class TeacherSignupPageState extends State<TeacherSignupPageScreen> {
+class StudentSignupPageState extends State<StudentSignupPageScreen> {
   String username;
   String password;
   String name;
   String phone;
   String email;
-  String _value = 'teacher';
+  String school;
+  int year;
+  String _value = 'student';
   bool newValue = false;
   final dataService = UserServiceRest();
 
@@ -84,7 +86,7 @@ class TeacherSignupPageState extends State<TeacherSignupPageScreen> {
                       child: InkWell(
                         borderRadius: BorderRadius.circular(10),
                         child: Container(
-                          height: 850,
+                          height: 1030,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -175,6 +177,38 @@ class TeacherSignupPageState extends State<TeacherSignupPageScreen> {
                                         padding: EdgeInsets.only(left: 10, right: 10, top: 30),
                                         child: TextField(
                                           obscureText: false,
+                                          onChanged: (value) => year = int.parse(value),
+                                          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                                          decoration: InputDecoration(
+                                            hintText: 'Enter Year of Study',
+                                            fillColor: Colors.white,
+                                            filled: true,
+                                            contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                                          ),
+                                        ),
+                                      ),
+
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 10, right: 10, top: 30),
+                                        child: TextField(
+                                          obscureText: false,
+                                          onChanged: (value) => school = value,
+                                          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                                          decoration: InputDecoration(
+                                            hintText: 'Enter School Studied',
+                                            fillColor: Colors.white,
+                                            filled: true,
+                                            contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                                          ),
+                                        ),
+                                      ),
+
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 10, right: 10, top: 30),
+                                        child: TextField(
+                                          obscureText: false,
                                           onChanged: (value) => email = value,
                                           style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                                           decoration: InputDecoration(
@@ -245,8 +279,8 @@ class TeacherSignupPageState extends State<TeacherSignupPageScreen> {
                                                 username: username,
                                                 password: password,
                                                 name: name,
-                                                year: null,
-                                                school: null,
+                                                year: year,
+                                                school: school,
                                                 email: email,
                                                 type: _value,
                                                 phone: phone);

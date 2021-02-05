@@ -18,6 +18,7 @@ class _SchoolahSplashState extends State<SchoolahSplashScreen> {
       backgroundColor: Theme.of(context).accentColor,
       photoSize: 150.0,
       loaderColor: Colors.black,
+      loadingText: Text('Now Loading', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w700, fontSize: 15, color: Theme.of(context).primaryColorLight)),
     );
   }
 }

@@ -66,7 +66,7 @@ class _StudentProfileState extends State<StudentProfileScreen> {
               floating: true,
               elevation: 0,
               snap: true,
-              backgroundColor: Colors.white,
+              backgroundColor: Theme.of(context).primaryColorDark,
               brightness: Brightness.light,
               leading: IconButton(
                 icon: Icon(Icons.arrow_back_ios_outlined),
@@ -80,7 +80,7 @@ class _StudentProfileState extends State<StudentProfileScreen> {
             gradient: LinearGradient(
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
-              colors: [Theme.of(context).accentColor, Colors.white],
+              colors: [Theme.of(context).accentColor, Theme.of(context).primaryColorDark],
             ),
           ),
           child: MediaQuery.removePadding(
@@ -115,8 +115,7 @@ class _StudentProfileState extends State<StudentProfileScreen> {
                                 children: <Widget>[
                                   CircleAvatar(
                                     radius: 70,
-                                    backgroundImage: NetworkImage(
-                                        'https://randomuser.me/api/portraits/thumb/men/86.jpg'),
+                                    backgroundImage: NetworkImage('https://randomuser.me/api/portraits/thumb/men/86.jpg'),
                                   ),
                                   Positioned(
                                     bottom: 1,
@@ -134,6 +133,10 @@ class _StudentProfileState extends State<StudentProfileScreen> {
                                   )
                                 ],
                               ),
+
+                              SizedBox(width: 10),
+
+                              Image.asset('assets/profile.png', height: 120),
                             ],
                           ),
                         ),
@@ -148,7 +151,7 @@ class _StudentProfileState extends State<StudentProfileScreen> {
                                   fontFamily: "pop",
                                   fontWeight: FontWeight.w700,
                                   fontSize: 25,
-                                  color: Colors.black,
+                                  color: Theme.of(context).primaryColorLight,
                                 )),
                             TextSpan(
                                 text: 'Profile',
@@ -156,7 +159,7 @@ class _StudentProfileState extends State<StudentProfileScreen> {
                                   fontFamily: "pop",
                                   fontWeight: FontWeight.w700,
                                   fontSize: 25,
-                                  color: Colors.orange,
+                                  color: Theme.of(context).primaryColor,
                                 )),
                           ]),
                         ),
@@ -263,7 +266,7 @@ class _StudentProfileState extends State<StudentProfileScreen> {
                         fontWeight: FontWeight.w600,
                         color: Colors.black)),
                 subtitle:
-                    changeModeNotifier.value ? Text('Pink') : Text('Orange'),
+                    changeModeNotifier.value ? Text('Dark Mode') : Text('Light Mode'),
                 value: changeModeNotifier.value,
                 onChanged: (newValue) => changeModeNotifier.value = newValue,
               ),
@@ -335,7 +338,7 @@ class _StudentProfileState extends State<StudentProfileScreen> {
               ),
             ],
           ),
-          decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+          decoration: BoxDecoration(color: Theme.of(context).accentColor),
         ),
       ),
     );

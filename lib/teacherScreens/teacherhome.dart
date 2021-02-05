@@ -62,7 +62,7 @@ class _TeacherHomePageState extends State<TeacherHomePageScreen> {
               floating: true,
               elevation: 0,
               snap: true,
-              backgroundColor: Colors.white,
+              backgroundColor: Theme.of(context).primaryColorDark,
               brightness: Brightness.light,
             ),
           ];
@@ -72,7 +72,7 @@ class _TeacherHomePageState extends State<TeacherHomePageScreen> {
             gradient: LinearGradient(
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
-              colors: [Theme.of(context).accentColor, Colors.white],
+              colors: [Theme.of(context).accentColor, Theme.of(context).primaryColorDark],
             ),
           ),
           child: MediaQuery.removePadding(
@@ -85,11 +85,11 @@ class _TeacherHomePageState extends State<TeacherHomePageScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text('Hello,', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w300, fontSize: 28, color: Colors.black)),
+                      Text('Hello,', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w300, fontSize: 28, color: Theme.of(context).primaryColorLight)),
                       
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 6),
-                        child: Text('${user.name}', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w700, fontSize: 30, color: Colors.black)),
+                        child: Text('${user.name}', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w700, fontSize: 30, color: Theme.of(context).primaryColorLight)),
                       ),
 
                       Padding(
@@ -170,14 +170,14 @@ class _TeacherHomePageState extends State<TeacherHomePageScreen> {
                               fontFamily: "pop",
                               fontWeight: FontWeight.w700,
                               fontSize: 25,
-                              color: Colors.black,
+                              color: Theme.of(context).primaryColorLight,
                             )),
 
                             TextSpan(text: 'in Schoo-Lah', style: TextStyle(
                               fontFamily: "pop",
                               fontWeight: FontWeight.w700,
                               fontSize: 25,
-                              color: Colors.orange,
+                              color: Theme.of(context).primaryColor,
                             )),
                           ]),
                         ),
@@ -216,21 +216,21 @@ class _TeacherHomePageState extends State<TeacherHomePageScreen> {
                               fontFamily: "pop",
                               fontWeight: FontWeight.w700,
                               fontSize: 25,
-                              color: Colors.black,
+                              color: Theme.of(context).primaryColorLight,
                             )),
 
                             TextSpan(text: 'Kementerian Pendidikan Malaysia ', style: TextStyle(
                               fontFamily: "pop",
                               fontWeight: FontWeight.w700,
                               fontSize: 25,
-                              color: Colors.orange,
+                              color: Theme.of(context).primaryColor,
                             )),
 
                             TextSpan(text: '(KPM)', style: TextStyle(
                               fontFamily: "pop",
                               fontWeight: FontWeight.w700,
                               fontSize: 25,
-                              color: Colors.black,
+                              color: Theme.of(context).primaryColorLight,
                             )),
                           ]),
                         ),
@@ -295,7 +295,7 @@ class _TeacherHomePageState extends State<TeacherHomePageScreen> {
 
               CheckboxListTile(
                 title: Text('Change Theme Color', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                subtitle: changeModeNotifier.value ? Text('Pink') : Text('Orange'),
+                subtitle: changeModeNotifier.value ? Text('Dark Mode') : Text('Light Mode'),
                 value: changeModeNotifier.value,
                 onChanged: (newValue) => changeModeNotifier.value = newValue,
               ),
@@ -331,7 +331,7 @@ class _TeacherHomePageState extends State<TeacherHomePageScreen> {
               ),
             ],
           ),
-          decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+          decoration: BoxDecoration(color: Theme.of(context).accentColor),
         ),
       ),
     );
@@ -459,7 +459,7 @@ Widget horizontalScrollCourseItem(BuildContext context, String courseImage, Stri
                   fontFamily: "pop",
                   fontWeight: FontWeight.w600,
                   fontSize: 18,
-                  color: Colors.deepPurple),
+                  color: Theme.of(context).primaryColorLight),
                 ),
               ),
             ),
@@ -496,7 +496,7 @@ Widget horizontalScrollNewsItem(BuildContext context, String newsImage, String n
                   fontFamily: "pop",
                   fontWeight: FontWeight.w600,
                   fontSize: 18,
-                  color: Colors.deepPurple),
+                  color: Theme.of(context).primaryColorLight),
                 ),
               ),
             ),
