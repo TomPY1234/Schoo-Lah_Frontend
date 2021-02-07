@@ -130,7 +130,10 @@ class _StudentTaskListState extends State<StudentTaskListScreen> {
                                       fontWeight: FontWeight.w700,
                                       fontSize: 17,
                                       color: Colors.white)),
-                              Image.asset('assets/subject.png', height: 120),
+                              Container(
+                                width: MediaQuery.of(context).size.width / 3,
+                                child: Image.asset('assets/subject.png'),
+                              ),
                             ],
                           ),
                         ),

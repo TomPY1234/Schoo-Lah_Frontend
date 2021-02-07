@@ -113,7 +113,10 @@ class _BookstorePageState extends State<BookstorePageScreen> {
                                       fontSize: 20,
                                       color: Colors.white)),
                               SizedBox(width: 10),
-                              Image.asset('assets/ebookstore.png', height: 120),
+                              Container(
+                                width: MediaQuery.of(context).size.width / 2.5,
+                                child: Image.asset('assets/ebookstore.png'),
+                              ),
                             ],
                           ),
                         ),

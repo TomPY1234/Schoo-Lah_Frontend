@@ -94,7 +94,10 @@ class _QRState extends State<QRScreen> {
                                       fontSize: 20,
                                       color: Colors.white)),
                               SizedBox(width: 10),
-                              Image.asset('assets/qrscancode.png', height: 120),
+                              Container(
+                                width: MediaQuery.of(context).size.width / 2.5,
+                                child: Image.asset('assets/qrscancode.png'),
+                              ),
                             ],
                           ),
                         ),

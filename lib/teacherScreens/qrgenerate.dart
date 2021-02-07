@@ -99,14 +99,17 @@ class _ScanState extends State<ScanScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              Text('Generating QR\nCode Attendance',
+                              Text('Generating\nQR Code\nAttendance',
                                   style: TextStyle(
                                       fontFamily: "pop",
                                       fontWeight: FontWeight.w700,
                                       fontSize: 17,
                                       color: Colors.white)),
                               SizedBox(width: 20),
-                              Image.asset('assets/qrscancode.png', height: 120),
+                              Container(
+                                width: MediaQuery.of(context).size.width / 2.5,
+                                child: Image.asset('assets/qrscancode.png'),
+                              ),
                             ],
                           ),
                         ),

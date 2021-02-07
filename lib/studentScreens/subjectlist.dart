@@ -124,7 +124,10 @@ class _StudentSubjectListState extends State<StudentSubjectListScreen> {
                                       fontSize: 17,
                                       color: Colors.white)),
                               SizedBox(width: 10),
-                              Image.asset('assets/subject.png', height: 120),
+                              Container(
+                                width: MediaQuery.of(context).size.width / 3,
+                                child: Image.asset('assets/subject.png'),
+                              ),
                             ],
                           ),
                         ),

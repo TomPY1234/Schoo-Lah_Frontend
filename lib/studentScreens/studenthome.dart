@@ -207,6 +207,73 @@ class _StudentHomePageState extends State<StudentHomePageScreen> {
                     ],
                   ),
                 ),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: RichText(
+                          text: TextSpan(children: [
+                            TextSpan(text: 'News ', style: TextStyle(
+                              fontFamily: "pop",
+                              fontWeight: FontWeight.w700,
+                              fontSize: 25,
+                              color: Theme.of(context).primaryColorLight,
+                            )),
+
+                            TextSpan(text: 'Kementerian Pendidikan Malaysia ', style: TextStyle(
+                              fontFamily: "pop",
+                              fontWeight: FontWeight.w700,
+                              fontSize: 25,
+                              color: Theme.of(context).primaryColor,
+                            )),
+
+                            TextSpan(text: '(KPM)', style: TextStyle(
+                              fontFamily: "pop",
+                              fontWeight: FontWeight.w700,
+                              fontSize: 25,
+                              color: Theme.of(context).primaryColorLight,
+                            )),
+                          ]),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                Container(
+                  height: 570,
+                  width: MediaQuery.of(context).size.width,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+                      horizontalScrollNewsItem(context, 'assets/news1.jpg', 'Road to Success SPM 2020', '\nWatch Road to Success SPM 2020 \nevery day at DIDIK TV@NTV7'),
+
+                      horizontalScrollNewsItem(context, 'assets/news2.jpg', 'Notis Pemakluman', '\nPemohoman Bagi Menduduki\nPeperiksaan Perkhidmatan Awam\nKementerian Pendidikan Malaysia\nSesi 1 Tahun 2021 Ditunda'),
+
+                      horizontalScrollNewsItem(context, 'assets/news3.jpg', 'Buku Teks Digital Asas', '\nHow to download digital textbooks \nthrough DELIMa'),
+
+                      SizedBox(width: 16),
+                    ],
+                  ),
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text('© SCHOO-LAH @ By Team Exia', style: TextStyle(
+                      fontFamily: "pop",
+                      fontWeight: FontWeight.w700,
+                      fontSize: 15,
+                      color: Theme.of(context).primaryColorLight,
+                    )),
+                  ],
+                ),
+
+                SizedBox(height: 10),
               ],
             ),
           ),
@@ -461,6 +528,43 @@ Widget horizontalScrollCourseItem(BuildContext context, String courseImage,
                         fontWeight: FontWeight.w600,
                         fontSize: 18,
                         color: Theme.of(context).primaryColorLight)),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+Widget horizontalScrollNewsItem(BuildContext context, String newsImage, String newsTitle, String newsDesc)
+{
+  return Padding(
+    padding: const EdgeInsets.only(left: 16),
+    child: Material(
+      type: MaterialType.transparency,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Flexible(
+              flex: 3,
+              child: Container(
+                width: MediaQuery.of(context).size.width / 1.2,
+                child: Image.asset(newsImage),
+              ),
+            ),
+
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Text(newsTitle+'\n'+newsDesc, style: TextStyle(
+                  fontFamily: "pop",
+                  fontWeight: FontWeight.w600,
+                  fontSize: 18,
+                  color: Theme.of(context).primaryColorLight),
+                ),
               ),
             ),
           ],

@@ -247,7 +247,7 @@ class _TeacherHomePageState extends State<TeacherHomePageScreen> {
                     children: <Widget>[
                       horizontalScrollNewsItem(context, 'assets/news1.jpg', 'Road to Success SPM 2020', '\nWatch Road to Success SPM 2020 \nevery day at DIDIK TV@NTV7'),
 
-                      horizontalScrollNewsItem(context, 'assets/news2.jpg', 'Notis Pemakluman', '\nPemohoman Bagi Menduduki Peperiksaan\nPerkhidmatan Awam Kementerian\nPendidikan Malaysia Sesi 1 Tahun 2021\nDitunda'),
+                      horizontalScrollNewsItem(context, 'assets/news2.jpg', 'Notis Pemakluman', '\nPemohoman Bagi Menduduki\nPeperiksaan Perkhidmatan Awam\nKementerian Pendidikan Malaysia\nSesi 1 Tahun 2021 Ditunda'),
 
                       horizontalScrollNewsItem(context, 'assets/news3.jpg', 'Buku Teks Digital Asas', '\nHow to download digital textbooks \nthrough DELIMa'),
 
@@ -255,6 +255,20 @@ class _TeacherHomePageState extends State<TeacherHomePageScreen> {
                     ],
                   ),
                 ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text('© SCHOO-LAH @ By Team Exia', style: TextStyle(
+                      fontFamily: "pop",
+                      fontWeight: FontWeight.w700,
+                      fontSize: 15,
+                      color: Theme.of(context).primaryColorLight,
+                    )),
+                  ],
+                ),
+
+                SizedBox(height: 10),
               ],
             ),
           ),

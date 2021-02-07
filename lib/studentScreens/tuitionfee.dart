@@ -111,7 +111,10 @@ class _TuitionFeeState extends State<TuitionFeeScreen> {
                                       fontSize: 20,
                                       color: Colors.white)),
                               SizedBox(width: 30),
-                              Image.asset('assets/finance.png', height: 120),
+                              Container(
+                                width: MediaQuery.of(context).size.width / 3,
+                                child: Image.asset('assets/finance.png'),
+                              ),
                             ],
                           ),
                         ),

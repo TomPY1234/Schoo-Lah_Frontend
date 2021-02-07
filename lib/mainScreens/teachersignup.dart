@@ -148,7 +148,7 @@ class TeacherSignupPageState extends State<TeacherSignupPageScreen> {
                                               isExpanded: true,
                                               onChanged: (value) {
                                                 setState(() { _value = value; });
-                                                if (_value == 'teacher') { Navigator.pushNamed(context, '/teacherSignup'); }
+                                                if (_value == 'student') { Navigator.pushNamed(context, '/studentSignup'); }
                                               }
                                             ),
                                           ),

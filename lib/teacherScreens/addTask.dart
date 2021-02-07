@@ -112,10 +112,13 @@ class _AddTaskState extends State<AddTaskScreen> {
                                   style: TextStyle(
                                       fontFamily: "pop",
                                       fontWeight: FontWeight.w700,
-                                      fontSize: 17,
+                                      fontSize: 15,
                                       color: Colors.white)),
                               SizedBox(width: 20),
-                              Image.asset('assets/subject.png', height: 120),
+                              Container(
+                                width: MediaQuery.of(context).size.width / 3,
+                                child: Image.asset('assets/subject.png'),
+                              ),
                             ],
                           ),
                         ),

@@ -17,7 +17,7 @@ void main() {
               ? ThemeData(
                 primarySwatch: Colors.indigo,
                 accentColor: Color(0XFF33CCCC),
-                primaryColor: Colors.indigo,
+                primaryColor: Colors.indigoAccent,
                 primaryColorDark: Colors.black,
                 primaryColorLight: Colors.white,
                 )

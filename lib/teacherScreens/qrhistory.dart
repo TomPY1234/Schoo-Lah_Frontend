@@ -112,7 +112,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                       fontSize: 17,
                                       color: Colors.white)),
                               SizedBox(width: 20),
-                              Image.asset('assets/qrscancode.png', height: 120),
+                              Container(
+                                width: MediaQuery.of(context).size.width / 2.5,
+                                child: Image.asset('assets/qrscancode.png'),
+                              ),
                             ],
                           ),
                         ),

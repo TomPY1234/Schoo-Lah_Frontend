@@ -113,7 +113,10 @@ class _ScanZoneState extends State<ScanZoneScreen> {
                                       fontSize: 15,
                                       color: Colors.white)),
                               SizedBox(width: 20),
-                              Image.asset('assets/qrscancode.png', height: 100),
+                              Container(
+                                width: MediaQuery.of(context).size.width / 3.2,
+                                child: Image.asset('assets/qrscancode.png'),
+                              ),
                             ],
                           ),
                         ),
