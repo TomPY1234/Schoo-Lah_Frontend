@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import 'package:schoolah_mobile_app/models/qrcode.dart';
 import 'package:schoolah_mobile_app/services/qrcode_service_rest.dart';
 import 'package:schoolah_mobile_app/teacherScreens/widgets/teacher_drawer.dart';
+import 'package:schoolah_mobile_app/teacherScreens/widgets/teacher_navbar.dart';
 
 class ScanScreen extends StatefulWidget {
   @override
@@ -11,31 +11,10 @@ class ScanScreen extends StatefulWidget {
 }
 
 class _ScanState extends State<ScanScreen> {
-  int _selectedIndex = 0;
-
   QRCode code;
   int year;
   String subject;
   String classTime;
-
-  void _onItemTapped(int index) {
-    if (index == 0) {
-      setState(() {
-        _selectedIndex = index;
-      });
-      Navigator.pushNamed(context, '/login');
-    } else if (index == 1) {
-      setState(() {
-        _selectedIndex = index;
-      });
-      Navigator.pushNamed(context, teachHome);
-    } else {
-      setState(() {
-        _selectedIndex = index;
-      });
-      Navigator.pushNamed(context, teachProfile);
-    }
-  }
 
   final dataService = QRCodeServiceRest();
 
@@ -44,8 +23,6 @@ class _ScanState extends State<ScanScreen> {
   String dropdownValue1 = 'Select Year of Study';
 
   Widget build(BuildContext context) {
-    final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
-
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
       body: NestedScrollView(
@@ -436,28 +413,7 @@ class _ScanState extends State<ScanScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.of(context).accentColor,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.logout),
-            label: 'Logout',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_rounded),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.black,
-        selectedFontSize: 12,
-        onTap: _onItemTapped,
-      ),
+      bottomNavigationBar: TeacherNavigationBar(),
       endDrawer: TeacherDrawerView(),
     );
   }

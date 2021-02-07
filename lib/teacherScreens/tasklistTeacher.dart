@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import 'package:schoolah_mobile_app/models/todo.dart';
 import 'package:schoolah_mobile_app/services/todo_service_rest.dart';
 import 'package:schoolah_mobile_app/teacherScreens/widgets/teacher_drawer.dart';
+import 'package:schoolah_mobile_app/teacherScreens/widgets/teacher_navbar.dart';
 
 class TaskListScreen extends StatefulWidget {
   @override
@@ -11,29 +11,9 @@ class TaskListScreen extends StatefulWidget {
 }
 
 class _TaskListScreenState extends State<TaskListScreen> {
-  int _selectedIndex = 1;
   int selected = 0;
   String title;
   Todo _data;
-
-  void _onItemTapped(int index) {
-    if (index == 0) {
-      setState(() {
-        _selectedIndex = index;
-      });
-      Navigator.pushNamed(context, '/login');
-    } else if (index == 1) {
-      setState(() {
-        _selectedIndex = index;
-      });
-      Navigator.pushNamed(context, teachHome);
-    } else {
-      setState(() {
-        _selectedIndex = index;
-      });
-      Navigator.pushNamed(context, teachProfile);
-    }
-  }
 
   bool toggle = false;
   var count = new List(30);
@@ -55,7 +35,6 @@ class _TaskListScreenState extends State<TaskListScreen> {
   }
 
   Scaffold _buildMainScreen() {
-    final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
 
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
@@ -251,28 +230,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.of(context).accentColor,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.logout),
-            label: 'Logout',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_rounded),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.black,
-        selectedFontSize: 12,
-        onTap: _onItemTapped,
-      ),
+      bottomNavigationBar: TeacherNavigationBar(),
       endDrawer: TeacherDrawerView(),
     );
   }

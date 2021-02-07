@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import 'package:schoolah_mobile_app/mainScreens/view.dart';
 import 'package:schoolah_mobile_app/models/user.dart';
 import 'package:schoolah_mobile_app/teacherScreens/studentlist_viewmodel.dart';
 import 'package:schoolah_mobile_app/teacherScreens/widgets/teacher_drawer.dart';
+import 'package:schoolah_mobile_app/teacherScreens/widgets/teacher_navbar.dart';
 
 class TeacherStudentListScreen extends StatefulWidget {
   @override
@@ -12,27 +12,7 @@ class TeacherStudentListScreen extends StatefulWidget {
 }
 
 class _TeacherStudentListState extends State<TeacherStudentListScreen> {
-  int _selectedIndex = 1;
   List<User> students;
-
-  void _onItemTapped(int index) {
-    if (index == 0) {
-      setState(() {
-        _selectedIndex = index;
-      });
-      Navigator.pushNamed(context, '/login');
-    } else if (index == 1) {
-      setState(() {
-        _selectedIndex = index;
-      });
-      Navigator.pushNamed(context, teachHome);
-    } else {
-      setState(() {
-        _selectedIndex = index;
-      });
-      Navigator.pushNamed(context, teachProfile);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +28,6 @@ class _TeacherStudentListState extends State<TeacherStudentListScreen> {
   }
 
   Scaffold _buildMainScreen() {
-    final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
 
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
@@ -221,28 +200,7 @@ class _TeacherStudentListState extends State<TeacherStudentListScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.of(context).accentColor,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.logout),
-            label: 'Logout',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_rounded),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.black,
-        selectedFontSize: 12,
-        onTap: _onItemTapped,
-      ),
+      bottomNavigationBar: TeacherNavigationBar(),
       endDrawer: TeacherDrawerView(),
     );
   }

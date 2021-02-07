@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import 'package:schoolah_mobile_app/models/fees.dart';
 import 'package:schoolah_mobile_app/services/fee_service_rest.dart';
+import 'package:schoolah_mobile_app/studentScreens/widgets/student_navbar.dart';
 import 'widgets/student_drawer.dart';
 
 class TuitionFeeScreen extends StatefulWidget {
@@ -11,27 +11,7 @@ class TuitionFeeScreen extends StatefulWidget {
 }
 
 class _TuitionFeeState extends State<TuitionFeeScreen> {
-  int _selectedIndex = 1;
   List<Fee> fees;
-
-  void _onItemTapped(int index) {
-    if (index == 0) {
-      setState(() {
-        _selectedIndex = index;
-      });
-      Navigator.pushNamed(context, '/login');
-    } else if (index == 1) {
-      setState(() {
-        _selectedIndex = index;
-      });
-      Navigator.pushNamed(context, studHome);
-    } else {
-      setState(() {
-        _selectedIndex = index;
-      });
-      Navigator.pushNamed(context, studProfile);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +29,6 @@ class _TuitionFeeState extends State<TuitionFeeScreen> {
   }
 
   Scaffold _buildMainScreen() {
-    final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
 
     return Scaffold(
         backgroundColor: Theme.of(context).accentColor,
@@ -231,28 +210,7 @@ class _TuitionFeeState extends State<TuitionFeeScreen> {
             ),
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Theme.of(context).accentColor,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.logout),
-              label: 'Logout',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle_rounded),
-              label: 'Profile',
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.black,
-          unselectedItemColor: Colors.black,
-          selectedFontSize: 12,
-          onTap: _onItemTapped,
-        ),
+        bottomNavigationBar: NavigationBar(),
         endDrawer: DrawerView());
   }
 
