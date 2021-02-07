@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import 'package:schoolah_mobile_app/models/todo.dart';
 import 'package:schoolah_mobile_app/services/todo_service_rest.dart';
-import 'package:provider/provider.dart';
+import 'package:schoolah_mobile_app/teacherScreens/widgets/teacher_navbar.dart';
+
+import 'widgets/teacher_drawer.dart';
 
 class AddTaskScreen extends StatefulWidget {
   @override
@@ -10,28 +12,8 @@ class AddTaskScreen extends StatefulWidget {
 }
 
 class _AddTaskState extends State<AddTaskScreen> {
-  int _selectedIndex = 1;
   String title;
   Todo _data;
-
-  void _onItemTapped(int index) {
-    if (index == 0) {
-      setState(() {
-        _selectedIndex = index;
-      });
-      Navigator.pushNamed(context, '/login');
-    } else if (index == 1) {
-      setState(() {
-        _selectedIndex = index;
-      });
-      Navigator.pushNamed(context, teachHome);
-    } else {
-      setState(() {
-        _selectedIndex = index;
-      });
-      Navigator.pushNamed(context, teachProfile);
-    }
-  }
 
   bool toggle = false;
   var count = new List(30);
@@ -51,7 +33,6 @@ class _AddTaskState extends State<AddTaskScreen> {
   }
 
   Scaffold _buildMainScreen() {
-    final changeModeNotifier = Provider.of<ValueNotifier<bool>>(context);
 
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
@@ -77,7 +58,10 @@ class _AddTaskState extends State<AddTaskScreen> {
             gradient: LinearGradient(
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
-              colors: [Theme.of(context).accentColor, Theme.of(context).primaryColorDark],
+              colors: [
+                Theme.of(context).accentColor,
+                Theme.of(context).primaryColorDark
+              ],
             ),
           ),
           child: MediaQuery.removePadding(
@@ -127,19 +111,22 @@ class _AddTaskState extends State<AddTaskScreen> {
                         padding: const EdgeInsets.only(top: 30, bottom: 10),
                         child: RichText(
                           text: TextSpan(children: [
-                            TextSpan(text: 'Add ', style: TextStyle(
-                              fontFamily: "pop",
-                              fontWeight: FontWeight.w700,
-                              fontSize: 25,
-                              color: Theme.of(context).primaryColorLight,
-                            )),
-
-                            TextSpan(text: 'Tasks', style: TextStyle(
-                              fontFamily: "pop",
-                              fontWeight: FontWeight.w700,
-                              fontSize: 25,
-                              color: Theme.of(context).primaryColor,
-                            )),
+                            TextSpan(
+                                text: 'Add ',
+                                style: TextStyle(
+                                  fontFamily: "pop",
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 25,
+                                  color: Theme.of(context).primaryColorLight,
+                                )),
+                            TextSpan(
+                                text: 'Tasks',
+                                style: TextStyle(
+                                  fontFamily: "pop",
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 25,
+                                  color: Theme.of(context).primaryColor,
+                                )),
                           ]),
                         ),
                       ),
@@ -237,107 +224,8 @@ class _AddTaskState extends State<AddTaskScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.of(context).accentColor,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.logout),
-            label: 'Logout',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_rounded),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.black,
-        selectedFontSize: 12,
-        onTap: _onItemTapped,
-      ),
-      endDrawer: Drawer(
-        child: DrawerHeader(
-          child: Column(
-            children: <Widget>[
-              ListTile(
-                title: Text('Menu',
-                    style: TextStyle(
-                        fontFamily: "pop",
-                        fontWeight: FontWeight.w600,
-                        fontSize: 30,
-                        color: Colors.black)),
-                tileColor: Theme.of(context).accentColor,
-              ),
-              CheckboxListTile(
-                title: Text('Change Theme Color', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                subtitle: changeModeNotifier.value ? Text('Dark Mode') : Text('Light Mode'),
-                value: changeModeNotifier.value,
-                onChanged: (newValue) => changeModeNotifier.value = newValue,
-              ),
-              ListTile(
-                title: Text('Subjects',
-                    style: TextStyle(
-                        fontFamily: "pop",
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black)),
-                onTap: () {
-                  Navigator.pushNamed(context, teacherSubject);
-                },
-                trailing: Image.asset('assets/study.png', height: 30),
-              ),
-              ListTile(
-                title: Text('Students',
-                    style: TextStyle(
-                        fontFamily: "pop",
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black)),
-                onTap: () {
-                  Navigator.pushNamed(context, '/teacherstudentlist');
-                },
-                trailing: Image.asset('assets/student.jpg', height: 24),
-              ),
-              ListTile(
-                title: Text('QR History',
-                    style: TextStyle(
-                        fontFamily: "pop",
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black)),
-                onTap: () {
-                  Navigator.pushNamed(context, teachQR);
-                },
-                trailing: Image.asset('assets/qrcode.png', height: 30),
-              ),
-              ListTile(
-                title: Text('My Profile',
-                    style: TextStyle(
-                        fontFamily: "pop",
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black)),
-                onTap: () {
-                  Navigator.pushNamed(context, teachProfile);
-                },
-                trailing: Icon(Icons.account_circle_rounded, size: 30),
-              ),
-              ListTile(
-                title: Text('Logout',
-                    style: TextStyle(
-                        fontFamily: "pop",
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black)),
-                onTap: () {
-                  Navigator.pushNamed(context, '/login');
-                },
-                trailing: Icon(Icons.logout),
-              ),
-            ],
-          ),
-          decoration: BoxDecoration(color: Theme.of(context).accentColor),
-        ),
-      ),
+      bottomNavigationBar: TeacherNavigationBar(),
+      endDrawer: TeacherDrawerView(),
     );
   }
 
