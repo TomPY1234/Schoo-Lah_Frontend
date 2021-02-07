@@ -13,7 +13,7 @@ class UserlistViewmodel extends Viewmodel {
   Future<void> getStudentList() async {
     turnBusy();
     users = await dataService.getStudentList();
-    print(users);
+    // print(users);
     turnIdle();
     // notifyListeners();
   }

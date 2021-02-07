@@ -13,7 +13,7 @@ class BooklistViewmodel extends Viewmodel {
   Future<void> getAllBooks() async {
     turnBusy();
     books = await dataService.getAllBooks();
-    print(books);
+    //print(books);
     turnIdle();
     // notifyListeners();
   }

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import 'package:schoolah_mobile_app/models/user.dart';
 import 'package:schoolah_mobile_app/services/user_service_rest.dart';
+import 'widgets/student_drawer.dart';
 
 class StudentProfileScreen extends StatefulWidget {
   @override
@@ -79,7 +80,10 @@ class _StudentProfileState extends State<StudentProfileScreen> {
             gradient: LinearGradient(
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
-              colors: [Theme.of(context).accentColor, Theme.of(context).primaryColorDark],
+              colors: [
+                Theme.of(context).accentColor,
+                Theme.of(context).primaryColorDark
+              ],
             ),
           ),
           child: MediaQuery.removePadding(
@@ -114,7 +118,8 @@ class _StudentProfileState extends State<StudentProfileScreen> {
                                 children: <Widget>[
                                   CircleAvatar(
                                     radius: 70,
-                                    backgroundImage: NetworkImage('https://randomuser.me/api/portraits/thumb/men/86.jpg'),
+                                    backgroundImage: NetworkImage(
+                                        'https://randomuser.me/api/portraits/thumb/men/86.jpg'),
                                   ),
                                   Positioned(
                                     bottom: 1,
@@ -132,9 +137,7 @@ class _StudentProfileState extends State<StudentProfileScreen> {
                                   )
                                 ],
                               ),
-
                               SizedBox(width: 10),
-
                               Image.asset('assets/profile.png', height: 120),
                             ],
                           ),
@@ -242,101 +245,7 @@ class _StudentProfileState extends State<StudentProfileScreen> {
         selectedFontSize: 12,
         onTap: _onItemTapped,
       ),
-      endDrawer: Drawer(
-        child: DrawerHeader(
-          child: Column(
-            children: <Widget>[
-              ListTile(
-                title: Text('Menu',
-                    style: TextStyle(
-                        fontFamily: "pop",
-                        fontWeight: FontWeight.w600,
-                        fontSize: 30,
-                        color: Colors.black)),
-                tileColor: Theme.of(context).accentColor,
-              ),
-              CheckboxListTile(
-                title: Text('Change Theme Color',
-                    style: TextStyle(
-                        fontFamily: "pop",
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black)),
-                subtitle:
-                    changeModeNotifier.value ? Text('Dark Mode') : Text('Light Mode'),
-                value: changeModeNotifier.value,
-                onChanged: (newValue) => changeModeNotifier.value = newValue,
-              ),
-              ListTile(
-                title: Text('Subjects',
-                    style: TextStyle(
-                        fontFamily: "pop",
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black)),
-                onTap: () {
-                  Navigator.pushNamed(context, studSubject);
-                },
-                trailing: Image.asset('assets/study.png', height: 30),
-              ),
-              ListTile(
-                title: Text('Financial',
-                    style: TextStyle(
-                        fontFamily: "pop",
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black)),
-                onTap: () {
-                  Navigator.pushNamed(context, studFee);
-                },
-                trailing: Image.asset('assets/financial.png', height: 30),
-              ),
-              ListTile(
-                title: Text('E-Bookstore',
-                    style: TextStyle(
-                        fontFamily: "pop",
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black)),
-                onTap: () {
-                  Navigator.pushNamed(context, studBook);
-                },
-                trailing: Image.asset('assets/ebook.png', height: 30),
-              ),
-              ListTile(
-                title: Text('QR Scan',
-                    style: TextStyle(
-                        fontFamily: "pop",
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black)),
-                onTap: () {
-                  Navigator.pushNamed(context, QRStudentcode);
-                },
-                trailing: Image.asset('assets/qrcode.png', height: 30),
-              ),
-              ListTile(
-                title: Text('My Profile',
-                    style: TextStyle(
-                        fontFamily: "pop",
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black)),
-                onTap: () {
-                  Navigator.pushNamed(context, studProfile);
-                },
-                trailing: Icon(Icons.account_circle_rounded, size: 30),
-              ),
-              ListTile(
-                title: Text('Logout',
-                    style: TextStyle(
-                        fontFamily: "pop",
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black)),
-                onTap: () {
-                  Navigator.pushNamed(context, '/login');
-                },
-                trailing: Icon(Icons.logout),
-              ),
-            ],
-          ),
-          decoration: BoxDecoration(color: Theme.of(context).accentColor),
-        ),
-      ),
+      endDrawer: DrawerView(),
     );
   }
 

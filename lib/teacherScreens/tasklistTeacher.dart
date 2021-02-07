@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:schoolah_mobile_app/mainScreens/constants.dart';
 import 'package:schoolah_mobile_app/models/todo.dart';
 import 'package:schoolah_mobile_app/services/todo_service_rest.dart';
+import 'package:schoolah_mobile_app/teacherScreens/widgets/teacher_drawer.dart';
 
 class TaskListScreen extends StatefulWidget {
   @override
@@ -80,7 +81,10 @@ class _TaskListScreenState extends State<TaskListScreen> {
             gradient: LinearGradient(
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
-              colors: [Theme.of(context).accentColor, Theme.of(context).primaryColorDark],
+              colors: [
+                Theme.of(context).accentColor,
+                Theme.of(context).primaryColorDark
+              ],
             ),
           ),
           child: MediaQuery.removePadding(
@@ -127,19 +131,22 @@ class _TaskListScreenState extends State<TaskListScreen> {
                         padding: const EdgeInsets.only(top: 30, bottom: 10),
                         child: RichText(
                           text: TextSpan(children: [
-                            TextSpan(text: 'My ', style: TextStyle(
-                              fontFamily: "pop",
-                              fontWeight: FontWeight.w700,
-                              fontSize: 25,
-                              color: Theme.of(context).primaryColorLight,
-                            )),
-
-                            TextSpan(text: 'Tasks', style: TextStyle(
-                              fontFamily: "pop",
-                              fontWeight: FontWeight.w700,
-                              fontSize: 25,
-                              color: Theme.of(context).primaryColor,
-                            )),
+                            TextSpan(
+                                text: 'My ',
+                                style: TextStyle(
+                                  fontFamily: "pop",
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 25,
+                                  color: Theme.of(context).primaryColorLight,
+                                )),
+                            TextSpan(
+                                text: 'Tasks',
+                                style: TextStyle(
+                                  fontFamily: "pop",
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 25,
+                                  color: Theme.of(context).primaryColor,
+                                )),
                           ]),
                         ),
                       ),
@@ -266,85 +273,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
         selectedFontSize: 12,
         onTap: _onItemTapped,
       ),
-      endDrawer: Drawer(
-        child: DrawerHeader(
-          child: Column(
-            children: <Widget>[
-              ListTile(
-                title: Text('Menu',
-                    style: TextStyle(
-                        fontFamily: "pop",
-                        fontWeight: FontWeight.w600,
-                        fontSize: 30,
-                        color: Colors.black)),
-                tileColor: Theme.of(context).accentColor,
-              ),
-              CheckboxListTile(
-                title: Text('Change Theme Color', style: TextStyle(fontFamily: "pop", fontWeight: FontWeight.w600, color: Colors.black)),
-                subtitle: changeModeNotifier.value ? Text('Dark Mode') : Text('Light Mode'),
-                value: changeModeNotifier.value,
-                onChanged: (newValue) => changeModeNotifier.value = newValue,
-              ),
-              ListTile(
-                title: Text('Subjects',
-                    style: TextStyle(
-                        fontFamily: "pop",
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black)),
-                onTap: () {
-                  Navigator.pushNamed(context, teacherSubject);
-                },
-                trailing: Image.asset('assets/study.png', height: 30),
-              ),
-              ListTile(
-                title: Text('Students',
-                    style: TextStyle(
-                        fontFamily: "pop",
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black)),
-                onTap: () {
-                  Navigator.pushNamed(context, '/teacherstudentlist');
-                },
-                trailing: Image.asset('assets/student.jpg', height: 24),
-              ),
-              ListTile(
-                title: Text('QR History',
-                    style: TextStyle(
-                        fontFamily: "pop",
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black)),
-                onTap: () {
-                  Navigator.pushNamed(context, teachQR);
-                },
-                trailing: Image.asset('assets/qrcode.png', height: 30),
-              ),
-              ListTile(
-                title: Text('My Profile',
-                    style: TextStyle(
-                        fontFamily: "pop",
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black)),
-                onTap: () {
-                  Navigator.pushNamed(context, teachProfile);
-                },
-                trailing: Icon(Icons.account_circle_rounded, size: 30),
-              ),
-              ListTile(
-                title: Text('Logout',
-                    style: TextStyle(
-                        fontFamily: "pop",
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black)),
-                onTap: () {
-                  Navigator.pushNamed(context, '/login');
-                },
-                trailing: Icon(Icons.logout),
-              ),
-            ],
-          ),
-          decoration: BoxDecoration(color: Theme.of(context).accentColor),
-        ),
-      ),
+      endDrawer: TeacherDrawerView(),
     );
   }
 
