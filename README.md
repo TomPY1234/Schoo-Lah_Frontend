@@ -4,7 +4,7 @@ Project Title: Schoo-Lah
 
 Description: A mobile application that is designed for tution center to get everything sorted more properly during this pandemic season. It helps the students to keep track of their work progress, tution fees and buy books. The teacher also can update the students work and view all students
 
-Video Links: 
+Video Links: https://youtu.be/YVjveCr5IhM
 
 Group Members:
 Muhammad Fikri Bin Ismail (A18CS0139)
